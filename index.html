@@ -97,23 +97,6 @@
       --shadow-xs: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
     }
 
-    /* ===== LENIS SMOOTH SCROLL ===== */
-    html.lenis, html.lenis body {
-      height: auto;
-    }
-
-    .lenis.lenis-smooth {
-      scroll-behavior: auto !important;
-    }
-
-    .lenis.lenis-smooth [data-lenis-prevent] {
-      overscroll-behavior: contain;
-    }
-
-    .lenis.lenis-stopped {
-      overflow: hidden;
-    }
-
     /* ===== BASE ===== */
     body {
       font-family: var(--font-family-primary);
@@ -2687,9 +2670,9 @@
     /* Big NUA logo watermark at bottom */
     .footer-watermark {
       width: 100%;
+      max-width: 818px;
       position: relative;
-      aspect-ratio: 68.1635 / 19.96;
-      margin-top: 40px;
+      aspect-ratio: 1270.84 / 372.13;
       cursor: pointer;
       transition: opacity 0.3s ease;
     }
@@ -2698,7 +2681,6 @@
       width: 100%;
       height: 100%;
       display: block;
-      margin-top: 146px;
     }
 
     .footer-watermark svg path {
@@ -2887,7 +2869,7 @@
   <header class="svc-navbar-section navbar-dark">
     <nav class="svc-navbar">
       <div class="svc-nav-left">
-        <a href="nua-hero-section.html" class="svc-nav-logo">
+        <a href="index.html" class="svc-nav-logo">
           <svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g>
               <g>
@@ -3829,27 +3811,6 @@
     })();
   </script>
 
-  <!-- ===== LENIS SMOOTH SCROLL — Heavy Professional Feel ===== -->
-  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
-  <script>
-    // Initialize Lenis with a heavy, weighty feel
-    const lenis = new Lenis({
-      duration: 1.8,            // Slow deceleration — feels heavy & premium
-      easing: function (t) {    // Custom ease-out quint for that weight
-        return 1 - Math.pow(1 - t, 5);
-      },
-      smoothWheel: true,
-      wheelMultiplier: 0.8,     // Lower = heavier wheel resistance
-      touchMultiplier: 1.5,
-      infinite: false,
-    });
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-  </script>
 
   <!-- ===== SCROLL REVEAL OBSERVER ===== -->
   <script>
