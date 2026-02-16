@@ -1,0 +1,21 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 96.1832 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 1000011098">
+<path id="Vector 214" d="M87.245 150.228L9.15882 150.228C8.147 150.228 7.32676 149.408 7.32676 148.396L7.32676 68.6122C7.32676 66.9705 9.31982 66.1575 10.4681 67.3308L88.5543 147.114C89.6893 148.274 88.8677 150.228 87.245 150.228Z" fill="var(--fill-0, #0C4EFF)" stroke="var(--stroke-0, #063DCD)" stroke-width="1.83206"/>
+<foreignObject x="-16.8315" y="0.457682" width="129.846" height="240.8"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(8.42px);clip-path:url(#bgblur_0_21479_1286066_clip_path);height:100%;width:100%"></div></foreignObject><g id="Vector 447" filter="url(#filter0_i_21479_1286066)" data-figma-bg-blur-radius="16.8315">
+<path d="M64.9894 76.6477L88.0779 19.916C89.819 15.6377 96.1832 16.8832 96.1832 21.5022V125.699C96.1832 127.71 94.7599 129.44 92.7864 129.828L47.0292 138.816C45.6852 139.08 44.5538 139.981 43.9965 141.232L8.05164 221.925C6.20311 226.075 0 224.756 0 220.213V94.1854C0 92.1578 1.44601 90.4185 3.43955 90.0482L61.8602 79.1987C63.2697 78.9369 64.449 77.9756 64.9894 76.6477Z" fill="var(--fill-0, #0C4EFF)" fill-opacity="0.25"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_i_21479_1286066" x="-16.8315" y="0.457682" width="129.846" height="240.8" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="33.9142"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.711107 0 0 0 0 0.789571 0 0 0 0 1 0 0 0 1 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_21479_1286066"/>
+</filter>
+<clipPath id="bgblur_0_21479_1286066_clip_path" transform="translate(16.8315 -0.457682)"><path d="M64.9894 76.6477L88.0779 19.916C89.819 15.6377 96.1832 16.8832 96.1832 21.5022V125.699C96.1832 127.71 94.7599 129.44 92.7864 129.828L47.0292 138.816C45.6852 139.08 44.5538 139.981 43.9965 141.232L8.05164 221.925C6.20311 226.075 0 224.756 0 220.213V94.1854C0 92.1578 1.44601 90.4185 3.43955 90.0482L61.8602 79.1987C63.2697 78.9369 64.449 77.9756 64.9894 76.6477Z"/>
+</clipPath></defs>
+</svg>

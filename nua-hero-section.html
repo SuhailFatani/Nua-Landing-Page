@@ -144,7 +144,7 @@
       background: #060D17;
       background-image: none;
       border-radius: var(--border-radius-md);
-      padding: var(--space-16) max(var(--space-16), calc(50% - 640px));
+      padding: 120px max(var(--space-16), calc(50% - 640px)) var(--space-16);
       font-size: 0px;
       display: flex;
       flex-direction: column;
@@ -154,39 +154,86 @@
     }
 
     /* ===== NAV BAR ===== */
-    .navbar {
+    .svc-navbar-section {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: var(--space-16);
+    }
+
+    .svc-navbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      height: 44px;
-      margin-bottom: var(--space-58);
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 16px !important;
+      border-radius: var(--border-radius-xsm);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      transition: background 0.4s ease, box-shadow 0.4s ease;
     }
 
-    .nav-left {
+    /* Navbar — Light theme (over light sections) */
+    .navbar-light .svc-navbar {
+      background: rgba(255, 255, 255, 0.65);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .navbar-light .svc-nav-logo svg path {
+      fill: #1E1E1E;
+    }
+
+    .navbar-light .svc-nav-link {
+      color: var(--color-display);
+    }
+
+    /* Navbar — Dark theme (over dark sections) */
+    .navbar-dark .svc-navbar {
+      background: rgba(6, 13, 23, 0.55);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-dark .svc-nav-logo svg path {
+      fill: #FFFFFF;
+    }
+
+    .navbar-dark .svc-nav-link {
+      color: #FFFFFF;
+    }
+
+    .svc-nav-left {
       display: flex;
       align-items: center;
       gap: var(--space-52);
     }
 
-    .nav-logo {
+    .svc-nav-logo {
       width: 68.17px;
       height: 20px;
       flex-shrink: 0;
     }
 
-    .nav-logo svg {
+    .svc-nav-logo svg {
       width: 100%;
       height: 100%;
     }
 
-    .nav-links {
+    .svc-nav-logo svg path {
+      transition: fill 0.4s ease;
+    }
+
+    .svc-nav-links {
       display: flex;
       align-items: center;
       gap: var(--space-12);
     }
 
-    .nav-link {
+    .svc-nav-link {
       font-size: var(--font-size-14);
       font-weight: var(--font-weight-regular);
       line-height: var(--font-line-height-for14);
@@ -195,10 +242,10 @@
       padding: var(--space-8) var(--space-14);
       border-radius: var(--border-radius-sm);
       cursor: pointer;
-      transition: opacity 0.2s;
+      transition: color 0.4s ease, opacity 0.2s;
     }
 
-    .nav-link:hover {
+    .svc-nav-link:hover {
       opacity: 0.8;
     }
 
@@ -214,15 +261,16 @@
       font-size: var(--font-size-16);
       font-weight: var(--font-weight-medium);
       line-height: var(--font-line-height-for16);
-      border: none;
+      border: 1px solid #0D4CF4;
       border-radius: var(--border-radius-2xsm);
       box-shadow: var(--shadow-xs);
       cursor: pointer;
       text-decoration: none;
-      transition: background-color 0.2s;
+      transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
       overflow: hidden;
       white-space: nowrap;
     }
+
 
     .btn-primary:hover {
       background-color: #063DCD; /* color.primary.800 */
@@ -712,7 +760,7 @@
     .intro-heading {
       font-family: var(--font-family-primary);
       font-size: var(--font-size-56);
-      font-weight: var(--font-weight-light);
+      font-weight: var(--font-weight-regular);
       line-height: var(--font-line-height-for56);
       color: var(--color-natural-50);
       letter-spacing: 2.5px;
@@ -724,20 +772,30 @@
       position: relative;
       z-index: 3;
       width: 100%;
-      height: 913px;
-      margin-top: 0;
-      padding-top: 0;
-      padding-bottom: 0;
+      height: fit-content;
       display: flex;
-      align-items: center;
-      justify-content: flex-start;
+      align-items: stretch;
+      justify-content: stretch;
+      overflow: hidden;
+    }
+
+    .intro-animation::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: var(--color-natural-50);
+      z-index: 5;
     }
 
     .intro-animation iframe {
-      width: 100%;
-      height: 100%;
+      width: 1992px;
+      height: 1160px;
       border: none;
       pointer-events: none;
+      display: block;
     }
 
     /* -- Bottom gradient with noise -- */
@@ -840,11 +898,7 @@
         letter-spacing: -1px;
       }
 
-      .navbar {
-        margin-bottom: 40px;
-      }
-
-      .nav-left {
+      .svc-nav-left {
         gap: 24px;
       }
 
@@ -910,9 +964,7 @@
       }
 
       .intro-animation {
-        width: 200px;
-        height: 200px;
-        margin-top: 60px;
+        width: 100%;
       }
 
       .intro-spotlight {
@@ -942,7 +994,7 @@
       }
 
       .main-container {
-        padding: 16px;
+        padding: 80px 16px 16px;
       }
 
       .problem-section {
@@ -977,28 +1029,7 @@
         line-height: 19.2px;
       }
 
-      .navbar {
-        height: auto;
-        gap: 12px;
-        margin-bottom: 28px;
-      }
-
-      .nav-left {
-        width: 100%;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 14px;
-      }
-
-      .nav-links {
-        gap: 4px;
-        flex-wrap: wrap;
-      }
-
-      .nav-link {
-        padding: 6px 10px;
-        font-size: 13px;
-      }
+      .svc-nav-links { display: none; }
 
       .btn-primary {
         padding: 10px 16px;
@@ -1069,9 +1100,7 @@
       }
 
       .intro-animation {
-        width: 160px;
-        height: 160px;
-        margin-top: 40px;
+        width: 100%;
       }
 
       .intro-spotlight {
@@ -1098,7 +1127,7 @@
 
       .main-container {
         border-radius: var(--border-radius-md);
-        padding: var(--space-14);
+        padding: 70px var(--space-14) var(--space-14);
       }
 
       .problem-container {
@@ -1114,7 +1143,7 @@
         height: 220px;
       }
 
-      .nav-logo {
+      .svc-nav-logo {
         width: 60px;
         height: 18px;
       }
@@ -1172,7 +1201,7 @@
     .sol-card-title {
       font-family: var(--font-family-primary);
       font-size: 26px;
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--font-weight-medium);
       line-height: 31.2px;
       color: var(--color-display);
     }
@@ -1399,7 +1428,7 @@
     .hiw-heading {
       font-family: var(--font-family-primary);
       font-size: var(--font-size-48);
-      font-weight: var(--font-weight-regular);
+      font-weight: var(--font-weight-medium);
       line-height: var(--font-line-height-for48);
       color: var(--color-display);
       text-align: center;
@@ -2388,7 +2417,7 @@
       color: var(--color-natural-50);
       font-family: var(--font-family-primary);
       font-size: var(--font-size-16);
-      font-weight: var(--font-weight-semibold);
+      font-weight: var(--font-weight-medium);
       line-height: var(--font-line-height-for16);
       border: 1px solid #0D4CF4;
       border-radius: var(--border-radius-2xsm);
@@ -2436,6 +2465,8 @@
       position: absolute;
       right: 245px;
       bottom: -6px;
+      left: 1017px;
+      top: 415px;
       width: 52px;
       height: 52px;
       border-radius: 50%;
@@ -2667,6 +2698,7 @@
       width: 100%;
       height: 100%;
       display: block;
+      margin-top: 146px;
     }
 
     .footer-watermark svg path {
@@ -2851,35 +2883,37 @@
 </head>
 <body>
 
+  <!-- ===== NAV BAR ===== -->
+  <header class="svc-navbar-section navbar-dark">
+    <nav class="svc-navbar">
+      <div class="svc-nav-left">
+        <a href="nua-hero-section.html" class="svc-nav-logo">
+          <svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <g>
+                <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z" fill="white"/>
+                <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z" fill="white"/>
+              </g>
+              <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z" fill="white"/>
+              <g>
+                <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z" fill="white"/>
+                <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z" fill="white"/>
+              </g>
+            </g>
+          </svg>
+        </a>
+        <div class="svc-nav-links">
+          <a href="company.html" class="svc-nav-link">Company</a>
+          <a href="services.html" class="svc-nav-link">Services</a>
+          <a href="blog.html" class="svc-nav-link">Resources</a>
+        </div>
+      </div>
+      <a href="book-a-demo.html" class="btn-primary">Book a demo</a>
+    </nav>
+  </header>
+
   <section class="hero-section">
     <div class="main-container">
-
-      <!-- ===== NAV BAR ===== -->
-      <nav class="navbar">
-        <div class="nav-left">
-          <a href="#" class="nav-logo">
-            <svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g>
-                <g>
-                  <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z" fill="white"/>
-                  <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z" fill="white"/>
-                </g>
-                <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z" fill="white"/>
-                <g>
-                  <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z" fill="white"/>
-                  <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z" fill="white"/>
-                </g>
-              </g>
-            </svg>
-          </a>
-          <div class="nav-links">
-            <a href="#" class="nav-link">Company</a>
-            <a href="#" class="nav-link">Services</a>
-            <a href="#" class="nav-link">Resources</a>
-          </div>
-        </div>
-        <a href="#" class="btn-primary">Book a demo</a>
-      </nav>
 
       <!-- ===== MAIN CONTENT ===== -->
       <div class="main-content">
@@ -2894,7 +2928,7 @@
             <div class="input-field">
               <input type="email" placeholder="Your work email" />
             </div>
-            <a href="#" class="btn-primary btn-cta">Book a demo</a>
+            <a href="book-a-demo.html" class="btn-primary btn-cta">Book a demo</a>
           </div>
         </div>
         <div class="visual-block">
@@ -2913,62 +2947,33 @@
         </div>
         <div class="logos-marquee-wrapper">
           <div class="logos-track">
-            <!-- First set of logos -->
-            <div class="logo-item">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="4" cy="4" r="2.5" fill="white" opacity="0.6"/>
-                <circle cx="12" cy="4" r="2.5" fill="white" opacity="0.6"/>
-                <circle cx="4" cy="12" r="2.5" fill="white" opacity="0.6"/>
-                <circle cx="12" cy="12" r="2.5" fill="white" opacity="0.6"/>
-              </svg>
-              <span class="logo-zid">zid</span>
-            </div>
-            <div class="logo-item">
-              <span class="logo-iot">iot<sup>2</sup></span>
-            </div>
-            <div class="logo-item">
-              <span class="logo-jahez">Jahez</span>
-            </div>
-            <div class="logo-item logo-zatca">
-              <div class="logo-zatca-icon">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                  <path d="M9 1C4.6 1 1 4.6 1 9s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8z" stroke="white" stroke-width="1.2" fill="none" opacity="0.7"/>
-                  <path d="M5 9h8M9 5v8" stroke="white" stroke-width="1" opacity="0.5"/>
-                </svg>
-              </div>
-              <span class="logo-zatca-text">Zakat, Tax and Customs Authority</span>
-            </div>
-            <div class="logo-item">
-              <span class="logo-stc">stc</span>
-            </div>
-            <!-- Duplicate set for seamless loop -->
-            <div class="logo-item">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="4" cy="4" r="2.5" fill="white" opacity="0.6"/>
-                <circle cx="12" cy="4" r="2.5" fill="white" opacity="0.6"/>
-                <circle cx="4" cy="12" r="2.5" fill="white" opacity="0.6"/>
-                <circle cx="12" cy="12" r="2.5" fill="white" opacity="0.6"/>
-              </svg>
-              <span class="logo-zid">zid</span>
-            </div>
-            <div class="logo-item">
-              <span class="logo-iot">iot<sup>2</sup></span>
-            </div>
-            <div class="logo-item">
-              <span class="logo-jahez">Jahez</span>
-            </div>
-            <div class="logo-item logo-zatca">
-              <div class="logo-zatca-icon">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                  <path d="M9 1C4.6 1 1 4.6 1 9s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8z" stroke="white" stroke-width="1.2" fill="none" opacity="0.7"/>
-                  <path d="M5 9h8M9 5v8" stroke="white" stroke-width="1" opacity="0.5"/>
-                </svg>
-              </div>
-              <span class="logo-zatca-text">Zakat, Tax and Customs Authority</span>
-            </div>
-            <div class="logo-item">
-              <span class="logo-stc">stc</span>
-            </div>
+            <!-- First set -->
+            <div class="logo-item"><img src="assets/Zid.svg" alt="Zid"></div>
+            <div class="logo-item"><img src="assets/IOT.svg" alt="IOT"></div>
+            <div class="logo-item"><img src="assets/Jahez.svg" alt="Jahez"></div>
+            <div class="logo-item"><img src="assets/Zakat.svg" alt="Zakat, Tax and Customs Authority"></div>
+            <div class="logo-item"><img src="assets/STC.svg" alt="stc"></div>
+            <div class="logo-item"><img src="assets/Qiddiya.svg" alt="Qiddiya"></div>
+            <div class="logo-item"><img src="assets/Tamara.svg" alt="Tamara"></div>
+            <div class="logo-item"><img src="assets/Ministry of sport.svg" alt="Ministry of Sport"></div>
+            <div class="logo-item"><img src="assets/Elm.svg" alt="Elm"></div>
+            <div class="logo-item"><img src="assets/AlibabaCloud.svg" alt="Alibaba Cloud"></div>
+            <div class="logo-item"><img src="assets/MoEnergy.svg" alt="Ministry of Energy"></div>
+            <div class="logo-item"><img src="assets/FGS.svg" alt="FGS Global"></div>
+
+            <!-- Duplicate set -->
+            <div class="logo-item"><img src="assets/Zid.svg" alt="Zid"></div>
+            <div class="logo-item"><img src="assets/IOT.svg" alt="IOT"></div>
+            <div class="logo-item"><img src="assets/Jahez.svg" alt="Jahez"></div>
+            <div class="logo-item"><img src="assets/Zakat.svg" alt="Zakat, Tax and Customs Authority"></div>
+            <div class="logo-item"><img src="assets/STC.svg" alt="stc"></div>
+            <div class="logo-item"><img src="assets/Qiddiya.svg" alt="Qiddiya"></div>
+            <div class="logo-item"><img src="assets/Tamara.svg" alt="Tamara"></div>
+            <div class="logo-item"><img src="assets/Ministry of sport.svg" alt="Ministry of Sport"></div>
+            <div class="logo-item"><img src="assets/Elm.svg" alt="Elm"></div>
+            <div class="logo-item"><img src="assets/AlibabaCloud.svg" alt="Alibaba Cloud"></div>
+            <div class="logo-item"><img src="assets/MoEnergy.svg" alt="Ministry of Energy"></div>
+            <div class="logo-item"><img src="assets/FGS.svg" alt="FGS Global"></div>
           </div>
         </div>
       </div>
@@ -3303,7 +3308,7 @@
           <h2 class="feedback-heading">See What Our Users Think About Nua</h2>
           <p class="feedback-desc">Ready to Scale Your Security Testing? Schedule a call with a Nua expert</p>
         </div>
-        <a href="#" class="feedback-cta">Book a demo</a>
+        <a href="book-a-demo.html" class="feedback-cta">Book a demo</a>
       </div>
 
       <!-- Infinite scrolling carousel -->
@@ -3550,16 +3555,17 @@
       </div>
     </div>
 
-    <!-- Custom cursor element -->
-    <div class="blog-cursor" id="blogCursor">
-      <span class="blog-cursor-text">Read More</span>
-      <div class="blog-cursor-arrow">
-        <svg viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6.5 25L24.75 6.75M24.75 6.75L11.5 6.75M24.75 6.75V20.75" stroke="white" stroke-width="2.28125" stroke-linecap="square"/>
-        </svg>
-      </div>
-    </div>
   </section>
+
+  <!-- Custom cursor element -->
+  <div class="blog-cursor" id="blogCursor">
+    <span class="blog-cursor-text">Read More</span>
+    <div class="blog-cursor-arrow">
+      <svg viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.5 25L24.75 6.75M24.75 6.75L11.5 6.75M24.75 6.75V20.75" stroke="white" stroke-width="2.28125" stroke-linecap="square"/>
+      </svg>
+    </div>
+  </div>
 
   <!-- ===== CTA + FOOTER ===== -->
   <section class="cta-footer-section reveal">
@@ -3572,10 +3578,9 @@
             <iframe src="https://cdn.lottielab.com/l/C7n5zm1S8bkfD4.html" allowtransparency="true" loading="lazy"></iframe>
           </div>
           <h2 class="cta-heading">Watch Shax Hunt For Vulnerabilities In Your Application</h2>
-          <a href="#" class="cta-btn">Book a demo</a>
+          <a href="book-a-demo.html" class="cta-btn">Book a demo</a>
         </div>
         <!-- Shax scanning animation removed -->
-        <div class="cta-dot cta-dot-1"></div>
         <div class="cta-dot cta-dot-2"></div>
         <div class="cta-shax-icon">
           <svg viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3629,13 +3634,13 @@
             <div class="footer-right">
               <div class="footer-link-col">
                 <span class="footer-link-label">Links</span>
-                <a href="#" class="footer-link">Company</a>
-                <a href="#" class="footer-link">Services</a>
+                <a href="company.html" class="footer-link">Company</a>
+                <a href="services.html" class="footer-link">Services</a>
                 <a href="#" class="footer-link">Career</a>
               </div>
               <div class="footer-link-col">
                 <span class="footer-link-label">Resources</span>
-                <a href="#" class="footer-link">Blogs</a>
+                <a href="blog.html" class="footer-link">Blogs</a>
               </div>
             </div>
           </div>
@@ -3792,51 +3797,28 @@
 
       let mouseX = 0;
       let mouseY = 0;
-      let cursorX = 0;
-      let cursorY = 0;
-      let isVisible = false;
-      let rafId = null;
+      const offsetX = 16;
+      const offsetY = 16;
 
-      // Smooth lerp for cursor follow
-      function lerp(a, b, t) {
-        return a + (b - a) * t;
-      }
-
-      function animate() {
-        cursorX = lerp(cursorX, mouseX, 0.15);
-        cursorY = lerp(cursorY, mouseY, 0.15);
-        cursor.style.transform = 'translate(' + cursorX + 'px, ' + cursorY + 'px) translate(-50%, -50%)';
-
-        if (isVisible) {
-          rafId = requestAnimationFrame(animate);
-        }
+      function updateCursorPosition() {
+        cursor.style.transform = 'translate(' + (mouseX + offsetX) + 'px, ' + (mouseY + offsetY) + 'px)';
       }
 
       function onMouseMove(e) {
         mouseX = e.clientX;
         mouseY = e.clientY;
+        updateCursorPosition();
       }
 
       function onMouseEnter(e) {
         mouseX = e.clientX;
         mouseY = e.clientY;
-        cursorX = mouseX;
-        cursorY = mouseY;
-        cursor.style.transform = 'translate(' + cursorX + 'px, ' + cursorY + 'px) translate(-50%, -50%)';
-        isVisible = true;
+        updateCursorPosition();
         cursor.classList.add('active');
-        if (!rafId) {
-          rafId = requestAnimationFrame(animate);
-        }
       }
 
       function onMouseLeave() {
-        isVisible = false;
         cursor.classList.remove('active');
-        if (rafId) {
-          cancelAnimationFrame(rafId);
-          rafId = null;
-        }
       }
 
       articles.forEach(function (article) {
@@ -3889,6 +3871,133 @@
 
       reveals.forEach(function (el) {
         observer.observe(el);
+      });
+    })();
+  </script>
+
+  <!-- ===== NAVBAR THEME SWITCHING — auto-detects background color + images ===== -->
+  <script>
+    (function () {
+      var navbar = document.querySelector('.svc-navbar-section');
+      if (!navbar) return;
+
+      function parseColor(str) {
+        if (!str || str === 'transparent' || str === 'rgba(0, 0, 0, 0)') {
+          return { r: 0, g: 0, b: 0, a: 0 };
+        }
+        var m = str.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+        if (m) return { r: +m[1], g: +m[2], b: +m[3], a: m[4] !== undefined ? +m[4] : 1 };
+        var tmp = document.createElement('div');
+        tmp.style.color = str;
+        document.body.appendChild(tmp);
+        var c = getComputedStyle(tmp).color;
+        document.body.removeChild(tmp);
+        return parseColor(c);
+      }
+
+      function getEffectiveBgColor(el) {
+        while (el && el !== document.documentElement) {
+          var bg = getComputedStyle(el).backgroundColor;
+          var c = parseColor(bg);
+          if (c.a > 0.05) return c;
+          el = el.parentElement;
+        }
+        return { r: 255, g: 255, b: 255, a: 1 };
+      }
+
+      function luminance(r, g, b) {
+        var s = [r / 255, g / 255, b / 255];
+        for (var i = 0; i < 3; i++) s[i] = s[i] <= 0.03928 ? s[i] / 12.92 : Math.pow((s[i] + 0.055) / 1.055, 2.4);
+        return 0.2126 * s[0] + 0.7152 * s[1] + 0.0722 * s[2];
+      }
+
+      var sampleCanvas = document.createElement('canvas');
+      sampleCanvas.width = 1; sampleCanvas.height = 1;
+      var sampleCtx = sampleCanvas.getContext('2d', { willReadFrequently: true });
+
+      function samplePixelColor(mediaEl, px, py) {
+        try {
+          var rect = mediaEl.getBoundingClientRect();
+          if (rect.width === 0 || rect.height === 0) return null;
+          var localX = px - rect.left, localY = py - rect.top;
+          var srcX, srcY;
+          if (mediaEl.tagName === 'IMG' && mediaEl.naturalWidth) {
+            var nw = mediaEl.naturalWidth, nh = mediaEl.naturalHeight;
+            var scale = Math.max(rect.width / nw, rect.height / nh);
+            var srcW = rect.width / scale, srcH = rect.height / scale;
+            srcX = (nw - srcW) / 2 + (localX / rect.width) * srcW;
+            srcY = (nh - srcH) / 2 + (localY / rect.height) * srcH;
+          } else {
+            var ew = mediaEl.videoWidth || mediaEl.width || rect.width;
+            var eh = mediaEl.videoHeight || mediaEl.height || rect.height;
+            srcX = (localX / rect.width) * ew;
+            srcY = (localY / rect.height) * eh;
+          }
+          sampleCtx.clearRect(0, 0, 1, 1);
+          sampleCtx.drawImage(mediaEl, srcX, srcY, 1, 1, 0, 0, 1, 1);
+          var d = sampleCtx.getImageData(0, 0, 1, 1).data;
+          return { r: d[0], g: d[1], b: d[2], a: d[3] / 255 };
+        } catch (e) { return null; }
+      }
+
+      function getColorAtPoint(el, px, py) {
+        var node = el;
+        for (var depth = 0; node && depth < 3; depth++, node = node.parentElement) {
+          var tag = node.tagName;
+          if (tag === 'IMG' || tag === 'VIDEO' || tag === 'CANVAS') {
+            var pixel = samplePixelColor(node, px, py);
+            if (pixel && pixel.a > 0.1) return pixel;
+          }
+        }
+        if (el.querySelector) {
+          var media = el.querySelector('img, video, canvas');
+          if (media) {
+            var mRect = media.getBoundingClientRect();
+            if (px >= mRect.left && px <= mRect.right && py >= mRect.top && py <= mRect.bottom) {
+              var pixel = samplePixelColor(media, px, py);
+              if (pixel && pixel.a > 0.1) return pixel;
+            }
+          }
+        }
+        return getEffectiveBgColor(el);
+      }
+
+      function updateNavbarTheme() {
+        var navRect = navbar.getBoundingClientRect();
+        var sampleY = navRect.top + navRect.height / 2;
+        navbar.style.pointerEvents = 'none';
+        navbar.style.visibility = 'hidden';
+        var sampleXs = [
+          navRect.left + navRect.width * 0.15, navRect.left + navRect.width * 0.35,
+          navRect.left + navRect.width * 0.50, navRect.left + navRect.width * 0.65,
+          navRect.left + navRect.width * 0.85
+        ];
+        var totalLum = 0, samples = 0;
+        for (var i = 0; i < sampleXs.length; i++) {
+          var el = document.elementFromPoint(sampleXs[i], sampleY);
+          if (el) {
+            var color = getColorAtPoint(el, sampleXs[i], sampleY);
+            totalLum += luminance(color.r, color.g, color.b);
+            samples++;
+          }
+        }
+        navbar.style.pointerEvents = '';
+        navbar.style.visibility = '';
+        if (samples === 0) return;
+        var isDark = (totalLum / samples) < 0.45;
+        if (isDark) { navbar.classList.remove('navbar-light'); navbar.classList.add('navbar-dark'); }
+        else { navbar.classList.remove('navbar-dark'); navbar.classList.add('navbar-light'); }
+      }
+
+      window.addEventListener('load', updateNavbarTheme);
+      updateNavbarTheme();
+
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (!ticking) { requestAnimationFrame(function () { updateNavbarTheme(); ticking = false; }); ticking = true; }
+      });
+      window.addEventListener('resize', function () {
+        if (!ticking) { requestAnimationFrame(function () { updateNavbarTheme(); ticking = false; }); ticking = true; }
       });
     })();
   </script>

@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUA - Book a Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ===== DESIGN TOKENS ===== */
+    :root {
+      --color-primary-50: #E8F7FF;
+      --color-primary-600: #0C4EFF;
+      --color-secondary-500: #FF7B0A;
+      --color-natural-50: #FFFFFF;
+      --color-natural-50-85pct: #FFFFFFD9;
+      --color-natural-50-50pct: rgba(255, 255, 255, 0.5);
+      --color-natural-800: #464646;
+      --color-display: #1E1E1E;
+      --color-body: #656565;
+      --hero-bg-page: #060d17;
+      --hero-bg-container: #0b1526;
+      --hero-bg-input: #0d1629;
+      --font-family-primary: 'DM Sans', sans-serif;
+      --font-size-12: 12px;
+      --font-size-14: 14px;
+      --font-size-16: 16px;
+      --font-size-18: 18px;
+      --font-size-20: 20px;
+      --font-size-24: 24px;
+      --font-size-32: 32px;
+      --font-size-48: 48px;
+      --font-size-56: 56px;
+      --font-size-64: 64px;
+      --font-line-height-for14: 16.8px;
+      --font-line-height-for16: 19.2px;
+      --font-line-height-for18: 21.6px;
+      --font-line-height-for20: 24px;
+      --font-line-height-for24: 28.8px;
+      --font-line-height-for32: 38.4px;
+      --font-line-height-for48: 57.6px;
+      --font-line-height-for56: 67.2px;
+      --font-line-height-for64: 76.8px;
+      --font-weight-light: 300;
+      --font-weight-regular: 400;
+      --font-weight-medium: 500;
+      --font-weight-semibold: 600;
+      --font-weight-bold: 700;
+      --space-4: 4px;
+      --space-6: 6px;
+      --space-8: 8px;
+      --space-10: 10px;
+      --space-12: 12px;
+      --space-14: 14px;
+      --space-16: 16px;
+      --space-18: 18px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-34: 34px;
+      --space-40: 40px;
+      --space-52: 52px;
+      --space-58: 58px;
+      --border-radius-2xsm: 4px;
+      --border-radius-xsm: 8px;
+      --border-radius-sm: 12px;
+      --border-radius-md: 16px;
+      --border-radius-lg: 20px;
+      --border-radius-3xlg: 32px;
+      --shadow-xs: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
+    }
+
+    /* ===== LENIS SMOOTH SCROLL ===== */
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+
+    /* ===== BASE ===== */
+    body {
+      font-family: var(--font-family-primary);
+      background-color: var(--color-natural-50);
+      color: var(--color-natural-50);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      min-height: 100vh;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ===== NAV BAR ===== */
+    .svc-navbar-section {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: var(--space-16);
+    }
+
+    .svc-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 16px !important;
+      border-radius: var(--border-radius-xsm);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .navbar-dark .svc-navbar {
+      background: rgba(6, 13, 23, 0.55);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-dark .svc-nav-logo svg path { fill: #FFFFFF; }
+    .navbar-dark .svc-nav-link { color: #FFFFFF; }
+
+    .svc-nav-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-52);
+    }
+
+    .svc-nav-logo {
+      width: 68.17px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .svc-nav-logo svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .svc-nav-logo svg path { transition: fill 0.4s ease; }
+
+    .svc-nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+    }
+
+    .svc-nav-link {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for14);
+      color: var(--color-natural-50);
+      text-decoration: none;
+      padding: var(--space-8) var(--space-14);
+      border-radius: var(--border-radius-sm);
+      cursor: pointer;
+      transition: color 0.4s ease, opacity 0.2s;
+    }
+
+    .svc-nav-link:hover { opacity: 0.8; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-8);
+      padding: var(--space-12) var(--space-20);
+      background-color: var(--color-primary-600);
+      color: var(--color-natural-50);
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-16);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--font-line-height-for16);
+      border: 1px solid #0D4CF4;
+      border-radius: var(--border-radius-2xsm);
+      box-shadow: var(--shadow-xs);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover { background-color: #063DCD; }
+
+    /* ===== HERO SECTION (outer white wrapper) ===== */
+    .demo-page {
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--color-natural-50);
+      padding: var(--space-16);
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    /* Dark rounded container — matches hero section pattern */
+    .demo-main-container {
+      width: 100%;
+      background: #060D17;
+      border-radius: 8px;
+      padding: 120px max(var(--space-16), calc(50% - 640px)) var(--space-16);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Footer wrapper — white bg with padding, matches cta-footer-section */
+    .demo-footer-section {
+      width: 100%;
+      background-color: var(--color-natural-50);
+      padding: 0 var(--space-16);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      height: fit-content;
+    }
+
+    /* ===== HERO + FORM SECTION ===== */
+    .demo-content {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    /* Left column: text content */
+    .demo-text-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      justify-content: center;
+    }
+
+    .demo-heading-block {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .demo-main-heading {
+      font-size: var(--font-size-64);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--font-line-height-for64);
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: -1.92px;
+    }
+
+    .demo-main-heading .accent { color: var(--color-secondary-500); }
+
+    .demo-subheading {
+      font-size: var(--font-size-32);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for32);
+      color: white;
+      max-width: 549px;
+    }
+
+    /* Stats row */
+    .demo-stats {
+      display: flex;
+      gap: var(--space-58);
+      width: 100%;
+    }
+
+    .demo-stat {
+      flex: 1;
+      max-width: 268px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .demo-stat-top {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .demo-stat-number {
+      font-size: var(--font-size-64);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--font-line-height-for64);
+      color: var(--color-secondary-500);
+      letter-spacing: -1.92px;
+      text-transform: capitalize;
+    }
+
+    .demo-stat-label {
+      font-size: var(--font-size-24);
+      font-weight: var(--font-weight-bold);
+      line-height: var(--font-line-height-for16);
+      color: #fff8ec;
+      text-transform: uppercase;
+    }
+
+    .demo-stat-desc {
+      padding: 14px 0;
+      font-size: var(--font-size-16);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for16);
+      color: #bdbdbd;
+      text-transform: capitalize;
+    }
+
+    /* Right column: form card */
+    .demo-form-col {
+      flex: 1;
+      max-width: 594px;
+      border: 1px solid var(--color-natural-800);
+      border-radius: var(--border-radius-sm);
+      padding: var(--space-24);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-24);
+    }
+
+    /* Benefits list */
+    .demo-benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .demo-benefits-title {
+      font-size: var(--font-size-20);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--font-line-height-for20);
+      color: white;
+      letter-spacing: -0.6px;
+      text-transform: capitalize;
+    }
+
+    .demo-benefits-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-18);
+    }
+
+    .demo-benefit-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+    }
+
+    .demo-benefit-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #0C4EFF;
+      flex-shrink: 0;
+    }
+
+    .demo-benefit-text {
+      font-size: var(--font-size-16);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for16);
+      color: #656565;
+      flex: 1;
+    }
+
+    /* Form */
+    .demo-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-34);
+    }
+
+    .demo-form-fields {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-24);
+    }
+
+    .demo-field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    .demo-field-label {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--font-line-height-for14);
+      color: white;
+    }
+
+    .demo-field-label .required {
+      color: #f03838;
+    }
+
+    .demo-field-input {
+      width: 100%;
+      min-height: 44px;
+      background: var(--hero-bg-input);
+      border: none;
+      border-radius: var(--border-radius-xsm);
+      padding: var(--space-10) var(--space-14);
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for14);
+      color: white;
+      outline: none;
+      box-shadow: var(--shadow-xs);
+      transition: box-shadow 0.2s ease;
+    }
+
+    .demo-field-input::placeholder {
+      color: #666;
+      opacity: 0.5;
+    }
+
+    .demo-field-input:focus {
+      box-shadow: 0 0 0 2px rgba(12, 78, 255, 0.3);
+    }
+
+    /* Phone input with country code */
+    .demo-phone-input {
+      display: flex;
+      background: var(--hero-bg-input);
+      border-radius: var(--border-radius-xsm);
+      box-shadow: var(--shadow-xs);
+      min-height: 44px;
+      overflow: hidden;
+    }
+
+    .demo-phone-addon {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      padding: var(--space-10) var(--space-12) var(--space-10) var(--space-14);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .demo-phone-flag {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #006c35;
+      position: relative;
+    }
+
+    .demo-phone-flag svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .demo-phone-arrow {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .demo-phone-arrow svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .demo-phone-field {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: var(--space-10) var(--space-14);
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for14);
+      color: white;
+      outline: none;
+    }
+
+    .demo-phone-field::placeholder {
+      color: #989898;
+      opacity: 0.5;
+    }
+
+    /* Submit button */
+    .demo-submit-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-12) var(--space-16);
+      background: #0D4CF4;
+      border: 1px solid #0043FF;
+      border-radius: var(--border-radius-xsm);
+      box-shadow: var(--shadow-xs);
+      color: white;
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--font-line-height-for14);
+      cursor: pointer;
+      transition: background 0.3s ease;
+      max-height: 41px;
+    }
+
+    .demo-submit-btn:hover {
+      background: #063DCD;
+    }
+
+    /* ===== LOGOS SECTION ===== */
+    .logos-section {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100px;
+      position: relative;
+      overflow: hidden;
+      margin-top: 58px;
+    }
+
+    .logos-text {
+      flex-shrink: 0;
+      width: 264px;
+      z-index: 2;
+    }
+
+    .logos-text h3 {
+      font-size: var(--font-size-16);
+      font-weight: var(--font-weight-light);
+      line-height: var(--font-line-height-for20);
+      color: var(--color-natural-50);
+      opacity: 0.85;
+    }
+
+    .logos-marquee-wrapper {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      margin-left: 40px;
+    }
+
+    .logos-marquee-wrapper::before,
+    .logos-marquee-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .logos-marquee-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, #060D17, transparent);
+    }
+
+    .logos-marquee-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, #060D17, transparent);
+    }
+
+    .logos-track {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      animation: scroll-logos 20s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes scroll-logos {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .logo-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      opacity: 0.55;
+    }
+
+    .logo-item svg,
+    .logo-item img { height: 28px; width: auto; }
+
+    .logo-item span {
+      font-family: var(--font-family-primary);
+      font-size: 15px;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-natural-50);
+      white-space: nowrap;
+    }
+
+    .logo-zid { font-size: 28px !important; font-weight: 700 !important; letter-spacing: 2px; }
+    .logo-iot { font-size: 26px !important; font-weight: 700 !important; }
+    .logo-iot sup { font-size: 14px; vertical-align: super; }
+    .logo-jahez { font-size: 32px !important; font-weight: 800 !important; font-style: italic; }
+
+    .logo-zatca { display: flex; align-items: center; gap: 8px; }
+
+    .logo-zatca-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-zatca-text { font-size: 13px !important; font-weight: 500 !important; }
+    .logo-stc { font-size: 30px !important; font-weight: 700 !important; letter-spacing: 1px; }
+
+    /* ===== FOOTER ===== */
+    .footer-card {
+      width: 100%;
+      background: #060D17;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .footer-inner {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--space-40) var(--space-20) 0;
+      display: flex;
+      flex-direction: column;
+      gap: 146px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      width: 100%;
+    }
+
+    .footer-links-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-40);
+    }
+
+    .footer-logo {
+      width: 68.17px;
+      height: 20px;
+      display: block;
+      cursor: pointer;
+    }
+
+    .footer-logo svg { width: 100%; height: 100%; }
+    .footer-logo svg path { fill: white; opacity: 0.5; transition: fill 0.3s ease, opacity 0.3s ease; }
+    .footer-logo:hover svg path { fill: var(--color-secondary-500); opacity: 1; }
+
+    .footer-social { display: flex; gap: 12px; }
+
+    .footer-social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: #0a1526;
+      border-radius: var(--border-radius-xsm);
+      transition: background 0.2s;
+    }
+
+    .footer-social-icon:hover { background: #142240; }
+    .footer-social-icon svg { width: 20px; height: 20px; }
+    .footer-social-icon svg path { transition: fill 0.3s ease; }
+    .footer-social-icon:hover svg path { fill: var(--color-secondary-500); }
+
+    .footer-right { display: flex; gap: 72px; }
+
+    .footer-link-col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    .footer-link-label {
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-light);
+      line-height: var(--font-line-height-for14);
+      color: #bdbdbd;
+      padding: var(--space-8) var(--space-14);
+    }
+
+    .footer-link {
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for14);
+      color: white;
+      text-decoration: none;
+      padding: var(--space-8) var(--space-14);
+      border-radius: var(--border-radius-sm);
+      transition: opacity 0.2s;
+    }
+
+    .footer-link:hover { opacity: 0.7; }
+
+    .footer-bottom-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .footer-badges {
+      display: flex;
+      align-items: center;
+      gap: var(--space-40);
+    }
+
+    .footer-iso {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .footer-iso-top {
+      font-family: var(--font-family-primary);
+      font-size: 19.4px;
+      font-weight: var(--font-weight-medium);
+      line-height: 23.3px;
+      color: white;
+    }
+
+    .footer-iso-btm {
+      font-family: var(--font-family-primary);
+      font-size: 13px;
+      font-weight: var(--font-weight-medium);
+      line-height: 15.5px;
+      color: white;
+    }
+
+    .footer-gartner { display: flex; flex-direction: column; gap: 4px; }
+
+    .footer-gartner-top {
+      font-family: var(--font-family-primary);
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      line-height: 1.2;
+    }
+
+    .footer-gartner-btm { display: flex; align-items: baseline; gap: 4px; }
+
+    .footer-gartner-peer {
+      font-family: var(--font-family-primary);
+      font-size: 22px;
+      font-weight: 300;
+      color: white;
+    }
+
+    .footer-gartner-insights {
+      font-family: var(--font-family-primary);
+      font-size: 22px;
+      font-weight: 300;
+      color: #4db8b8;
+    }
+
+    .footer-gartner-tm {
+      font-size: 10px;
+      color: #4db8b8;
+      vertical-align: super;
+    }
+
+    .footer-contact { display: flex; align-items: center; gap: 24px; }
+
+    .footer-contact-text {
+      font-family: var(--font-family-primary);
+      font-size: 18px;
+      font-weight: var(--font-weight-light);
+      color: white;
+    }
+
+    .footer-watermark {
+      width: 100%;
+      position: relative;
+      aspect-ratio: 68.1635 / 19.96;
+      margin-top: 40px;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+
+    .footer-watermark svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      margin-top: 146px;
+    }
+
+    .footer-watermark svg path {
+      fill: rgba(255, 255, 255, 0.08);
+      transition: fill 0.3s ease;
+    }
+
+    .footer-watermark:hover svg path { fill: var(--color-secondary-500); }
+
+    .footer-fade {
+      position: absolute;
+      bottom: -54px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2048px;
+      height: 318px;
+      background: linear-gradient(to bottom, rgba(6, 13, 23, 0), #060d17);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1279px) {
+      .demo-main-heading {
+        font-size: var(--font-size-56);
+        line-height: var(--font-line-height-for56);
+      }
+
+      .demo-subheading {
+        font-size: 28px;
+        line-height: 33.6px;
+      }
+
+      .demo-stat-number {
+        font-size: var(--font-size-48);
+        line-height: var(--font-line-height-for48);
+      }
+
+      .demo-page {
+        padding: var(--space-16);
+      }
+
+      .demo-footer-section { padding: 0 var(--space-16); }
+    }
+
+    @media (max-width: 991px) {
+      .demo-content {
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .demo-form-col {
+        max-width: 100%;
+      }
+
+      .demo-main-heading {
+        font-size: 44px;
+        line-height: 52.8px;
+        letter-spacing: -1.32px;
+      }
+
+      .demo-subheading {
+        font-size: var(--font-size-24);
+        line-height: var(--font-line-height-for24);
+        max-width: 100%;
+      }
+
+      .demo-stat-number {
+        font-size: var(--font-size-48);
+        line-height: var(--font-line-height-for48);
+      }
+
+      .demo-stat-label {
+        font-size: var(--font-size-20);
+      }
+
+      .logos-section {
+        flex-direction: column;
+        height: auto;
+        gap: 20px;
+        align-items: flex-start;
+      }
+
+      .logos-marquee-wrapper {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .footer-inner { gap: 80px; }
+      .footer-right { gap: 48px; }
+      .footer-contact-text { font-size: 16px; }
+    }
+
+    @media (max-width: 767px) {
+      .demo-main-container {
+        padding: 80px 16px 16px;
+      }
+
+      .demo-footer-section { padding: 0 var(--space-16); }
+      .footer-card { padding: var(--space-16); }
+
+      .demo-main-heading {
+        font-size: 32px;
+        line-height: 38.4px;
+        letter-spacing: -0.96px;
+      }
+
+      .demo-subheading {
+        font-size: var(--font-size-20);
+        line-height: var(--font-line-height-for20);
+      }
+
+      .demo-stats {
+        gap: 24px;
+      }
+
+      .demo-stat-number {
+        font-size: 36px;
+        line-height: 43.2px;
+      }
+
+      .demo-stat-label {
+        font-size: var(--font-size-16);
+      }
+
+      .demo-stat-desc {
+        font-size: var(--font-size-14);
+      }
+
+      .demo-form-col {
+        padding: var(--space-16);
+      }
+
+      .demo-benefits-title {
+        font-size: var(--font-size-18);
+      }
+
+      .demo-benefit-text {
+        font-size: var(--font-size-14);
+      }
+
+      .logos-section {
+        margin-top: 32px;
+      }
+
+      .footer-card {
+        border-radius: var(--border-radius-xsm);
+      }
+
+      .footer-inner { gap: 50px; padding: var(--space-16) var(--space-16) 0; }
+      .footer-content { gap: 40px; }
+      .footer-links-row { flex-direction: column; gap: 40px; }
+      .footer-left { gap: 28px; }
+      .footer-right { gap: 40px; width: 100%; }
+
+      .footer-bottom-row {
+        flex-direction: column;
+        gap: 32px;
+        align-items: flex-start;
+      }
+
+      .footer-badges { gap: 28px; }
+      .footer-iso { width: 51px; height: 51px; }
+      .footer-iso-top { font-size: 14.6px; line-height: 17.5px; }
+      .footer-iso-btm { font-size: 9.7px; line-height: 11.7px; }
+      .footer-gartner-top { font-size: 16px; }
+      .footer-gartner-peer, .footer-gartner-insights { font-size: 18px; }
+      .footer-contact { gap: 16px; }
+      .footer-contact-text { font-size: 12px; }
+      .footer-fade { height: 200px; width: 1200px; }
+    }
+
+    @media (max-width: 480px) {
+      .demo-main-container {
+        border-radius: var(--border-radius-md);
+        padding: 70px var(--space-14) var(--space-14);
+      }
+
+      .demo-main-heading {
+        font-size: 26px;
+        line-height: 31.2px;
+        letter-spacing: -0.78px;
+      }
+
+      .demo-stats {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .demo-stat {
+        max-width: 100%;
+      }
+
+      .demo-stat-number {
+        font-size: 32px;
+        line-height: 38.4px;
+      }
+
+      .footer-card {
+        border-radius: var(--border-radius-xsm);
+      }
+
+      .footer-inner { gap: 32px; }
+      .footer-content { gap: 32px; }
+      .footer-links-row { gap: 32px; }
+      .footer-left { gap: 24px; }
+      .footer-logo { width: 60px; height: 18px; }
+      .footer-social-icon { width: 32px; height: 32px; }
+      .footer-social-icon svg { width: 16px; height: 16px; }
+      .footer-link-label, .footer-link { font-size: 13px; padding: 6px 10px; }
+      .footer-bottom-row { gap: 24px; }
+      .footer-badges { gap: 20px; }
+      .footer-gartner-top { font-size: 14px; }
+      .footer-gartner-peer, .footer-gartner-insights { font-size: 15px; }
+      .footer-fade { height: 120px; width: 800px; }
+    }
+
+    /* ===== HAMBURGER MOBILE NAV ===== */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      width: 22px;
+      height: 2px;
+      background: white;
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    @media (max-width: 767px) {
+      .svc-nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .svc-nav-left { gap: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAV BAR ===== -->
+  <header class="svc-navbar-section navbar-dark">
+    <nav class="svc-navbar">
+      <div class="svc-nav-left">
+        <a href="nua-hero-section.html" class="svc-nav-logo">
+          <svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <g>
+                <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z" fill="white"/>
+                <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z" fill="white"/>
+              </g>
+              <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z" fill="white"/>
+              <g>
+                <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z" fill="white"/>
+                <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z" fill="white"/>
+              </g>
+            </g>
+          </svg>
+        </a>
+        <div class="svc-nav-links">
+          <a href="company.html" class="svc-nav-link">Company</a>
+          <a href="services.html" class="svc-nav-link">Services</a>
+          <a href="blog.html" class="svc-nav-link">Resources</a>
+        </div>
+        <div class="nav-hamburger" onclick="this.classList.toggle('active')">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <a href="book-a-demo.html" class="btn-primary">Book a demo</a>
+    </nav>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="demo-page">
+    <div class="demo-main-container">
+
+      <!-- Hero + Form -->
+      <div class="demo-content">
+
+        <!-- Left: Text Content -->
+        <div class="demo-text-col">
+          <div class="demo-heading-block">
+            <h1 class="demo-main-heading">Pentest with<br>Shax<span class="accent">*</span></h1>
+            <p class="demo-subheading">Boost your offensive security in minutes.</p>
+          </div>
+
+          <div class="demo-stats">
+            <div class="demo-stat">
+              <div class="demo-stat-top">
+                <span class="demo-stat-number">10x</span>
+                <span class="demo-stat-label">Faster</span>
+              </div>
+              <span class="demo-stat-desc">Than Manual Pentesting</span>
+            </div>
+            <div class="demo-stat">
+              <div class="demo-stat-top">
+                <span class="demo-stat-number">+500</span>
+                <span class="demo-stat-label">Zero-Day</span>
+              </div>
+              <span class="demo-stat-desc">Vulnerabilities Discovered</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Form Card -->
+        <div class="demo-form-col">
+          <!-- Benefits -->
+          <div class="demo-benefits">
+            <h2 class="demo-benefits-title">In Your 30 Minute Personal Demo, You Will Learn How Shax:</h2>
+            <div class="demo-benefits-list">
+              <div class="demo-benefit-item">
+                <div class="demo-benefit-dot"></div>
+                <p class="demo-benefit-text">Discover how Shax autonomously identifies and safely exploits real vulnerabilities</p>
+              </div>
+              <div class="demo-benefit-item">
+                <div class="demo-benefit-dot"></div>
+                <p class="demo-benefit-text">Receive a compliance-ready report with clear, actionable insights</p>
+              </div>
+              <div class="demo-benefit-item">
+                <div class="demo-benefit-dot"></div>
+                <p class="demo-benefit-text">Validate fixes through multiple verification rounds</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <form class="demo-form" onsubmit="event.preventDefault();">
+            <div class="demo-form-fields">
+              <!-- Full name -->
+              <div class="demo-field">
+                <label class="demo-field-label">Full name<span class="required">*</span></label>
+                <input type="text" class="demo-field-input" placeholder="Kevin Polo" required>
+              </div>
+
+              <!-- Work email -->
+              <div class="demo-field">
+                <label class="demo-field-label">Work email<span class="required">*</span></label>
+                <input type="email" class="demo-field-input" placeholder="Kevin@acme.com" required>
+              </div>
+
+              <!-- Company name -->
+              <div class="demo-field">
+                <label class="demo-field-label">Company name<span class="required">*</span></label>
+                <input type="text" class="demo-field-input" placeholder="Acme" required>
+              </div>
+
+              <!-- Phone number -->
+              <div class="demo-field">
+                <label class="demo-field-label">Phone number</label>
+                <div class="demo-phone-input">
+                  <div class="demo-phone-addon">
+                    <!-- Saudi Arabia flag -->
+                    <div class="demo-phone-flag">
+                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="12" fill="#006c35"/>
+                        <text x="12" y="14" text-anchor="middle" fill="white" font-size="6" font-family="Arial">SA</text>
+                      </svg>
+                    </div>
+                    <!-- Dropdown arrow -->
+                    <div class="demo-phone-arrow">
+                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 10l5 5 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <input type="tel" class="demo-phone-field" placeholder="+966">
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="demo-submit-btn">Submit</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Logos Section -->
+      <div class="logos-section">
+        <div class="logos-text">
+          <h3>Powering Offensive Security For Industry Leaders</h3>
+        </div>
+        <div class="logos-marquee-wrapper">
+          <div class="logos-track">
+            <!-- First set -->
+            <div class="logo-item"><img src="assets/Zid.svg" alt="Zid"></div>
+            <div class="logo-item"><img src="assets/IOT.svg" alt="IOT"></div>
+            <div class="logo-item"><img src="assets/Jahez.svg" alt="Jahez"></div>
+            <div class="logo-item"><img src="assets/Zakat.svg" alt="Zakat, Tax and Customs Authority"></div>
+            <div class="logo-item"><img src="assets/STC.svg" alt="stc"></div>
+            <div class="logo-item"><img src="assets/Qiddiya.svg" alt="Qiddiya"></div>
+            <div class="logo-item"><img src="assets/Tamara.svg" alt="Tamara"></div>
+            <div class="logo-item"><img src="assets/Ministry of sport.svg" alt="Ministry of Sport"></div>
+            <div class="logo-item"><img src="assets/Elm.svg" alt="Elm"></div>
+            <div class="logo-item"><img src="assets/AlibabaCloud.svg" alt="Alibaba Cloud"></div>
+            <div class="logo-item"><img src="assets/MoEnergy.svg" alt="Ministry of Energy"></div>
+            <div class="logo-item"><img src="assets/FGS.svg" alt="FGS Global"></div>
+
+            <!-- Duplicate set -->
+            <div class="logo-item"><img src="assets/Zid.svg" alt="Zid"></div>
+            <div class="logo-item"><img src="assets/IOT.svg" alt="IOT"></div>
+            <div class="logo-item"><img src="assets/Jahez.svg" alt="Jahez"></div>
+            <div class="logo-item"><img src="assets/Zakat.svg" alt="Zakat, Tax and Customs Authority"></div>
+            <div class="logo-item"><img src="assets/STC.svg" alt="stc"></div>
+            <div class="logo-item"><img src="assets/Qiddiya.svg" alt="Qiddiya"></div>
+            <div class="logo-item"><img src="assets/Tamara.svg" alt="Tamara"></div>
+            <div class="logo-item"><img src="assets/Ministry of sport.svg" alt="Ministry of Sport"></div>
+            <div class="logo-item"><img src="assets/Elm.svg" alt="Elm"></div>
+            <div class="logo-item"><img src="assets/AlibabaCloud.svg" alt="Alibaba Cloud"></div>
+            <div class="logo-item"><img src="assets/MoEnergy.svg" alt="Ministry of Energy"></div>
+            <div class="logo-item"><img src="assets/FGS.svg" alt="FGS Global"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <section class="demo-footer-section">
+    <footer class="footer-card">
+      <div class="footer-inner">
+        <div class="footer-content">
+          <!-- Links row -->
+          <div class="footer-links-row">
+            <div class="footer-left">
+              <!-- NUA Logo -->
+              <a href="nua-hero-section.html" class="footer-logo" aria-label="NUA Home">
+                <svg preserveAspectRatio="none" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g>
+                    <g>
+                      <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z"/>
+                      <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z"/>
+                    </g>
+                    <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z"/>
+                    <g>
+                      <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z"/>
+                      <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z"/>
+                    </g>
+                  </g>
+                </svg>
+              </a>
+              <!-- Social icons -->
+              <div class="footer-social">
+                <a href="#" class="footer-social-icon" aria-label="X (Twitter)">
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.27 1.59h2.97l-6.49 7.42 7.63 10.09h-5.98l-4.68-6.13-5.36 6.13H.39l6.94-7.93L0 1.59h6.13l4.23 5.6 4.91-5.6Zm-1.04 15.72h1.64L5.88 3.27H4.12l10.11 14.04Z" fill="white"/>
+                  </svg>
+                </a>
+                <a href="#" class="footer-social-icon" aria-label="LinkedIn">
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.52 0H1.48C.66 0 0 .645 0 1.44v17.12C0 19.355.66 20 1.48 20h17.04c.82 0 1.48-.645 1.48-1.44V1.44C20 .645 19.34 0 18.52 0ZM5.93 17.04H2.96V7.5h2.97v9.54ZM4.45 6.2a1.72 1.72 0 110-3.44 1.72 1.72 0 010 3.44zm12.59 10.84h-2.97v-4.64c0-1.11-.02-2.53-1.54-2.53-1.54 0-1.78 1.2-1.78 2.45v4.72H7.78V7.5h2.85v1.3h.04c.4-.75 1.37-1.54 2.81-1.54 3.01 0 3.56 1.98 3.56 4.55v5.23Z" fill="white"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <!-- Link columns -->
+            <div class="footer-right">
+              <div class="footer-link-col">
+                <span class="footer-link-label">Links</span>
+                <a href="company.html" class="footer-link">Company</a>
+                <a href="services.html" class="footer-link">Services</a>
+                <a href="#" class="footer-link">Career</a>
+              </div>
+              <div class="footer-link-col">
+                <span class="footer-link-label">Resources</span>
+                <a href="blog.html" class="footer-link">Blogs</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom row: badges + contact -->
+          <div class="footer-bottom-row">
+            <div class="footer-badges">
+              <div class="footer-iso">
+                <span class="footer-iso-top">ISO</span>
+                <span class="footer-iso-btm">27001</span>
+              </div>
+              <div class="footer-gartner">
+                <span class="footer-gartner-top">Gartner<span style="font-size:8px;vertical-align:super;">&#174;</span></span>
+                <div class="footer-gartner-btm">
+                  <span class="footer-gartner-peer">Peer</span>
+                  <span class="footer-gartner-insights">Insights<span class="footer-gartner-tm">&#8482;</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="footer-contact">
+              <span class="footer-contact-text">info@nuasecurity.com</span>
+              <span class="footer-contact-text">&copy; 2026 NUA USA.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Big NUA logo watermark at bottom -->
+        <div class="footer-watermark">
+          <svg preserveAspectRatio="none" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <g>
+                <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z"/>
+                <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z"/>
+              </g>
+              <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z"/>
+              <g>
+                <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z"/>
+                <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="footer-fade"></div>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ===== LENIS SMOOTH SCROLL ===== -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    const lenis = new Lenis({
+      duration: 1.8,
+      easing: function (t) {
+        return 1 - Math.pow(1 - t, 5);
+      },
+      smoothWheel: true,
+      wheelMultiplier: 0.8,
+      touchMultiplier: 1.5,
+      infinite: false,
+    });
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+  </script>
+
+</body>
+</html>
