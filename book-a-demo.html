@@ -820,32 +820,37 @@
       color: white;
     }
 
+    /* Footer watermark */
     .footer-watermark {
-      width: 100%;
       position: relative;
-      aspect-ratio: 68.1635 / 19.96;
-      margin-top: 40px;
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+      overflow: hidden;
       cursor: pointer;
-      transition: opacity 0.3s ease;
     }
 
     .footer-watermark svg {
       width: 100%;
-      height: 100%;
-      display: block;
+      max-width: 1280px;
+      height: auto;
       margin-top: 146px;
     }
 
     .footer-watermark svg path {
-      fill: rgba(255, 255, 255, 0.08);
-      transition: fill 0.3s ease;
+      fill: #0a1526;
+      transition: fill 0.4s ease;
     }
 
-    .footer-watermark:hover svg path { fill: var(--color-secondary-500); }
+    .footer-watermark:hover svg path {
+      fill: var(--color-secondary-500);
+    }
 
     .footer-fade {
       position: absolute;
-      bottom: -54px;
+      bottom: -4px;
       left: 50%;
       transform: translateX(-50%);
       width: 2048px;
@@ -1280,12 +1285,12 @@
               </a>
               <!-- Social icons -->
               <div class="footer-social">
-                <a href="#" class="footer-social-icon" aria-label="X (Twitter)">
+                <a href="https://x.com/Nuasecurity" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="X (Twitter)">
                   <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15.27 1.59h2.97l-6.49 7.42 7.63 10.09h-5.98l-4.68-6.13-5.36 6.13H.39l6.94-7.93L0 1.59h6.13l4.23 5.6 4.91-5.6Zm-1.04 15.72h1.64L5.88 3.27H4.12l10.11 14.04Z" fill="white"/>
                   </svg>
                 </a>
-                <a href="#" class="footer-social-icon" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/company/nuasecurity/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="LinkedIn">
                   <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18.52 0H1.48C.66 0 0 .645 0 1.44v17.12C0 19.355.66 20 1.48 20h17.04c.82 0 1.48-.645 1.48-1.44V1.44C20 .645 19.34 0 18.52 0ZM5.93 17.04H2.96V7.5h2.97v9.54ZM4.45 6.2a1.72 1.72 0 110-3.44 1.72 1.72 0 010 3.44zm12.59 10.84h-2.97v-4.64c0-1.11-.02-2.53-1.54-2.53-1.54 0-1.78 1.2-1.78 2.45v4.72H7.78V7.5h2.85v1.3h.04c.4-.75 1.37-1.54 2.81-1.54 3.01 0 3.56 1.98 3.56 4.55v5.23Z" fill="white"/>
                   </svg>
@@ -1348,6 +1353,7 @@
         <div class="footer-fade"></div>
       </div>
     </footer>
+
   </section>
 
   <!-- ===== LENIS SMOOTH SCROLL ===== -->
