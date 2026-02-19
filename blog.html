@@ -132,6 +132,7 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -945,6 +946,118 @@
     @media (max-width: 480px) {
       .cta-shax-lottie iframe { width: 200px; height: 200px; }
     }
+
+    /* ===== MOBILE NAV OVERLAY ===== */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+      color: white;
+      width: 32px;
+      height: 32px;
+    }
+    .hamburger-line {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: currentColor;
+      border-radius: 2px;
+      transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+      transform-origin: center;
+    }
+    .nav-hamburger.is-open .hamburger-line:nth-child(1) {
+      transform: translateY(3.75px) rotate(45deg);
+    }
+    .nav-hamburger.is-open .hamburger-line:nth-child(2) {
+      transform: translateY(-3.75px) rotate(-45deg);
+    }
+    .mobile-nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: #060D17;
+      flex-direction: column;
+      padding: 16px;
+      overflow-y: auto;
+    }
+    .mobile-nav-overlay.is-open { display: flex; }
+    .mobile-nav-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      background: rgba(6, 13, 23, 0.55);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .mobile-nav-logo-link {
+      width: 68px;
+      height: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+    .mobile-nav-logo-link svg { width: 100%; height: 100%; }
+    .mobile-nav-close {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: white;
+    }
+    .mobile-nav-links {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 0 4px;
+      margin-top: 8px;
+    }
+    .mobile-nav-link {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.2;
+      padding: 28px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: var(--font-family-primary, sans-serif);
+      display: block;
+    }
+    .mobile-nav-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-primary-600, #1A56FF);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.4;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #0D4CF4;
+      margin-top: 24px;
+      font-family: var(--font-family-primary, sans-serif);
+    }
+    @media (max-width: 767px) {
+      .nav-hamburger { display: flex; }
+      .svc-navbar .btn-primary { display: none; }
+      .navbar-light .nav-hamburger { color: #1E1E1E; }
+      .navbar-dark .nav-hamburger { color: #ffffff; }
+    }
   </style>
 </head>
 <body>
@@ -975,8 +1088,43 @@
         </div>
       </div>
       <a href="book-a-demo.html" class="btn-primary">Book a demo</a>
+      <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Open menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
     </nav>
   </header>
+
+  <!-- ===== MOBILE NAV OVERLAY ===== -->
+  <div class="mobile-nav-overlay" id="mobileNav">
+    <div class="mobile-nav-top">
+      <a href="index.html" class="mobile-nav-logo-link" aria-label="Home">
+        <svg preserveAspectRatio="none" width="68" height="20" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g><g>
+            <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z" fill="white"/>
+            <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z" fill="white"/>
+          </g>
+          <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z" fill="white"/>
+          <g>
+            <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z" fill="white"/>
+            <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z" fill="white"/>
+          </g></g>
+        </svg>
+      </a>
+      <button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round">
+          <line x1="6" y1="6" x2="18" y2="18"/>
+          <line x1="18" y1="6" x2="6" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="company.html" class="mobile-nav-link">Company</a>
+      <a href="services.html" class="mobile-nav-link">Services</a>
+      <a href="blog.html" class="mobile-nav-link">Resources</a>
+    </nav>
+    <a href="book-a-demo.html" class="mobile-nav-cta">Book a demo</a>
+  </div>
 
   <!-- ===== BLOG PAGE ===== -->
   <section class="blog-page-section reveal">
@@ -1429,6 +1577,24 @@
         if (!ticking) { requestAnimationFrame(function () { updateNavbarTheme(); ticking = false; }); ticking = true; }
       });
     })();
+  </script>
+
+  <script>
+    function toggleMobileNav() {
+      var overlay = document.getElementById('mobileNav');
+      var btn = document.getElementById('navHamburger');
+      var isOpen = overlay.classList.contains('is-open');
+      overlay.classList.toggle('is-open');
+      if (btn) btn.classList.toggle('is-open');
+      document.body.style.overflow = isOpen ? '' : 'hidden';
+    }
+    function closeMobileNav() {
+      var overlay = document.getElementById('mobileNav');
+      var btn = document.getElementById('navHamburger');
+      overlay.classList.remove('is-open');
+      if (btn) btn.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
   </script>
 
 </body>
