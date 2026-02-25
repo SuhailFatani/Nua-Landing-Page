@@ -1,0 +1,86 @@
+/* =====================================================
+   CTA + Footer Component — Self-injecting script
+   Usage:
+     1. Add <link rel="stylesheet" href="components/cta-footer.css"> in <head>
+     2. Add <div data-component="cta-footer"></div> where the component should appear
+     3. Add <script src="components/cta-footer.js"></script> before </body>
+   ===================================================== */
+
+(function () {
+  var NUA_LOGO_SVG = '<svg preserveAspectRatio="none" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg"><g><g><path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z"/><path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z"/></g><path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z"/><g><path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z"/><path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z"/></g></g></svg>';
+
+  var NUA_WATERMARK_SVG = '<svg preserveAspectRatio="none" viewBox="0 0 1067 313" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 80.02H79.38V315.36H0V81.05C0 80.71 0 80.36 0 80.02Z"/><path d="M367.26 315.36H278.72L158.27 80.56C158.1 80.22 157.74 80.02 157.36 80.02H79.4V0.11C79.74 0.11 80.09 0.11 80.44 0.11H157.36C187.03 0.11 214.29 17.34 228.7 44.36L367.26 315.36Z"/><path d="M938.5 44.35C924.09 17.33 896.83 0.1 867.16 0.1H791.24C790.89 0.1 790.55 0.1 790.2 0.11V80.02H867.16C867.55 80.02 867.91 80.22 868.07 80.56L910.44 163.43L790.2 221.03V80.02H710.82C710.82 80.36 710.82 80.71 710.82 81.05L710.69 315.36H789.09L947.06 233.71L988.27 315.36H1077.5L938.5 44.35Z"/><path d="M488.51 236.46H566.89L566.8 315.36C566.46 315.36 566.1 315.36 565.76 315.36H488.51C484.18 315.36 479.89 315.02 475.64 314.34C450.84 310.34 429.3 294.96 417.72 272.5L277.92 0.11H367.59L487.37 236.02C487.55 236.35 487.91 236.56 488.28 236.56L488.51 236.46Z"/><path d="M645.79 0.11V235.61C645.79 235.96 645.79 236.3 645.79 236.64H566.89V0.11H645.79Z"/></svg>';
+
+  var X_ICON_SVG = '<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.27 1.59h2.97l-6.49 7.42 7.63 10.09h-5.98l-4.68-6.13-5.36 6.13H.39l6.94-7.93L0 1.59h6.13l4.23 5.6 4.91-5.6Zm-1.04 15.72h1.64L5.88 3.27H4.12l10.11 14.04Z" fill="white"/></svg>';
+
+  var LINKEDIN_ICON_SVG = '<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.52 0H1.48C.66 0 0 .645 0 1.44v17.12C0 19.355.66 20 1.48 20h17.04c.82 0 1.48-.645 1.48-1.44V1.44C20 .645 19.34 0 18.52 0ZM5.93 17.04H2.96V7.5h2.97v9.54ZM4.45 6.2a1.72 1.72 0 110-3.44 1.72 1.72 0 010 3.44Zm12.59 10.84h-2.97v-4.64c0-1.11-.02-2.53-1.54-2.53-1.54 0-1.78 1.2-1.78 2.45v4.72H7.78V7.5h2.85v1.3h.04c.4-.75 1.37-1.54 2.81-1.54 3.01 0 3.56 1.98 3.56 4.55v5.23Z" fill="white"/></svg>';
+
+  var template = '\
+    <!-- CTA Card -->\
+    <div class="cta-card">\
+      <div class="cta-inner">\
+        <div class="cta-text-block">\
+          <h2 class="cta-heading">Get Ahead Of Threats</h2>\
+          <p class="cta-subtitle">Find and fix vulnerabilities early to strengthen your security posture<br>and show clear commitment to industry standards and compliance requirements.</p>\
+          <a href="book-a-demo.html" class="cta-btn">Book a demo</a>\
+        </div>\
+        <div class="cta-shax-lottie">\
+          <iframe src="https://cdn.lottielab.com/l/59mGokKhxq8TV5.html" allowtransparency="true" loading="lazy" title="NUA animation"></iframe>\
+        </div>\
+      </div>\
+    </div>\
+    <!-- Footer Card -->\
+    <footer class="footer-card">\
+      <div class="footer-inner">\
+        <div class="footer-content">\
+          <div class="footer-links-row">\
+            <div class="footer-left">\
+              <a href="index.html" class="footer-logo" aria-label="NUA Home">' + NUA_LOGO_SVG + '</a>\
+              <div class="footer-social">\
+                <a href="https://x.com/Nuasecurity" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="X (Twitter)">' + X_ICON_SVG + '</a>\
+                <a href="https://www.linkedin.com/company/nuasecurity/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="LinkedIn">' + LINKEDIN_ICON_SVG + '</a>\
+              </div>\
+            </div>\
+            <div class="footer-right">\
+              <div class="footer-link-col">\
+                <span class="footer-link-label">Links</span>\
+                <a href="company.html" class="footer-link">Company</a>\
+                <a href="services.html" class="footer-link">Services</a>\
+                <a href="#" class="footer-link">Career</a>\
+              </div>\
+              <div class="footer-link-col">\
+                <span class="footer-link-label">Resources</span>\
+                <a href="blog.html" class="footer-link">Blogs</a>\
+              </div>\
+            </div>\
+          </div>\
+          <div class="footer-bottom-row">\
+            <div class="footer-badges">\
+              <div class="footer-iso">\
+                <span class="footer-iso-top">ISO</span>\
+                <span class="footer-iso-btm">27001</span>\
+              </div>\
+              <div class="footer-gartner">\
+                <span class="footer-gartner-top">Gartner<span style="font-size:8px;vertical-align:super;">&#174;</span></span>\
+                <div class="footer-gartner-btm">\
+                  <span class="footer-gartner-peer">Peer</span>\
+                  <span class="footer-gartner-insights">Insights<span class="footer-gartner-tm">&#8482;</span></span>\
+                </div>\
+              </div>\
+            </div>\
+            <div class="footer-contact">\
+              <span class="footer-contact-text">info@nuasecurity.com</span>\
+              <span class="footer-contact-text">&copy; 2025 NUA USA.</span>\
+            </div>\
+          </div>\
+        </div>\
+        <div class="footer-watermark">' + NUA_WATERMARK_SVG + '</div>\
+        <div class="footer-fade"></div>\
+      </div>\
+    </footer>';
+
+  var targets = document.querySelectorAll('[data-component="cta-footer"]');
+  targets.forEach(function (el) {
+    el.innerHTML = template;
+  });
+})();
