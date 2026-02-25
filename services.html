@@ -6,7 +6,10 @@
   <title>NUA - Services</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.lottielab.com">
+  <link rel="preload" href="https://cdn.lottielab.com/l/59mGokKhxq8TV5.html" as="document">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components/cta-footer.css">
   <style>
     /* ===== RESET ===== */
     *, *::before, *::after {
@@ -778,6 +781,7 @@
     .cta-shax-lottie {
       width: 100%;
       display: flex;
+      align-items: center;
       justify-content: center;
       margin-top: -20px;
       position: relative;
@@ -1957,6 +1961,13 @@
       document.body.style.overflow = '';
     }
   </script>
+
+  <!-- ===== CTA + FOOTER ===== -->
+  <section class="cta-footer-section reveal">
+    <div data-component="cta-footer"></div>
+  </section>
+
+  <script src="components/cta-footer.js"></script>
 
 </body>
 </html>
