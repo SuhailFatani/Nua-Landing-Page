@@ -1,0 +1,26 @@
+---
+description: Use Nua design tokens and CSS variables for all UI design and implementation
+alwaysApply: true
+---
+
+# Nua design — tokens and CSS
+
+When designing or implementing any UI in this project:
+
+1. **Token source**  
+   Use **`TokensNua (2).json`** (project root) as the single source for colors, spacing, typography, radius, and shadows. Do not invent new hex values or arbitrary spacing; use values that exist in this file or map to its structure.
+
+2. **Implementation**  
+   - Expose tokens as **CSS custom properties** in `:root` (or a theme block), following the pattern in `company.html`, `services.html`, and `nua-dashboard.html` (“DESIGN TOKENS — mirroring Figma token structure”).  
+   - In styles, reference these variables (e.g. `var(--color-primary-600)`, `var(--space-16)`) instead of hardcoding values.
+
+3. **Token file structure**  
+   The JSON contains:  
+   - `option-tokens-mode 1` — raw primitives (e.g. `colors.blue`, `colors.natural`)  
+   - `alias-tokens--value` — semantic aliases  
+   - `component-tokens-light` / `component-tokens-dark` — component-level tokens  
+
+   Map these to CSS variables that match or extend the naming used in existing pages.
+
+4. **Figma alignment**  
+   For layout and components, also follow **FIGMA-REFERENCES.md** (Nua Design System 2.0 and Nua UX/UI Design). Visual and token usage must stay consistent with the design system and this token file.
