@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUA - CTA + Footer Component Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: #FFFFFF;
+      min-height: 100vh;
+    }
+
+    /* Header info section */
+    .preview-header {
+      background: linear-gradient(135deg, #0D4CF4 0%, #063DCD 100%);
+      padding: 60px 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .preview-header h1 {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .preview-header p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .preview-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 16px;
+    }
+
+    /* Sample page content */
+    .sample-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+
+    .sample-content h2 {
+      font-size: 40px;
+      font-weight: 500;
+      color: #1E1E1E;
+      margin-bottom: 20px;
+    }
+
+    .sample-content p {
+      font-size: 18px;
+      color: #656565;
+      line-height: 1.7;
+      max-width: 700px;
+      margin-bottom: 30px;
+    }
+
+    .sample-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .sample-card {
+      background: #F6F7F9;
+      border-radius: 12px;
+      padding: 30px;
+    }
+
+    .sample-card h3 {
+      font-size: 20px;
+      font-weight: 500;
+      color: #1E1E1E;
+      margin-bottom: 10px;
+    }
+
+    .sample-card p {
+      font-size: 14px;
+      color: #656565;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .sample-cards {
+        grid-template-columns: 1fr;
+      }
+      
+      .preview-header h1 {
+        font-size: 24px;
+      }
+      
+      .sample-content h2 {
+        font-size: 28px;
+      }
+    }
+
+    /* ===== CTA + FOOTER STYLES ===== */
+    .cta-footer-section {
+      width: 100%;
+      background-color: #FFFFFF;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 72px;
+      padding-bottom: 16px;
+    }
+
+    .cta-card {
+      width: 100%;
+      background: #060D17;
+      border-radius: 9px;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .cta-inner {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      padding: 0;
+    }
+
+    .cta-text-block {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      padding-top: 56px;
+      padding-bottom: 56px;
+      width: 100%;
+    }
+
+    .cta-heading {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 56px;
+      font-weight: 500;
+      line-height: 67.2px;
+      color: #FFFFFF;
+      text-transform: capitalize;
+      letter-spacing: -1.68px;
+      width: 992px;
+      max-width: 100%;
+      margin: 0;
+    }
+
+    .cta-subheading {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 24px;
+      color: #bdbdbd;
+      max-width: 600px;
+      font-variation-settings: 'opsz' 9;
+      text-align: center;
+      margin: 0;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      background-color: #0D4CF4;
+      color: #FFFFFF;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 19.2px;
+      border: 1px solid #0D4CF4;
+      border-radius: 4px;
+      box-shadow: 0px 0px 50px 0px rgba(37, 97, 227, 0.5);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    .cta-btn:hover {
+      background-color: #063DCD;
+    }
+
+    .cta-shax-lottie {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: -20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-shax-lottie iframe {
+      width: 100%;
+      height: 599px;
+      border: none;
+      pointer-events: auto;
+    }
+
+    .footer-card {
+      width: 100%;
+      background: #060D17;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .footer-inner {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 146px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      width: 100%;
+    }
+
+    .footer-links-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .footer-logo {
+      width: 68.17px;
+      height: 20px;
+      display: block;
+      cursor: pointer;
+    }
+
+    .footer-logo svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .footer-logo svg path {
+      fill: white;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+    }
+
+    .footer-social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: #0a1526;
+      border-radius: 8px;
+    }
+
+    .footer-social-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .footer-social-icon svg path {
+      fill: white;
+      transition: fill 0.3s ease;
+    }
+
+    .footer-social-icon:hover svg path {
+      fill: #FF7B0A;
+    }
+
+    .footer-right {
+      display: flex;
+      gap: 72px;
+    }
+
+    .footer-link-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-link-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 16.8px;
+      color: #bdbdbd;
+      padding: 8px 14px;
+      font-variation-settings: 'opsz' 9;
+    }
+
+    .footer-link {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 16.8px;
+      color: white;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      transition: opacity 0.2s;
+    }
+
+    .footer-link:hover {
+      opacity: 0.7;
+    }
+
+    .footer-bottom-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .footer-badges {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .footer-iso {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .footer-iso-top {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 19.4px;
+      font-weight: 500;
+      line-height: 23.3px;
+      color: white;
+    }
+
+    .footer-iso-btm {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 15.5px;
+      color: white;
+    }
+
+    .footer-gartner {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .footer-gartner-top {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      line-height: 1.2;
+    }
+
+    .footer-gartner-btm {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .footer-gartner-peer {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 300;
+      color: white;
+    }
+
+    .footer-gartner-insights {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 300;
+      color: #4db8b8;
+    }
+
+    .footer-gartner-tm {
+      font-size: 10px;
+      color: #4db8b8;
+      vertical-align: super;
+    }
+
+    .footer-contact {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .footer-contact-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 24px;
+      color: white;
+    }
+
+    .footer-watermark {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .footer-watermark svg {
+      width: 100%;
+      max-width: 1280px;
+      height: auto;
+      margin-top: 146px;
+    }
+
+    .footer-watermark svg path {
+      fill: #0a1526;
+      transition: fill 0.4s ease;
+    }
+
+    .footer-watermark:hover svg path {
+      fill: #FF7B0A;
+    }
+
+    .footer-fade {
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2048px;
+      height: 318px;
+      background: linear-gradient(to bottom, rgba(6, 13, 23, 0), #060d17);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    @media (max-width: 991px) {
+      .cta-heading {
+        font-size: 44px;
+        line-height: 52.8px;
+      }
+      .cta-shax-lottie iframe {
+        width: 320px;
+        height: 320px;
+      }
+      .footer-inner { gap: 80px; }
+      .footer-right { gap: 48px; }
+    }
+
+    @media (max-width: 767px) {
+      .cta-heading {
+        font-size: 32px;
+        line-height: 38.4px;
+        width: auto;
+      }
+      .cta-subheading { font-size: 16px; }
+      .cta-text-block { gap: 28px; padding: 40px 0; }
+      .cta-shax-lottie iframe { width: 260px; height: 260px; }
+      .footer-inner { gap: 50px; padding: 16px; }
+      .footer-links-row { flex-direction: column; gap: 40px; }
+      .footer-right { gap: 40px; width: 100%; }
+      .footer-bottom-row { flex-direction: column; gap: 32px; align-items: flex-start; }
+      .footer-badges { gap: 28px; }
+      .footer-iso { width: 51px; height: 51px; }
+      .footer-iso-top { font-size: 14.6px; }
+      .footer-iso-btm { font-size: 9.7px; }
+      .footer-gartner-top { font-size: 16px; }
+      .footer-gartner-peer, .footer-gartner-insights { font-size: 18px; }
+      .footer-contact { gap: 16px; }
+      .footer-contact-text { font-size: 12px; }
+      .footer-fade { height: 200px; width: 1200px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preview Header -->
+  <header class="preview-header">
+    <h1>🎨 CTA + Footer Component Preview</h1>
+    <p>هذا الكومبوننت اللي بيظهر في أسفل كل الصفحات</p>
+    <span class="preview-badge">✨ Reusable Component</span>
+  </header>
+
+  <!-- Sample Page Content -->
+  <section class="sample-content">
+    <h2>محتوى الصفحة (مثال)</h2>
+    <p>
+      هذا محتوى وهمي يمثل محتوى الصفحة الأصلي. الكومبوننت اللي تحت هو الـ CTA + Footer 
+      اللي تقدر تستخدمه في كل صفحاتك بدون ما تكرر الكود.
+    </p>
+
+    <div class="sample-cards">
+      <div class="sample-card">
+        <h3>🔒 Red Teaming</h3>
+        <p>Simulate real-world adversary attacks to test your organization's detection capabilities.</p>
+      </div>
+      <div class="sample-card">
+        <h3>🛡️ Penetration Testing</h3>
+        <p>Identify and exploit vulnerabilities before attackers do with our expert testers.</p>
+      </div>
+      <div class="sample-card">
+        <h3>📝 Code Review</h3>
+        <p>Uncover hidden risks in your codebase with professional security engineers.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA + FOOTER COMPONENT ===== -->
+  <section class="cta-footer-section">
+    
+    <!-- CTA Card -->
+    <div class="cta-card">
+      <div class="cta-inner">
+        <div class="cta-text-block">
+          <h2 class="cta-heading">Get Ahead Of Threats</h2>
+          <p class="cta-subheading">
+            Find and fix vulnerabilities early to strengthen your security posture
+            and show clear commitment to industry standards and compliance requirements.
+          </p>
+          <a href="#" class="cta-btn">Book a demo</a>
+        </div>
+        <div class="cta-shax-lottie">
+          <iframe src="https://cdn.lottielab.com/l/59mGokKhxq8TV5.html" allowtransparency="true" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Card -->
+    <footer class="footer-card">
+      <div class="footer-inner">
+        <div class="footer-content">
+          <div class="footer-links-row">
+            <div class="footer-left">
+              <a href="#" class="footer-logo" aria-label="NUA Home">
+                <svg preserveAspectRatio="none" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g>
+                    <g>
+                      <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z"/>
+                      <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z"/>
+                    </g>
+                    <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z"/>
+                    <g>
+                      <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z"/>
+                      <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z"/>
+                    </g>
+                  </g>
+                </svg>
+              </a>
+              <div class="footer-social">
+                <a href="https://x.com/Nuasecurity" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="X (Twitter)">
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.27 1.59h2.97l-6.49 7.42 7.63 10.09h-5.98l-4.68-6.13-5.36 6.13H.39l6.94-7.93L0 1.59h6.13l4.23 5.6 4.91-5.6Zm-1.04 15.72h1.64L5.88 3.27H4.12l10.11 14.04Z" fill="white"/>
+                  </svg>
+                </a>
+                <a href="https://www.linkedin.com/company/nuasecurity/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="LinkedIn">
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.52 0H1.48C.66 0 0 .645 0 1.44v17.12C0 19.355.66 20 1.48 20h17.04c.82 0 1.48-.645 1.48-1.44V1.44C20 .645 19.34 0 18.52 0ZM5.93 17.04H2.96V7.5h2.97v9.54ZM4.45 6.2a1.72 1.72 0 110-3.44 1.72 1.72 0 010 3.44Zm12.59 10.84h-2.97v-4.64c0-1.11-.02-2.53-1.54-2.53-1.54 0-1.78 1.2-1.78 2.45v4.72H7.78V7.5h2.85v1.3h.04c.4-.75 1.37-1.54 2.81-1.54 3.01 0 3.56 1.98 3.56 4.55v5.23Z" fill="white"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="footer-right">
+              <div class="footer-link-col">
+                <span class="footer-link-label">Links</span>
+                <a href="#" class="footer-link">Company</a>
+                <a href="#" class="footer-link">Services</a>
+                <a href="#" class="footer-link">Pricing</a>
+                <a href="#" class="footer-link">Career</a>
+              </div>
+              <div class="footer-link-col">
+                <span class="footer-link-label">Resources</span>
+                <a href="#" class="footer-link">Blogs</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-bottom-row">
+            <div class="footer-badges">
+              <div class="footer-iso">
+                <span class="footer-iso-top">ISO</span>
+                <span class="footer-iso-btm">27001</span>
+              </div>
+              <div class="footer-gartner">
+                <span class="footer-gartner-top">Gartner<span style="font-size:8px;vertical-align:super;">®</span></span>
+                <div class="footer-gartner-btm">
+                  <span class="footer-gartner-peer">Peer</span>
+                  <span class="footer-gartner-insights">Insights<span class="footer-gartner-tm">™</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="footer-contact">
+              <span class="footer-contact-text">info@nuasecurity.com</span>
+              <span class="footer-contact-text">© 2025 NUA USA.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-watermark">
+          <svg preserveAspectRatio="none" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <g>
+                <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z"/>
+                <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z"/>
+              </g>
+              <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z"/>
+              <g>
+                <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z"/>
+                <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="footer-fade"></div>
+      </div>
+    </footer>
+  </section>
+
+</body>
+</html>
