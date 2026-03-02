@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUA — Effects Foundation</title>
+  <link rel="stylesheet" href="colors.css">
+  <link rel="stylesheet" href="spacing.css">
+  <link rel="stylesheet" href="typography.css">
+  <link rel="stylesheet" href="effects.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-family-primary);
+      background: var(--colors-natural-150);
+      padding: var(--space-40) var(--space-24);
+      color: var(--colors-natural-950);
+    }
+
+    .page { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-40); }
+
+    /* ── Header ── */
+    .ds-header {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170);
+      border-radius: 24px;
+      padding: var(--space-40);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+    .ds-badge {
+      display: inline-flex;
+      background: var(--colors-blue-50);
+      color: var(--colors-blue-600);
+      font-size: var(--font-size-12);
+      font-weight: var(--font-weight-medium);
+      padding: 4px 10px;
+      border-radius: 100px;
+      width: fit-content;
+      margin-bottom: var(--space-4);
+    }
+    .ds-header h1 {
+      font-size: var(--font-size-28);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: -0.56px;
+    }
+    .ds-header p {
+      font-size: var(--font-size-16);
+      color: var(--color-text-caption);
+    }
+
+    /* ── Card ── */
+    .ds-card {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170);
+      border-radius: 24px;
+      padding: var(--space-40);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-32);
+    }
+    .ds-card-title {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-semibold);
+      color: var(--colors-natural-500);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding-bottom: var(--space-16);
+      border-bottom: 1px solid var(--colors-natural-170);
+    }
+
+    /* ── Shadow grid ── */
+    .shadow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: var(--space-32);
+      padding: var(--space-8) var(--space-4);
+    }
+
+    .shadow-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
+    }
+
+    .shadow-box {
+      width: 100%;
+      height: 80px;
+      background: #fff;
+      border-radius: 12px;
+    }
+
+    .shadow-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .shadow-name {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-semibold);
+      color: var(--colors-natural-900);
+    }
+    .shadow-token {
+      font-size: var(--font-size-12);
+      color: var(--colors-natural-400);
+      font-family: monospace;
+    }
+
+    /* ── Blur grid ── */
+    .blur-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: var(--space-24);
+      padding: var(--space-8) var(--space-4);
+    }
+
+    .blur-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-10);
+    }
+
+    .blur-box {
+      width: 100%;
+      height: 64px;
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--colors-blue-200), var(--colors-blue-600));
+    }
+
+    .blur-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.4);
+    }
+
+    .blur-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .blur-name {
+      font-size: var(--font-size-13);
+      font-weight: var(--font-weight-semibold);
+      color: var(--colors-natural-900);
+    }
+    .blur-token {
+      font-size: var(--font-size-12);
+      color: var(--colors-natural-400);
+      font-family: monospace;
+    }
+    .blur-value {
+      font-size: var(--font-size-12);
+      font-weight: var(--font-weight-medium);
+      color: var(--colors-blue-600);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <div class="ds-header">
+      <span class="ds-badge">Foundation</span>
+      <h1>&#10022; Effects</h1>
+      <p>Box shadows and blur values. Link <strong>effects.css</strong> to use <code style="font-family:monospace;font-size:14px;background:var(--colors-natural-150);padding:2px 6px;border-radius:4px;">var(--shadow-*)</code> and <code style="font-family:monospace;font-size:14px;background:var(--colors-natural-150);padding:2px 6px;border-radius:4px;">var(--blur-*)</code> tokens.</p>
+    </div>
+
+    <!-- Box Shadows -->
+    <div class="ds-card">
+      <div class="ds-card-title">Box Shadows</div>
+      <div class="shadow-grid">
+
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow: var(--shadow-xs)"></div>
+          <div class="shadow-meta">
+            <div class="shadow-name">Shadow XS</div>
+            <div class="shadow-token">--shadow-xs</div>
+          </div>
+        </div>
+
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow: var(--shadow-sm)"></div>
+          <div class="shadow-meta">
+            <div class="shadow-name">Shadow SM</div>
+            <div class="shadow-token">--shadow-sm</div>
+          </div>
+        </div>
+
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow: var(--shadow-md)"></div>
+          <div class="shadow-meta">
+            <div class="shadow-name">Shadow MD</div>
+            <div class="shadow-token">--shadow-md</div>
+          </div>
+        </div>
+
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow: var(--shadow-lg)"></div>
+          <div class="shadow-meta">
+            <div class="shadow-name">Shadow LG</div>
+            <div class="shadow-token">--shadow-lg</div>
+          </div>
+        </div>
+
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow: var(--shadow-xl)"></div>
+          <div class="shadow-meta">
+            <div class="shadow-name">Shadow XL</div>
+            <div class="shadow-token">--shadow-xl</div>
+          </div>
+        </div>
+
+        <div class="shadow-item">
+          <div class="shadow-box" style="box-shadow: var(--shadow-2xl)"></div>
+          <div class="shadow-meta">
+            <div class="shadow-name">Shadow 2XL</div>
+            <div class="shadow-token">--shadow-2xl</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Blur Scale -->
+    <div class="ds-card">
+      <div class="ds-card-title">Blur Scale</div>
+      <div class="blur-grid">
+
+        <div class="blur-item">
+          <div class="blur-box"><div class="blur-overlay" style="backdrop-filter: blur(var(--blur-xs))"></div></div>
+          <div class="blur-meta">
+            <div class="blur-name">XS</div>
+            <div class="blur-token">--blur-xs</div>
+            <div class="blur-value">4px</div>
+          </div>
+        </div>
+
+        <div class="blur-item">
+          <div class="blur-box"><div class="blur-overlay" style="backdrop-filter: blur(var(--blur-sm))"></div></div>
+          <div class="blur-meta">
+            <div class="blur-name">SM</div>
+            <div class="blur-token">--blur-sm</div>
+            <div class="blur-value">8px</div>
+          </div>
+        </div>
+
+        <div class="blur-item">
+          <div class="blur-box"><div class="blur-overlay" style="backdrop-filter: blur(var(--blur-md))"></div></div>
+          <div class="blur-meta">
+            <div class="blur-name">MD</div>
+            <div class="blur-token">--blur-md</div>
+            <div class="blur-value">16px</div>
+          </div>
+        </div>
+
+        <div class="blur-item">
+          <div class="blur-box"><div class="blur-overlay" style="backdrop-filter: blur(var(--blur-lg))"></div></div>
+          <div class="blur-meta">
+            <div class="blur-name">LG</div>
+            <div class="blur-token">--blur-lg</div>
+            <div class="blur-value">24px</div>
+          </div>
+        </div>
+
+        <div class="blur-item">
+          <div class="blur-box"><div class="blur-overlay" style="backdrop-filter: blur(var(--blur-xl))"></div></div>
+          <div class="blur-meta">
+            <div class="blur-name">XL</div>
+            <div class="blur-token">--blur-xl</div>
+            <div class="blur-value">32px</div>
+          </div>
+        </div>
+
+        <div class="blur-item">
+          <div class="blur-box"><div class="blur-overlay" style="backdrop-filter: blur(var(--blur-2xl))"></div></div>
+          <div class="blur-meta">
+            <div class="blur-name">2XL</div>
+            <div class="blur-token">--blur-2xl</div>
+            <div class="blur-value">48px</div>
+          </div>
+        </div>
+
+        <div class="blur-item">
+          <div class="blur-box"><div class="blur-overlay" style="backdrop-filter: blur(var(--blur-3xl))"></div></div>
+          <div class="blur-meta">
+            <div class="blur-name">3XL</div>
+            <div class="blur-token">--blur-3xl</div>
+            <div class="blur-value">64px</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

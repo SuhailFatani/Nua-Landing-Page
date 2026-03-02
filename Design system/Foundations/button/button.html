@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUA — Button Foundation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../colors.css">
+  <link rel="stylesheet" href="../spacing.css">
+  <link rel="stylesheet" href="../typography.css">
+  <link rel="stylesheet" href="../borders.css">
+  <link rel="stylesheet" href="../effects.css">
+  <link rel="stylesheet" href="button.css">
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2/dist/iconify-icon.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-family-primary, 'DM Sans', sans-serif);
+      background: var(--colors-natural-150, #f6f6f6);
+      padding: var(--space-40, 40px) var(--space-24, 24px);
+      color: var(--colors-natural-950, #1e1e1e);
+    }
+
+    .page { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-40, 40px); }
+
+    /* ── Header ── */
+    .ds-header {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170, #e8e8e8);
+      border-radius: var(--border-radius-xlg, 20px);
+      padding: var(--space-40, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8, 8px);
+    }
+    .ds-badge {
+      display: inline-flex;
+      background: var(--colors-blue-50, #E8F7FF);
+      color: var(--colors-blue-600, #0C4EFF);
+      font-size: var(--font-size-12, 12px);
+      font-weight: var(--font-weight-medium, 500);
+      padding: 4px 10px;
+      border-radius: var(--border-radius-full, 9999px);
+      width: fit-content;
+      margin-bottom: var(--space-4, 4px);
+    }
+    .ds-header h1 {
+      font-size: var(--font-size-28, 28px);
+      font-weight: var(--font-weight-semibold, 600);
+      letter-spacing: -0.56px;
+    }
+    .ds-header p { font-size: var(--font-size-16, 16px); color: var(--colors-natural-500, #7c7c7c); }
+
+    /* ── Card ── */
+    .ds-card {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170, #e8e8e8);
+      border-radius: var(--border-radius-xlg, 20px);
+      padding: var(--space-40, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-32, 32px);
+    }
+    .ds-card-title {
+      font-size: var(--font-size-14, 14px);
+      font-weight: var(--font-weight-semibold, 600);
+      color: var(--colors-natural-500, #7c7c7c);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding-bottom: var(--space-16, 16px);
+      border-bottom: 1px solid var(--colors-natural-170, #e8e8e8);
+    }
+
+    /* ── Row: flex wrap of buttons ── */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-12, 12px);
+    }
+
+    /* ── Column grid ── */
+    .btn-grid {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: var(--space-16, 16px) var(--space-24, 24px);
+      align-items: center;
+    }
+    .btn-grid-label {
+      font-size: var(--font-size-12, 12px);
+      font-weight: var(--font-weight-medium, 500);
+      color: var(--colors-natural-400, #989898);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    /* ── Code block ── */
+    .code-block {
+      background: var(--colors-natural-950, #1e1e1e);
+      color: var(--colors-natural-100, #fafafa);
+      border-radius: var(--border-radius-sm, 12px);
+      padding: var(--space-20, 20px) var(--space-24, 24px);
+      font-family: monospace;
+      font-size: var(--font-size-13, 13px);
+      line-height: 1.7;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .c-comment { color: #8691AA; }
+    .c-tag     { color: #85C8FF; }
+    .c-attr    { color: #FFC06D; }
+    .c-val     { color: #75E0BA; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Header ── -->
+  <div class="ds-header">
+    <span class="ds-badge">Foundation</span>
+    <h1>&#10022; Button</h1>
+    <p>7 styles · 4 sizes · Leading / Trailing / Icon-only · Dot indicator · Destructive mode · 4 interactive states. All values from <strong>button.css</strong>.</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 1 — Styles (all 7, md size, no icon)
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">Styles — Default state · md size</div>
+
+    <div class="btn-row">
+      <button class="nua-btn nua-btn--md nua-btn--primary">Primary</button>
+      <button class="nua-btn nua-btn--md nua-btn--secondary-color">Secondary color</button>
+      <button class="nua-btn nua-btn--md nua-btn--secondary-gray">Secondary gray</button>
+      <button class="nua-btn nua-btn--md nua-btn--tertiary-color">Tertiary color</button>
+      <button class="nua-btn nua-btn--md nua-btn--tertiary-gray">Tertiary gray</button>
+      <button class="nua-btn nua-btn--md nua-btn--link-color">Link color</button>
+      <button class="nua-btn nua-btn--md nua-btn--link-gray">Link gray</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 2 — Sizes (primary, all 4)
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">Sizes — Primary style</div>
+
+    <div class="btn-grid">
+      <span class="btn-grid-label">sm</span>
+      <div class="btn-row">
+        <button class="nua-btn nua-btn--sm nua-btn--primary">Button</button>
+        <button class="nua-btn nua-btn--sm nua-btn--secondary-color">Button</button>
+        <button class="nua-btn nua-btn--sm nua-btn--secondary-gray">Button</button>
+        <button class="nua-btn nua-btn--sm nua-btn--tertiary-color">Button</button>
+        <button class="nua-btn nua-btn--sm nua-btn--tertiary-gray">Button</button>
+        <button class="nua-btn nua-btn--sm nua-btn--link-color">Button</button>
+        <button class="nua-btn nua-btn--sm nua-btn--link-gray">Button</button>
+      </div>
+
+      <span class="btn-grid-label">md</span>
+      <div class="btn-row">
+        <button class="nua-btn nua-btn--md nua-btn--primary">Button</button>
+        <button class="nua-btn nua-btn--md nua-btn--secondary-color">Button</button>
+        <button class="nua-btn nua-btn--md nua-btn--secondary-gray">Button</button>
+        <button class="nua-btn nua-btn--md nua-btn--tertiary-color">Button</button>
+        <button class="nua-btn nua-btn--md nua-btn--tertiary-gray">Button</button>
+        <button class="nua-btn nua-btn--md nua-btn--link-color">Button</button>
+        <button class="nua-btn nua-btn--md nua-btn--link-gray">Button</button>
+      </div>
+
+      <span class="btn-grid-label">lg</span>
+      <div class="btn-row">
+        <button class="nua-btn nua-btn--lg nua-btn--primary">Button</button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-color">Button</button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-gray">Button</button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-color">Button</button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-gray">Button</button>
+        <button class="nua-btn nua-btn--lg nua-btn--link-color">Button</button>
+        <button class="nua-btn nua-btn--lg nua-btn--link-gray">Button</button>
+      </div>
+
+      <span class="btn-grid-label">xl</span>
+      <div class="btn-row">
+        <button class="nua-btn nua-btn--xl nua-btn--primary">Button</button>
+        <button class="nua-btn nua-btn--xl nua-btn--secondary-color">Button</button>
+        <button class="nua-btn nua-btn--xl nua-btn--secondary-gray">Button</button>
+        <button class="nua-btn nua-btn--xl nua-btn--tertiary-color">Button</button>
+        <button class="nua-btn nua-btn--xl nua-btn--tertiary-gray">Button</button>
+        <button class="nua-btn nua-btn--xl nua-btn--link-color">Button</button>
+        <button class="nua-btn nua-btn--xl nua-btn--link-gray">Button</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 3 — States
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">States — Primary style · lg size</div>
+
+    <div class="btn-grid">
+      <span class="btn-grid-label">Default</span>
+      <div class="btn-row">
+        <button class="nua-btn nua-btn--lg nua-btn--primary">Default</button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-color">Default</button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-gray">Default</button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-color">Default</button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-gray">Default</button>
+        <button class="nua-btn nua-btn--lg nua-btn--link-color">Default</button>
+        <button class="nua-btn nua-btn--lg nua-btn--link-gray">Default</button>
+      </div>
+
+      <span class="btn-grid-label">Hover</span>
+      <div class="btn-row">
+        <!-- Forced hover via inline style for preview -->
+        <button class="nua-btn nua-btn--lg nua-btn--primary" style="background-color:var(--colors-blue-800,#063DCD);border-color:var(--colors-blue-800,#063DCD);">Hover</button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-color" style="background-color:var(--colors-blue-50,#E8F7FF);">Hover</button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-gray" style="background-color:var(--colors-natural-150,#f6f6f6);">Hover</button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-color" style="background-color:var(--colors-blue-100,#D5EFFF);">Hover</button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-gray" style="background-color:var(--colors-natural-200,#dcdcdc);">Hover</button>
+        <button class="nua-btn nua-btn--lg nua-btn--link-color" style="color:var(--colors-blue-800,#063DCD);text-decoration:underline;">Hover</button>
+        <button class="nua-btn nua-btn--lg nua-btn--link-gray" style="color:var(--colors-natural-950,#1e1e1e);text-decoration:underline;">Hover</button>
+      </div>
+
+      <span class="btn-grid-label">Focused</span>
+      <div class="btn-row">
+        <button class="nua-btn nua-btn--lg nua-btn--primary" style="outline:2px solid var(--colors-blue-300,#85C8FF);outline-offset:2px;">Focused</button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-color" style="outline:2px solid var(--colors-blue-300,#85C8FF);outline-offset:2px;">Focused</button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-gray" style="outline:2px solid var(--colors-natural-400,#989898);outline-offset:2px;">Focused</button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-color" style="outline:2px solid var(--colors-blue-300,#85C8FF);outline-offset:2px;">Focused</button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-gray" style="outline:2px solid var(--colors-natural-300,#bdbdbd);outline-offset:2px;">Focused</button>
+        <button class="nua-btn nua-btn--lg nua-btn--link-color" style="outline:2px solid var(--colors-blue-300,#85C8FF);outline-offset:2px;border-radius:2px;">Focused</button>
+        <button class="nua-btn nua-btn--lg nua-btn--link-gray" style="outline:2px solid var(--colors-natural-400,#989898);outline-offset:2px;border-radius:2px;">Focused</button>
+      </div>
+
+      <span class="btn-grid-label">Disabled</span>
+      <div class="btn-row">
+        <button class="nua-btn nua-btn--lg nua-btn--primary nua-btn--disabled" disabled>Disabled</button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-color nua-btn--disabled" disabled>Disabled</button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-gray nua-btn--disabled" disabled>Disabled</button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-color nua-btn--disabled" disabled>Disabled</button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-gray nua-btn--disabled" disabled>Disabled</button>
+        <button class="nua-btn nua-btn--lg nua-btn--link-color nua-btn--disabled" disabled>Disabled</button>
+        <button class="nua-btn nua-btn--lg nua-btn--link-gray nua-btn--disabled" disabled>Disabled</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 4 — Destructive
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">Destructive — All styles · md size</div>
+
+    <div class="btn-row">
+      <button class="nua-btn nua-btn--md nua-btn--primary nua-btn--destructive">Primary</button>
+      <button class="nua-btn nua-btn--md nua-btn--secondary-color nua-btn--destructive">Secondary color</button>
+      <button class="nua-btn nua-btn--md nua-btn--secondary-gray nua-btn--destructive">Secondary gray</button>
+      <button class="nua-btn nua-btn--md nua-btn--tertiary-color nua-btn--destructive">Tertiary color</button>
+      <button class="nua-btn nua-btn--md nua-btn--tertiary-gray nua-btn--destructive">Tertiary gray</button>
+      <button class="nua-btn nua-btn--md nua-btn--link-color nua-btn--destructive">Link color</button>
+      <button class="nua-btn nua-btn--md nua-btn--link-gray nua-btn--destructive">Link gray</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 5 — Icon variants
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">Icon variants</div>
+
+    <div class="btn-grid">
+      <span class="btn-grid-label">Leading</span>
+      <div class="btn-row">
+        <button class="nua-btn nua-btn--lg nua-btn--primary nua-btn--leading">
+          <iconify-icon icon="solar:shield-up-linear"></iconify-icon>
+          Book a demo
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-color nua-btn--leading">
+          <iconify-icon icon="solar:shield-up-linear"></iconify-icon>
+          Book a demo
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-color nua-btn--leading">
+          <iconify-icon icon="solar:shield-up-linear"></iconify-icon>
+          Book a demo
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--link-color nua-btn--leading">
+          <iconify-icon icon="solar:shield-up-linear"></iconify-icon>
+          Book a demo
+        </button>
+      </div>
+
+      <span class="btn-grid-label">Trailing</span>
+      <div class="btn-row">
+        <button class="nua-btn nua-btn--lg nua-btn--primary nua-btn--trailing">
+          Get started
+          <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-color nua-btn--trailing">
+          Get started
+          <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-color nua-btn--trailing">
+          Get started
+          <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--link-color nua-btn--trailing">
+          Get started
+          <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+        </button>
+      </div>
+
+      <span class="btn-grid-label">Icon only</span>
+      <div class="btn-row">
+        <button class="nua-btn nua-btn--sm nua-btn--primary nua-btn--icon-only" aria-label="Add">
+          <iconify-icon icon="solar:add-circle-linear"></iconify-icon>
+        </button>
+        <button class="nua-btn nua-btn--md nua-btn--primary nua-btn--icon-only" aria-label="Add">
+          <iconify-icon icon="solar:add-circle-linear"></iconify-icon>
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--primary nua-btn--icon-only" aria-label="Add">
+          <iconify-icon icon="solar:add-circle-linear"></iconify-icon>
+        </button>
+        <button class="nua-btn nua-btn--xl nua-btn--primary nua-btn--icon-only" aria-label="Add">
+          <iconify-icon icon="solar:add-circle-linear"></iconify-icon>
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-gray nua-btn--icon-only" aria-label="Settings">
+          <iconify-icon icon="solar:settings-linear"></iconify-icon>
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-gray nua-btn--icon-only" aria-label="Filter">
+          <iconify-icon icon="solar:filter-linear"></iconify-icon>
+        </button>
+      </div>
+
+      <span class="btn-grid-label">Dot</span>
+      <div class="btn-row">
+        <button class="nua-btn nua-btn--lg nua-btn--primary">
+          Notifications
+          <span class="nua-btn__dot"></span>
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-color">
+          Notifications
+          <span class="nua-btn__dot"></span>
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--tertiary-color">
+          Notifications
+          <span class="nua-btn__dot"></span>
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--primary nua-btn--icon-only" aria-label="Notifications">
+          <iconify-icon icon="solar:bell-linear"></iconify-icon>
+          <span class="nua-btn__dot"></span>
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--secondary-gray nua-btn--icon-only" aria-label="Notifications">
+          <iconify-icon icon="solar:bell-linear"></iconify-icon>
+          <span class="nua-btn__dot"></span>
+        </button>
+        <button class="nua-btn nua-btn--lg nua-btn--primary nua-btn--icon-only nua-btn--destructive" aria-label="Alert">
+          <iconify-icon icon="solar:bell-linear"></iconify-icon>
+          <span class="nua-btn__dot"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 6 — How to Use
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">How to Use</div>
+
+    <div>
+      <p style="font-size:var(--font-size-14,14px);font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);margin-bottom:12px;">1. Link CSS</p>
+      <div class="code-block"><span class="c-tag">&lt;link</span> <span class="c-attr">rel</span>=<span class="c-val">"stylesheet"</span> <span class="c-attr">href</span>=<span class="c-val">"Design system/Foundations/button/button.css"</span><span class="c-tag">&gt;</span></div>
+    </div>
+
+    <div>
+      <p style="font-size:var(--font-size-14,14px);font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);margin-bottom:12px;">2. Basic buttons</p>
+      <div class="code-block"><span class="c-comment">&lt;!-- Primary · lg --&gt;</span>
+<span class="c-tag">&lt;button</span> <span class="c-attr">class</span>=<span class="c-val">"nua-btn nua-btn--lg nua-btn--primary"</span><span class="c-tag">&gt;</span>Book a demo<span class="c-tag">&lt;/button&gt;</span>
+
+<span class="c-comment">&lt;!-- Secondary color · md --&gt;</span>
+<span class="c-tag">&lt;button</span> <span class="c-attr">class</span>=<span class="c-val">"nua-btn nua-btn--md nua-btn--secondary-color"</span><span class="c-tag">&gt;</span>Learn more<span class="c-tag">&lt;/button&gt;</span>
+
+<span class="c-comment">&lt;!-- Link · sm --&gt;</span>
+<span class="c-tag">&lt;a</span> <span class="c-attr">href</span>=<span class="c-val">"#"</span> <span class="c-attr">class</span>=<span class="c-val">"nua-btn nua-btn--sm nua-btn--link-color"</span><span class="c-tag">&gt;</span>View all<span class="c-tag">&lt;/a&gt;</span></div>
+    </div>
+
+    <div>
+      <p style="font-size:var(--font-size-14,14px);font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);margin-bottom:12px;">3. With icons</p>
+      <div class="code-block"><span class="c-comment">&lt;!-- Leading icon --&gt;</span>
+<span class="c-tag">&lt;button</span> <span class="c-attr">class</span>=<span class="c-val">"nua-btn nua-btn--lg nua-btn--primary"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;iconify-icon</span> <span class="c-attr">icon</span>=<span class="c-val">"solar:arrow-right-linear"</span><span class="c-tag">&gt;&lt;/iconify-icon&gt;</span>
+  Get started
+<span class="c-tag">&lt;/button&gt;</span>
+
+<span class="c-comment">&lt;!-- Trailing icon --&gt;</span>
+<span class="c-tag">&lt;button</span> <span class="c-attr">class</span>=<span class="c-val">"nua-btn nua-btn--lg nua-btn--secondary-color"</span><span class="c-tag">&gt;</span>
+  Learn more
+  <span class="c-tag">&lt;iconify-icon</span> <span class="c-attr">icon</span>=<span class="c-val">"solar:arrow-right-linear"</span><span class="c-tag">&gt;&lt;/iconify-icon&gt;</span>
+<span class="c-tag">&lt;/button&gt;</span>
+
+<span class="c-comment">&lt;!-- Icon only --&gt;</span>
+<span class="c-tag">&lt;button</span> <span class="c-attr">class</span>=<span class="c-val">"nua-btn nua-btn--lg nua-btn--primary nua-btn--icon-only"</span> <span class="c-attr">aria-label</span>=<span class="c-val">"Add"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;iconify-icon</span> <span class="c-attr">icon</span>=<span class="c-val">"solar:add-circle-linear"</span><span class="c-tag">&gt;&lt;/iconify-icon&gt;</span>
+<span class="c-tag">&lt;/button&gt;</span></div>
+    </div>
+
+    <div>
+      <p style="font-size:var(--font-size-14,14px);font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);margin-bottom:12px;">4. Destructive + Dot</p>
+      <div class="code-block"><span class="c-comment">&lt;!-- Destructive --&gt;</span>
+<span class="c-tag">&lt;button</span> <span class="c-attr">class</span>=<span class="c-val">"nua-btn nua-btn--lg nua-btn--primary nua-btn--destructive"</span><span class="c-tag">&gt;</span>Delete<span class="c-tag">&lt;/button&gt;</span>
+
+<span class="c-comment">&lt;!-- Dot indicator (add span inside any button) --&gt;</span>
+<span class="c-tag">&lt;button</span> <span class="c-attr">class</span>=<span class="c-val">"nua-btn nua-btn--lg nua-btn--secondary-color"</span><span class="c-tag">&gt;</span>
+  Alerts
+  <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-val">"nua-btn__dot"</span><span class="c-tag">&gt;&lt;/span&gt;</span>
+<span class="c-tag">&lt;/button&gt;</span>
+
+<span class="c-comment">&lt;!-- Disabled --&gt;</span>
+<span class="c-tag">&lt;button</span> <span class="c-attr">class</span>=<span class="c-val">"nua-btn nua-btn--lg nua-btn--primary"</span> <span class="c-attr">disabled</span><span class="c-tag">&gt;</span>Disabled<span class="c-tag">&lt;/button&gt;</span></div>
+    </div>
+
+    <div>
+      <p style="font-size:var(--font-size-14,14px);font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);margin-bottom:12px;">Class reference</p>
+      <table style="width:100%;border-collapse:collapse;font-size:var(--font-size-13,13px);">
+        <thead>
+          <tr style="border-bottom:2px solid var(--colors-natural-170,#e8e8e8);">
+            <th style="text-align:left;padding:8px 12px;font-weight:600;color:var(--colors-natural-700,#525252);">Category</th>
+            <th style="text-align:left;padding:8px 12px;font-weight:600;color:var(--colors-natural-700,#525252);">Classes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--colors-natural-150,#f6f6f6);">
+            <td style="padding:8px 12px;color:var(--colors-natural-500,#7c7c7c);">Style</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">--primary · --secondary-color · --secondary-gray · --tertiary-color · --tertiary-gray · --link-color · --link-gray</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150,#f6f6f6);">
+            <td style="padding:8px 12px;color:var(--colors-natural-500,#7c7c7c);">Size</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">--sm · --md (default) · --lg · --xl</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150,#f6f6f6);">
+            <td style="padding:8px 12px;color:var(--colors-natural-500,#7c7c7c);">Icon</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">--icon-only (square pad) · --leading / --trailing (order via DOM)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150,#f6f6f6);">
+            <td style="padding:8px 12px;color:var(--colors-natural-500,#7c7c7c);">Modifier</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">--destructive</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;color:var(--colors-natural-500,#7c7c7c);">Dot indicator</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">&lt;span class="nua-btn__dot"&gt;&lt;/span&gt; inside button</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

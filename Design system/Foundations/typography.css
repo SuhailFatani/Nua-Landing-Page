@@ -1,0 +1,190 @@
+/* =============================================================
+   NUA DESIGN SYSTEM — TYPOGRAPHY FOUNDATION
+   Source: Figma / Nua-Design-System-2.0 / Typography
+   Typeface: DM Sans (Google Fonts)
+   ============================================================= */
+
+/* ── Google Font Import ──────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+:root {
+
+  /* ── Font Family ─────────────────────────────────────────── */
+  --font-family-primary: 'DM Sans', sans-serif;
+
+  /* ── Font Weights ────────────────────────────────────────── */
+  --font-weight-light:    300;
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  /* ── Font Sizes ──────────────────────────────────────────── */
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-24: 24px;
+  --font-size-28: 28px;
+  --font-size-32: 32px;
+  --font-size-40: 40px;
+  --font-size-48: 48px;
+
+  /* ── Line Heights (120% scale) ───────────────────────────── */
+  --line-height-12: 15.4px;
+  --line-height-14: 16.8px;
+  --line-height-16: 19.2px;
+  --line-height-18: 21.6px;
+  --line-height-20: 24px;
+  --line-height-24: 28.8px;
+  --line-height-28: 33.6px;
+  --line-height-32: 38.4px;
+  --line-height-40: 48px;
+  --line-height-48: 57.6px;
+
+  /* ── Typography Color Roles ──────────────────────────────── */
+  --color-text-display1:  var(--colors-natural-950, #1E1E1E);
+  --color-text-display2:  var(--colors-natural-950, #1E1E1E);
+  --color-text-display3:  var(--colors-natural-950, #1E1E1E);
+  --color-text-title1:    var(--colors-natural-950, #1E1E1E);
+  --color-text-title2:    var(--colors-natural-950, #1E1E1E);
+  --color-text-title3:    var(--colors-natural-950, #1E1E1E);
+  --color-text-subtitle1: var(--colors-natural-950, #1E1E1E);
+  --color-text-subtitle2: var(--colors-natural-950, #1E1E1E);
+  --color-text-body1:     var(--colors-natural-600, #656565);
+  --color-text-body2:     var(--colors-natural-600, #656565);
+  --color-text-caption:   var(--colors-natural-500, #7C7C7C);
+  --color-text-disabled:  var(--colors-natural-300, #BDBDBD);
+
+}
+
+/* =============================================================
+   TYPOGRAPHY UTILITY CLASSES
+   Usage: <h1 class="text-display1">Heading</h1>
+   ============================================================= */
+
+/* ── Base ────────────────────────────────────────────────────── */
+.text-display1,
+.text-display2,
+.text-display3,
+.text-title1,
+.text-title2,
+.text-title3,
+.text-subtitle1,
+.text-subtitle2,
+.text-body1,
+.text-body2,
+.text-caption,
+.text-disabled {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ── Display 1 — 48px / 57.6 / semibold ─────────────────────── */
+.text-display1 {
+  font-size:   var(--font-size-48);
+  line-height: var(--line-height-48);
+  font-weight: var(--font-weight-semibold);
+  color:       var(--color-text-display1);
+  letter-spacing: -0.96px;
+}
+
+/* ── Display 2 — 40px / 48 / semibold ───────────────────────── */
+.text-display2 {
+  font-size:   var(--font-size-40);
+  line-height: var(--line-height-40);
+  font-weight: var(--font-weight-semibold);
+  color:       var(--color-text-display2);
+  letter-spacing: -0.8px;
+}
+
+/* ── Display 3 — 32px / 38.4 / semibold ─────────────────────── */
+.text-display3 {
+  font-size:   var(--font-size-32);
+  line-height: var(--line-height-32);
+  font-weight: var(--font-weight-semibold);
+  color:       var(--color-text-display3);
+  letter-spacing: -0.64px;
+}
+
+/* ── Title 1 — 28px / 33.6 / semibold ───────────────────────── */
+.text-title1 {
+  font-size:   var(--font-size-28);
+  line-height: var(--line-height-28);
+  font-weight: var(--font-weight-semibold);
+  color:       var(--color-text-title1);
+  letter-spacing: -0.56px;
+}
+
+/* ── Title 2 — 24px / 28.8 / semibold ───────────────────────── */
+.text-title2 {
+  font-size:   var(--font-size-24);
+  line-height: var(--line-height-24);
+  font-weight: var(--font-weight-semibold);
+  color:       var(--color-text-title2);
+  letter-spacing: -0.48px;
+}
+
+/* ── Title 3 — 20px / 24 / semibold ─────────────────────────── */
+.text-title3 {
+  font-size:   var(--font-size-20);
+  line-height: var(--line-height-20);
+  font-weight: var(--font-weight-semibold);
+  color:       var(--color-text-title3);
+  letter-spacing: -0.4px;
+}
+
+/* ── Subtitle 1 — 18px / 21.6 / medium ──────────────────────── */
+.text-subtitle1 {
+  font-size:   var(--font-size-18);
+  line-height: var(--line-height-18);
+  font-weight: var(--font-weight-medium);
+  color:       var(--color-text-subtitle1);
+  letter-spacing: -0.36px;
+}
+
+/* ── Subtitle 2 — 16px / 19.2 / medium ──────────────────────── */
+.text-subtitle2 {
+  font-size:   var(--font-size-16);
+  line-height: var(--line-height-16);
+  font-weight: var(--font-weight-medium);
+  color:       var(--color-text-subtitle2);
+  letter-spacing: -0.32px;
+}
+
+/* ── Body 1 — 14px / 16.8 / regular ─────────────────────────── */
+.text-body1 {
+  font-size:   var(--font-size-14);
+  line-height: var(--line-height-14);
+  font-weight: var(--font-weight-regular);
+  color:       var(--color-text-body1);
+  letter-spacing: -0.28px;
+}
+
+/* ── Body 2 — 12px / 15.4 / regular ─────────────────────────── */
+.text-body2 {
+  font-size:   var(--font-size-12);
+  line-height: var(--line-height-12);
+  font-weight: var(--font-weight-regular);
+  color:       var(--color-text-body2);
+  letter-spacing: -0.24px;
+}
+
+/* ── Caption — 12px / 15.4 / regular ────────────────────────── */
+.text-caption {
+  font-size:   var(--font-size-12);
+  line-height: var(--line-height-12);
+  font-weight: var(--font-weight-regular);
+  color:       var(--color-text-caption);
+  letter-spacing: -0.24px;
+}
+
+/* ── Disabled — 24px / 57.6 / semibold ──────────────────────── */
+.text-disabled {
+  font-size:   var(--font-size-24);
+  line-height: var(--line-height-48);
+  font-weight: var(--font-weight-semibold);
+  color:       var(--color-text-disabled);
+  letter-spacing: -0.48px;
+}

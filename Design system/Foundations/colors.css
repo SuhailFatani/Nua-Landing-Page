@@ -1,0 +1,135 @@
+/* =============================================================
+   NUA DESIGN SYSTEM — COLOR FOUNDATION
+   Source: Figma / Nua-Design-System-2.0 / Colors
+   Usage:  Import this file once and reference via var()
+   ============================================================= */
+
+:root {
+
+  /* ── BLUE ─────────────────────────────────────────────────── */
+  --colors-blue-50:  #E8F7FF;
+  --colors-blue-100: #D5EFFF;
+  --colors-blue-200: #B3E0FF;
+  --colors-blue-300: #85C8FF;
+  --colors-blue-400: #56A2FF;
+  --colors-blue-500: #2F7BFF;
+  --colors-blue-600: #0C4EFF;
+  --colors-blue-700: #0043FF;
+  --colors-blue-800: #063DCD;
+  --colors-blue-900: #103B9F;
+  --colors-blue-950: #0A215C;
+
+  /* ── VULCAN (Blue-Gray / Slate) ───────────────────────────── */
+  --colors-vulcan-50:   #F6F7F9;
+  --colors-vulcan-100:  #ECEEF2;
+  --colors-vulcan-200:  #D5D8E2;
+  --colors-vulcan-300:  #B1B8C8;
+  --colors-vulcan-400:  #8691AA;
+  --colors-vulcan-500:  #677490;
+  --colors-vulcan-600:  #525C77;
+  --colors-vulcan-700:  #434B61;
+  --colors-vulcan-800:  #3A4052;
+  --colors-vulcan-900:  #343846;
+  --colors-vulcan-950:  #181D27;
+  --colors-vulcan-1000: #060D17;
+
+  /* ── NATURAL (Neutral Gray) ───────────────────────────────── */
+  --colors-natural-50:       #FFFFFF;
+  --colors-natural-70:       #FDFDFD;
+  --colors-natural-100:      #FAFAFA;
+  --colors-natural-150:      #F6F6F6;
+  --colors-natural-170:      #E8E8E8;
+  --colors-natural-200:      #DCDCDC;
+  --colors-natural-300:      #BDBDBD;
+  --colors-natural-400:      #989898;
+  --colors-natural-500:      #7C7C7C;
+  --colors-natural-600:      #656565;
+  --colors-natural-700:      #525252;
+  --colors-natural-800:      #464646;
+  --colors-natural-850:      #333333;
+  --colors-natural-900:      #242424;
+  --colors-natural-950:      #1E1E1E;
+  --colors-natural-1000:     #121212;
+  --colors-natural-50-85:    rgba(255, 255, 255, 0.85);
+  --colors-natural-950-85:   rgba(30, 30, 30, 0.85);
+
+  /* ── RED ──────────────────────────────────────────────────── */
+  --colors-red-50:  #FEF2F2;
+  --colors-red-100: #FEE2E2;
+  --colors-red-200: #FFC9C9;
+  --colors-red-300: #FDA4A4;
+  --colors-red-400: #F97070;
+  --colors-red-500: #F03838;
+  --colors-red-600: #DE2424;
+  --colors-red-700: #BB1A1A;
+  --colors-red-800: #9A1A1A;
+  --colors-red-900: #801C1C;
+  --colors-red-950: #580909;
+
+  /* ── ORANGE ───────────────────────────────────────────────── */
+  --colors-orange-50:  #FFF8EC;
+  --colors-orange-100: #FFEFD3;
+  --colors-orange-200: #FFDBA5;
+  --colors-orange-300: #FFC06D;
+  --colors-orange-400: #FF9A32;
+  --colors-orange-500: #FF7B0A;
+  --colors-orange-600: #FA6000;
+  --colors-orange-700: #CC4502;
+  --colors-orange-800: #A1360B;
+  --colors-orange-900: #822F0C;
+  --colors-orange-950: #6E2309;
+
+  /* ── YELLOW ───────────────────────────────────────────────── */
+  --colors-yellow-50:  #FFFAEB;
+  --colors-yellow-100: #FFF7E0;
+  --colors-yellow-200: #FFEFC0;
+  --colors-yellow-300: #FFCC33;
+  --colors-yellow-400: #E6B82E;
+  --colors-yellow-500: #EFB402;
+  --colors-yellow-600: #BF9926;
+  --colors-yellow-700: #997A1F;
+  --colors-yellow-800: #997A1F;
+  --colors-yellow-900: #735C17;
+  --colors-yellow-950: #3E310C;
+
+  /* ── ROSE (Pink) ──────────────────────────────────────────── */
+  --colors-rose-50:  #FEECF0;
+  --colors-rose-100: #FEE2E8;
+  --colors-rose-200: #FCC3D0;
+  --colors-rose-250: #FF597F;
+  --colors-rose-300: #F63D68;
+  --colors-rose-400: #DD375E;
+  --colors-rose-500: #C53153;
+  --colors-rose-600: #B92E4E;
+  --colors-rose-700: #94253E;
+  --colors-rose-800: #6F1B2F;
+  --colors-rose-900: #561524;
+  --colors-rose-950: #290A11;
+
+  /* ── GREEN ────────────────────────────────────────────────── */
+  --colors-green-50:  #EDFCF6;
+  --colors-green-100: #D3F8E6;
+  --colors-green-200: #ABEFD2;
+  --colors-green-300: #75E0BA;
+  --colors-green-400: #3DCA9C;
+  --colors-green-500: #1CC190;
+  --colors-green-600: #0D8E6A;
+  --colors-green-700: #0A7258;
+  --colors-green-800: #0B5A47;
+  --colors-green-900: #0A4A3B;
+  --colors-green-950: #042A22;
+
+  /* ── PURPLE ───────────────────────────────────────────────── */
+  --colors-purple-50:  #F8F4FF;
+  --colors-purple-100: #EDE0FF;
+  --colors-purple-200: #D8BFFF;
+  --colors-purple-300: #B785FF;
+  --colors-purple-400: #9B5CF6;
+  --colors-purple-500: #7C3AED;
+  --colors-purple-600: #6D28D9;
+  --colors-purple-700: #5B21B6;
+  --colors-purple-800: #4C1D95;
+  --colors-purple-900: #3B0764;
+  --colors-purple-950: #2E1065;
+
+}

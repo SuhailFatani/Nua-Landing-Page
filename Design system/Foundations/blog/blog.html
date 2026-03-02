@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUA — Blog Card Foundation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../colors.css">
+  <link rel="stylesheet" href="../spacing.css">
+  <link rel="stylesheet" href="../typography.css">
+  <link rel="stylesheet" href="../borders.css">
+  <link rel="stylesheet" href="blog.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-family-primary, 'DM Sans', sans-serif);
+      background: var(--colors-natural-150, #f6f6f6);
+      padding: var(--space-40, 40px) var(--space-24, 24px);
+      color: var(--colors-natural-950, #1e1e1e);
+    }
+
+    .page { max-width: 960px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-40, 40px); }
+
+    /* ── Header ── */
+    .ds-header {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170, #e8e8e8);
+      border-radius: var(--border-radius-xlg, 20px);
+      padding: var(--space-40, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8, 8px);
+    }
+    .ds-badge {
+      display: inline-flex;
+      background: var(--colors-blue-50, #E8F7FF);
+      color: var(--colors-blue-600, #0C4EFF);
+      font-size: var(--font-size-12, 12px);
+      font-weight: var(--font-weight-medium, 500);
+      padding: 4px 10px;
+      border-radius: var(--border-radius-full, 9999px);
+      width: fit-content;
+      margin-bottom: var(--space-4, 4px);
+    }
+    .ds-header h1 {
+      font-size: var(--font-size-28, 28px);
+      font-weight: var(--font-weight-semibold, 600);
+      letter-spacing: -0.56px;
+    }
+    .ds-header p {
+      font-size: var(--font-size-16, 16px);
+      color: var(--colors-natural-500, #7c7c7c);
+    }
+
+    /* ── Card ── */
+    .ds-card {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170, #e8e8e8);
+      border-radius: var(--border-radius-xlg, 20px);
+      padding: var(--space-40, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-32, 32px);
+    }
+    .ds-card-title {
+      font-size: var(--font-size-14, 14px);
+      font-weight: var(--font-weight-semibold, 600);
+      color: var(--colors-natural-500, #7c7c7c);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding-bottom: var(--space-16, 16px);
+      border-bottom: 1px solid var(--colors-natural-170, #e8e8e8);
+    }
+
+    /* ── Blog grid layout ── */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-24, 24px);
+    }
+    @media (max-width: 767px) {
+      .blog-grid { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 768px) and (max-width: 959px) {
+      .blog-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ── Placeholder image colors for grid ── */
+    .nua-blog__img--alt1 { background: linear-gradient(135deg, #1a2e4a 0%, #060D17 100%); }
+    .nua-blog__img--alt2 { background: linear-gradient(135deg, #1e3a2f 0%, #0a1a14 100%); }
+
+    /* ── Code block ── */
+    .code-block {
+      background: var(--colors-natural-950, #1e1e1e);
+      color: var(--colors-natural-100, #fafafa);
+      border-radius: var(--border-radius-sm, 12px);
+      padding: var(--space-20, 20px) var(--space-24, 24px);
+      font-family: monospace;
+      font-size: var(--font-size-13, 13px);
+      line-height: 1.7;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .c-comment { color: #8691AA; }
+    .c-tag     { color: #85C8FF; }
+    .c-attr    { color: #FFC06D; }
+    .c-val     { color: #75E0BA; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Header ── -->
+  <div class="ds-header">
+    <span class="ds-badge">Foundation</span>
+    <h1>&#10022; Blog Card</h1>
+    <p>Article card with 16:9 image, date, title, and description. Optional tags variant. Styles live in <strong>blog.css</strong> — all values use design tokens.</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 1 — Default (no tags)
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">Default</div>
+
+    <article class="nua-blog" style="max-width:392px;">
+      <div class="nua-blog__img">
+        <img src="https://www.figma.com/api/mcp/asset/29ddf52e-8c41-4b80-95cc-8736d00acffe" alt="Threat Intelligence">
+      </div>
+      <div class="nua-blog__text">
+        <p class="nua-blog__date">April 29, 2026</p>
+        <h2 class="nua-blog__title">Threat Intelligence Sharing Networks: Collaborate To Enhance Collective Security Posture.</h2>
+        <p class="nua-blog__desc">Join forces with industry peers to share insights and bolster defenses against emerging threats.</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 2 — With Tags
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">With Tags</div>
+
+    <article class="nua-blog" style="max-width:392px;">
+      <div class="nua-blog__img">
+        <img src="https://www.figma.com/api/mcp/asset/29ddf52e-8c41-4b80-95cc-8736d00acffe" alt="Threat Intelligence">
+      </div>
+      <div class="nua-blog__text">
+        <p class="nua-blog__date">April 29, 2026</p>
+        <h2 class="nua-blog__title">Threat Intelligence Sharing Networks: Collaborate To Enhance Collective Security Posture.</h2>
+        <p class="nua-blog__desc">Join forces with industry peers to share insights and bolster defenses against emerging threats.</p>
+      </div>
+      <div class="nua-blog__tags">
+        <span class="nua-blog__tag">Collaborative</span>
+        <span class="nua-blog__tag">Proactive</span>
+        <span class="nua-blog__tag">Intelligence</span>
+      </div>
+    </article>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 3 — Grid (3 columns)
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">Grid — 3 Columns</div>
+
+    <div class="blog-grid">
+
+      <article class="nua-blog">
+        <div class="nua-blog__img">
+          <img src="https://www.figma.com/api/mcp/asset/29ddf52e-8c41-4b80-95cc-8736d00acffe" alt="Article 1">
+        </div>
+        <div class="nua-blog__text">
+          <p class="nua-blog__date">April 29, 2026</p>
+          <h2 class="nua-blog__title">Threat Intelligence Sharing Networks: Collaborate To Enhance Security.</h2>
+          <p class="nua-blog__desc">Join forces with industry peers to share insights and bolster defenses.</p>
+        </div>
+        <div class="nua-blog__tags">
+          <span class="nua-blog__tag">Collaborative</span>
+          <span class="nua-blog__tag">Proactive</span>
+        </div>
+      </article>
+
+      <article class="nua-blog">
+        <div class="nua-blog__img nua-blog__img--alt1"></div>
+        <div class="nua-blog__text">
+          <p class="nua-blog__date">March 14, 2026</p>
+          <h2 class="nua-blog__title">Zero-Day Vulnerability Management: Respond Before Attackers Exploit.</h2>
+          <p class="nua-blog__desc">Establish a rapid-response framework for identifying and patching zero-day vulnerabilities.</p>
+        </div>
+        <div class="nua-blog__tags">
+          <span class="nua-blog__tag">Vulnerability</span>
+          <span class="nua-blog__tag">Response</span>
+        </div>
+      </article>
+
+      <article class="nua-blog">
+        <div class="nua-blog__img nua-blog__img--alt2"></div>
+        <div class="nua-blog__text">
+          <p class="nua-blog__date">February 2, 2026</p>
+          <h2 class="nua-blog__title">Red Teaming Best Practices: Simulate Real-World Adversary Tactics.</h2>
+          <p class="nua-blog__desc">Learn how structured red team exercises uncover gaps that automated tools miss.</p>
+        </div>
+        <div class="nua-blog__tags">
+          <span class="nua-blog__tag">Red Team</span>
+          <span class="nua-blog__tag">Simulation</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 4 — How to Use
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">How to Use</div>
+
+    <div>
+      <p style="font-size:var(--font-size-14,14px);font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);margin-bottom:12px;">1. Link the CSS</p>
+      <div class="code-block"><span class="c-tag">&lt;link</span> <span class="c-attr">rel</span>=<span class="c-val">"stylesheet"</span> <span class="c-attr">href</span>=<span class="c-val">"Design system/Foundations/blog/blog.css"</span><span class="c-tag">&gt;</span></div>
+    </div>
+
+    <div>
+      <p style="font-size:var(--font-size-14,14px);font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);margin-bottom:12px;">2. Default card (no tags)</p>
+      <div class="code-block"><span class="c-tag">&lt;article</span> <span class="c-attr">class</span>=<span class="c-val">"nua-blog"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-blog__img"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;img</span> <span class="c-attr">src</span>=<span class="c-val">"image.jpg"</span> <span class="c-attr">alt</span>=<span class="c-val">"..."</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-blog__text"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;p</span> <span class="c-attr">class</span>=<span class="c-val">"nua-blog__date"</span><span class="c-tag">&gt;</span>April 29, 2026<span class="c-tag">&lt;/p&gt;</span>
+    <span class="c-tag">&lt;h2</span> <span class="c-attr">class</span>=<span class="c-val">"nua-blog__title"</span><span class="c-tag">&gt;</span>Article title<span class="c-tag">&lt;/h2&gt;</span>
+    <span class="c-tag">&lt;p</span> <span class="c-attr">class</span>=<span class="c-val">"nua-blog__desc"</span><span class="c-tag">&gt;</span>Short description.<span class="c-tag">&lt;/p&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+<span class="c-tag">&lt;/article&gt;</span></div>
+    </div>
+
+    <div>
+      <p style="font-size:var(--font-size-14,14px);font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);margin-bottom:12px;">3. With Tags</p>
+      <div class="code-block"><span class="c-comment">&lt;!-- Add .nua-blog__tags after .nua-blog__text --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-blog__tags"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-val">"nua-blog__tag"</span><span class="c-tag">&gt;</span>Collaborative<span class="c-tag">&lt;/span&gt;</span>
+  <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-val">"nua-blog__tag"</span><span class="c-tag">&gt;</span>Proactive<span class="c-tag">&lt;/span&gt;</span>
+<span class="c-tag">&lt;/div&gt;</span></div>
+    </div>
+
+    <div>
+      <p style="font-size:var(--font-size-14,14px);font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);margin-bottom:12px;">4. 3-column grid</p>
+      <div class="code-block"><span class="c-tag">&lt;div</span> <span class="c-attr">style</span>=<span class="c-val">"display:grid;grid-template-columns:repeat(3,1fr);gap:24px;"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;article</span> <span class="c-attr">class</span>=<span class="c-val">"nua-blog"</span><span class="c-tag">&gt;</span>...<span class="c-tag">&lt;/article&gt;</span>
+  <span class="c-tag">&lt;article</span> <span class="c-attr">class</span>=<span class="c-val">"nua-blog"</span><span class="c-tag">&gt;</span>...<span class="c-tag">&lt;/article&gt;</span>
+  <span class="c-tag">&lt;article</span> <span class="c-attr">class</span>=<span class="c-val">"nua-blog"</span><span class="c-tag">&gt;</span>...<span class="c-tag">&lt;/article&gt;</span>
+<span class="c-tag">&lt;/div&gt;</span></div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUA — Slider Foundation</title>
+  <link rel="stylesheet" href="../colors.css">
+  <link rel="stylesheet" href="../spacing.css">
+  <link rel="stylesheet" href="../typography.css">
+  <link rel="stylesheet" href="../borders.css">
+  <link rel="stylesheet" href="slider.css">
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2/dist/iconify-icon.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-family-primary);
+      background: var(--colors-natural-150);
+      padding: var(--space-40) var(--space-24);
+      color: var(--colors-natural-950);
+    }
+
+    .page { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-40); }
+
+    /* ── Header ── */
+    .ds-header {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170);
+      border-radius: var(--border-radius-xlg);
+      padding: var(--space-40);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+    .ds-badge {
+      display: inline-flex;
+      background: var(--colors-blue-50);
+      color: var(--colors-blue-600);
+      font-size: var(--font-size-12);
+      font-weight: var(--font-weight-medium);
+      padding: 4px 10px;
+      border-radius: var(--border-radius-full);
+      width: fit-content;
+      margin-bottom: var(--space-4);
+    }
+    .ds-header h1 {
+      font-size: var(--font-size-28);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: -0.56px;
+    }
+    .ds-header p {
+      font-size: var(--font-size-16);
+      color: var(--colors-natural-500);
+    }
+
+    /* ── Card ── */
+    .ds-card {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170);
+      border-radius: var(--border-radius-xlg);
+      padding: var(--space-40);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-32);
+    }
+    .ds-card-title {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-semibold);
+      color: var(--colors-natural-500);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding-bottom: var(--space-16);
+      border-bottom: 1px solid var(--colors-natural-170);
+    }
+
+    /* ── Divider between examples ── */
+    .ds-divider {
+      height: 1px;
+      background: var(--colors-natural-150);
+      margin: 0 calc(-1 * var(--space-40));
+    }
+
+    /* ── Usage code block ── */
+    .code-block {
+      background: var(--colors-natural-950);
+      color: var(--colors-natural-100);
+      border-radius: var(--border-radius-sm);
+      padding: var(--space-20) var(--space-24);
+      font-family: monospace;
+      font-size: var(--font-size-13);
+      line-height: 1.7;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .c-comment { color: #8691AA; }
+    .c-tag     { color: #85C8FF; }
+    .c-attr    { color: #FFC06D; }
+    .c-val     { color: #75E0BA; }
+    .c-str     { color: #A8FF78; }
+
+    /* ── Tooltip ── */
+    .nua-slider__help {
+      position: relative;
+    }
+    .nua-slider__help .tooltip {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border-radius: var(--border-radius-xsm);
+      box-shadow: 0px 10px 14px 0px rgba(10,13,18,0.08), 0px 4px 6px 0px rgba(10,13,18,0.03);
+      padding: var(--space-8) var(--space-12);
+      font-size: var(--font-size-12);
+      font-weight: var(--font-weight-medium);
+      color: var(--colors-natural-950);
+      white-space: normal;
+      max-width: 260px;
+      text-align: center;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .nua-slider__help .tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #fff;
+    }
+    .nua-slider__help:hover .tooltip { display: block; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="ds-header">
+    <span class="ds-badge">Foundation</span>
+    <h1>&#10022; Slider</h1>
+    <p>Range input with label, live value, tick marks, and error state. Styled using design tokens — all values update from <strong>slider.css</strong>.</p>
+  </div>
+
+  <!-- Default state -->
+  <div class="ds-card">
+    <div class="ds-card-title">Default</div>
+
+    <div class="nua-slider" id="slider-default">
+      <div class="nua-slider__header">
+        <div class="nua-slider__label">
+          Max duration
+          <span class="nua-slider__help">
+            <iconify-icon icon="solar:question-circle-linear" style="font-size:14px;color:var(--colors-natural-400)"></iconify-icon>
+            <div class="tooltip">Set a maximum duration for Shax to run. This helps you control costs and keep tests within your operational window.</div>
+          </span>
+        </div>
+        <span class="nua-slider__value" id="val-default">8 hours</span>
+      </div>
+      <input
+        type="range"
+        class="nua-slider__input"
+        id="input-default"
+        min="1" max="8" value="8"
+        oninput="updateSlider('input-default','val-default', v => v + ' hours')"
+      >
+      <div class="nua-slider__ticks">
+        <span>1</span><span>2</span><span>3</span><span>4</span>
+        <span>5</span><span>6</span><span>7</span><span>8</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- With Error -->
+  <div class="ds-card">
+    <div class="ds-card-title">With Error</div>
+
+    <div class="nua-slider" id="slider-error">
+      <div class="nua-slider__header">
+        <div class="nua-slider__label">
+          Max duration
+          <span class="nua-slider__help">
+            <iconify-icon icon="solar:question-circle-linear" style="font-size:14px;color:var(--colors-natural-400)"></iconify-icon>
+            <div class="tooltip">Set a maximum duration for Shax to run.</div>
+          </span>
+        </div>
+        <span class="nua-slider__value" id="val-error">5 hours</span>
+      </div>
+      <input
+        type="range"
+        class="nua-slider__input"
+        id="input-error"
+        min="1" max="8" value="5"
+        oninput="updateSlider('input-error','val-error', v => v + ' hours')"
+      >
+      <div class="nua-slider__ticks">
+        <span>1</span><span>2</span><span>3</span><span>4</span>
+        <span>5</span><span>6</span><span>7</span><span>8</span>
+      </div>
+      <div class="nua-slider__error">
+        <iconify-icon icon="solar:letter-linear"></iconify-icon>
+        <span>Invalid Credentials</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Custom range: 0–100 % -->
+  <div class="ds-card">
+    <div class="ds-card-title">Custom Range (0–100%)</div>
+
+    <div class="nua-slider" id="slider-pct">
+      <div class="nua-slider__header">
+        <div class="nua-slider__label">
+          Volume
+          <span class="nua-slider__help">
+            <iconify-icon icon="solar:question-circle-linear" style="font-size:14px;color:var(--colors-natural-400)"></iconify-icon>
+            <div class="tooltip">Adjust the output volume level.</div>
+          </span>
+        </div>
+        <span class="nua-slider__value" id="val-pct">75%</span>
+      </div>
+      <input
+        type="range"
+        class="nua-slider__input"
+        id="input-pct"
+        min="0" max="100" value="75"
+        oninput="updateSlider('input-pct','val-pct', v => v + '%')"
+      >
+      <div class="nua-slider__ticks">
+        <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Disabled -->
+  <div class="ds-card">
+    <div class="ds-card-title">Disabled</div>
+
+    <div class="nua-slider nua-slider--disabled" id="slider-disabled">
+      <div class="nua-slider__header">
+        <div class="nua-slider__label">
+          Max duration
+        </div>
+        <span class="nua-slider__value">4 hours</span>
+      </div>
+      <input
+        type="range"
+        class="nua-slider__input"
+        min="1" max="8" value="4"
+        disabled
+      >
+      <div class="nua-slider__ticks">
+        <span>1</span><span>2</span><span>3</span><span>4</span>
+        <span>5</span><span>6</span><span>7</span><span>8</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Usage code -->
+  <div class="ds-card">
+    <div class="ds-card-title">How to Use</div>
+    <div class="code-block"><span class="c-comment">&lt;!-- 1. Link the CSS --&gt;</span>
+<span class="c-tag">&lt;link</span> <span class="c-attr">rel</span>=<span class="c-val">"stylesheet"</span> <span class="c-attr">href</span>=<span class="c-val">"Design system/Foundations/slider/slider.css"</span><span class="c-tag">&gt;</span>
+
+<span class="c-comment">&lt;!-- 2. HTML structure --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-slider"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-slider__header"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-slider__label"</span><span class="c-tag">&gt;</span>Label<span class="c-tag">&lt;/div&gt;</span>
+    <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-val">"nua-slider__value"</span><span class="c-tag">&gt;</span>8 hours<span class="c-tag">&lt;/span&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+  <span class="c-tag">&lt;input</span> <span class="c-attr">type</span>=<span class="c-val">"range"</span> <span class="c-attr">class</span>=<span class="c-val">"nua-slider__input"</span>
+         <span class="c-attr">min</span>=<span class="c-val">"1"</span> <span class="c-attr">max</span>=<span class="c-val">"8"</span> <span class="c-attr">value</span>=<span class="c-val">"8"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-slider__ticks"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;span&gt;</span>1<span class="c-tag">&lt;/span&gt;</span>...<span class="c-tag">&lt;span&gt;</span>8<span class="c-tag">&lt;/span&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+  <span class="c-comment">&lt;!-- optional error --&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-slider__error"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;iconify-icon</span> <span class="c-attr">icon</span>=<span class="c-val">"solar:letter-linear"</span><span class="c-tag">&gt;&lt;/iconify-icon&gt;</span>
+    <span class="c-tag">&lt;span&gt;</span>Error message<span class="c-tag">&lt;/span&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+<span class="c-tag">&lt;/div&gt;</span>
+
+<span class="c-comment">&lt;!-- 3. JS: live fill + value update --&gt;</span>
+<span class="c-tag">&lt;script&gt;</span>
+  <span class="c-str">function</span> updateSlider(inputId, valueId, fmt) {
+    <span class="c-str">const</span> el = document.getElementById(inputId);
+    <span class="c-str">const</span> pct = (el.value - el.min) / (el.max - el.min) * 100;
+    el.style.setProperty(<span class="c-val">'--_fill'</span>, pct + <span class="c-val">'%'</span>);
+    document.getElementById(valueId).textContent = fmt(el.value);
+  }
+  <span class="c-comment">// Init all sliders on load</span>
+  document.querySelectorAll(<span class="c-val">'.nua-slider__input'</span>).forEach(el => {
+    <span class="c-str">const</span> pct = (el.value - el.min) / (el.max - el.min) * 100;
+    el.style.setProperty(<span class="c-val">'--_fill'</span>, pct + <span class="c-val">'%'</span>);
+  });
+<span class="c-tag">&lt;/script&gt;</span></div>
+  </div>
+
+</div>
+
+<script>
+  function updateSlider(inputId, valueId, fmt) {
+    const el = document.getElementById(inputId);
+    const pct = (el.value - el.min) / (el.max - el.min) * 100;
+    el.style.setProperty('--_fill', pct + '%');
+    document.getElementById(valueId).textContent = fmt(Number(el.value));
+  }
+
+  // Init fill on all sliders
+  document.querySelectorAll('.nua-slider__input').forEach(el => {
+    const pct = (el.value - el.min) / (el.max - el.min) * 100;
+    el.style.setProperty('--_fill', pct + '%');
+  });
+</script>
+</body>
+</html>

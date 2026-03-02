@@ -7,6 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../Design system/Foundations/colors.css">
+  <link rel="stylesheet" href="../Design system/Foundations/spacing.css">
+  <link rel="stylesheet" href="../Design system/Foundations/typography.css">
+  <link rel="stylesheet" href="../Design system/Foundations/blog/blog.css">
   <style>
     /* ===== RESET ===== */
     *, *::before, *::after {
@@ -320,7 +324,7 @@
     }
 
     .blog-featured-img {
-      width: 598px;
+      width: 546px;
       height: 370px;
       flex-shrink: 0;
       border-radius: var(--border-radius-2xsm);
@@ -410,8 +414,12 @@
       transition: transform 0.4s ease;
     }
 
-    .blog-card:hover .blog-card-img img {
+    .blog-card:hover .nua-blog__img img {
       transform: scale(1.02);
+    }
+
+    .nua-blog__img img {
+      transition: transform 0.4s ease;
     }
 
     .blog-card-content {
@@ -1138,7 +1146,7 @@
       <!-- Featured Article -->
       <a href="blog-post.html" class="blog-featured">
         <div class="blog-featured-img">
-          <img src="assets/146ce381899b9dce8a1669a9f25ca5119ba92069.png" alt="A New Chapter: Introducing Nua">
+          <img src="../Design system/Assets/146ce381899b9dce8a1669a9f25ca5119ba92069.png" alt="A New Chapter: Introducing Nua">
         </div>
         <div class="blog-featured-text">
           <p class="blog-featured-date">April 29, 2025</p>
@@ -1153,138 +1161,156 @@
         <!-- Row 1 -->
         <div class="blog-grid-row">
           <a href="#" class="blog-card">
-            <div class="blog-card-img">
-              <img src="assets/5a060a639f4b4614e53778c560c4f2bcf9b638e0.png" alt="Meet Us At RSA 2025">
-            </div>
-            <div class="blog-card-content">
-              <p class="blog-card-date">April 29, 2025</p>
-              <h3 class="blog-card-title">Meet Us At RSA 2025</h3>
-              <p class="blog-card-desc">We're thrilled to announce that Nua will be exhibiting at RSA Conference 2025, one of the world's leading cybersecurity events.</p>
-            </div>
-            <div class="blog-card-tags">
-              <span class="blog-tag">Conference</span>
-              <span class="blog-tag">Events</span>
-            </div>
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/5a060a639f4b4614e53778c560c4f2bcf9b638e0.png" alt="Meet Us At RSA 2025">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 29, 2025</p>
+                <h3 class="nua-blog__title">Meet Us At RSA 2025</h3>
+                <p class="nua-blog__desc">We're thrilled to announce that Nua will be exhibiting at RSA Conference 2025, one of the world's leading cybersecurity events.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Conference</span>
+                <span class="nua-blog__tag">Events</span>
+              </div>
+            </article>
           </a>
           <a href="#" class="blog-card">
-            <div class="blog-card-img">
-              <img src="assets/c05e62af7403a0af392ad5b8e2d82fc1fec78374.png" alt="Threat Intelligence Sharing Networks">
-            </div>
-            <div class="blog-card-content">
-              <p class="blog-card-date">April 28, 2025</p>
-              <h3 class="blog-card-title">Threat Intelligence Sharing Networks: Collaborate To Enhance Collective Security Posture.</h3>
-              <p class="blog-card-desc">Join forces with industry peers to share insights and bolster defenses against emerging threats.</p>
-            </div>
-            <div class="blog-card-tags">
-              <span class="blog-tag">Collaborative</span>
-              <span class="blog-tag">Proactive</span>
-            </div>
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/c05e62af7403a0af392ad5b8e2d82fc1fec78374.png" alt="Threat Intelligence Sharing Networks">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 28, 2025</p>
+                <h3 class="nua-blog__title">Threat Intelligence Sharing Networks: Collaborate To Enhance Collective Security Posture.</h3>
+                <p class="nua-blog__desc">Join forces with industry peers to share insights and bolster defenses against emerging threats.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Collaborative</span>
+                <span class="nua-blog__tag">Proactive</span>
+              </div>
+            </article>
           </a>
           <a href="#" class="blog-card">
-            <div class="blog-card-img">
-              <img src="assets/c05e62af7403a0af392ad5b8e2d82fc1fec78374.png" alt="AI-Driven Vulnerability Management">
-            </div>
-            <div class="blog-card-content">
-              <p class="blog-card-date">April 28, 2025</p>
-              <h3 class="blog-card-title">AI-Driven Vulnerability Management: From Detection To Remediation</h3>
-              <p class="blog-card-desc">Explore how artificial intelligence is revolutionizing the way organizations detect, prioritize, and fix security vulnerabilities.</p>
-            </div>
-            <div class="blog-card-tags">
-              <span class="blog-tag">AI</span>
-              <span class="blog-tag">Intelligence</span>
-            </div>
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/e6cfed6b423c2947e0a943e5de9143925f9edf36.png" alt="AI-Driven Vulnerability Management">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 28, 2025</p>
+                <h3 class="nua-blog__title">AI-Driven Vulnerability Management: From Detection To Remediation</h3>
+                <p class="nua-blog__desc">Explore how artificial intelligence is revolutionizing the way organizations detect, prioritize, and fix security vulnerabilities.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">AI</span>
+                <span class="nua-blog__tag">Intelligence</span>
+              </div>
+            </article>
           </a>
         </div>
 
         <!-- Row 2 -->
         <div class="blog-grid-row">
           <a href="#" class="blog-card">
-            <div class="blog-card-img">
-              <img src="assets/c05e62af7403a0af392ad5b8e2d82fc1fec78374.png" alt="Zero Trust Architecture">
-            </div>
-            <div class="blog-card-content">
-              <p class="blog-card-date">April 25, 2025</p>
-              <h3 class="blog-card-title">Zero Trust Architecture: A Practical Guide For Modern Enterprises</h3>
-              <p class="blog-card-desc">Learn the core principles and implementation strategies for zero trust security in today's distributed environment.</p>
-            </div>
-            <div class="blog-card-tags">
-              <span class="blog-tag">Architecture</span>
-              <span class="blog-tag">Enterprise</span>
-            </div>
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/3f3296de4406e2af35edfd92ac1665d3418dd227.png" alt="Zero Trust Architecture">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 25, 2025</p>
+                <h3 class="nua-blog__title">Zero Trust Architecture: A Practical Guide For Modern Enterprises</h3>
+                <p class="nua-blog__desc">Learn the core principles and implementation strategies for zero trust security in today's distributed environment.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Architecture</span>
+                <span class="nua-blog__tag">Enterprise</span>
+              </div>
+            </article>
           </a>
           <a href="#" class="blog-card">
-            <div class="blog-card-img">
-              <img src="assets/c05e62af7403a0af392ad5b8e2d82fc1fec78374.png" alt="Cloud Security Posture Management">
-            </div>
-            <div class="blog-card-content">
-              <p class="blog-card-date">April 22, 2025</p>
-              <h3 class="blog-card-title">Cloud Security Posture Management: Why It Matters More Than Ever</h3>
-              <p class="blog-card-desc">As organizations accelerate cloud adoption, CSPM becomes critical for maintaining visibility and compliance across multi-cloud environments.</p>
-            </div>
-            <div class="blog-card-tags">
-              <span class="blog-tag">Cloud</span>
-              <span class="blog-tag">Compliance</span>
-            </div>
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/420ba4d1d0702517e83b6c683281d751667fcba1.png" alt="Cloud Security Posture Management">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 22, 2025</p>
+                <h3 class="nua-blog__title">Cloud Security Posture Management: Why It Matters More Than Ever</h3>
+                <p class="nua-blog__desc">As organizations accelerate cloud adoption, CSPM becomes critical for maintaining visibility and compliance across multi-cloud environments.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Cloud</span>
+                <span class="nua-blog__tag">Compliance</span>
+              </div>
+            </article>
           </a>
           <a href="#" class="blog-card">
-            <div class="blog-card-img">
-              <img src="assets/c05e62af7403a0af392ad5b8e2d82fc1fec78374.png" alt="The Rise of Digital Security Employees">
-            </div>
-            <div class="blog-card-content">
-              <p class="blog-card-date">April 20, 2025</p>
-              <h3 class="blog-card-title">The Rise Of Digital Security Employees: Automating The SOC</h3>
-              <p class="blog-card-desc">Discover how AI-powered digital employees are transforming security operations centers and reducing response times.</p>
-            </div>
-            <div class="blog-card-tags">
-              <span class="blog-tag">Automation</span>
-              <span class="blog-tag">SOC</span>
-            </div>
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/7ff63ec425136fb2b0338e2b875eb77626dedfba.png" alt="The Rise of Digital Security Employees">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 20, 2025</p>
+                <h3 class="nua-blog__title">The Rise Of Digital Security Employees: Automating The SOC</h3>
+                <p class="nua-blog__desc">Discover how AI-powered digital employees are transforming security operations centers and reducing response times.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Automation</span>
+                <span class="nua-blog__tag">SOC</span>
+              </div>
+            </article>
           </a>
         </div>
 
         <!-- Row 3 -->
         <div class="blog-grid-row">
           <a href="#" class="blog-card">
-            <div class="blog-card-img">
-              <img src="assets/c05e62af7403a0af392ad5b8e2d82fc1fec78374.png" alt="Red Team Operations">
-            </div>
-            <div class="blog-card-content">
-              <p class="blog-card-date">April 18, 2025</p>
-              <h3 class="blog-card-title">Red Team Operations: How Offensive Security Strengthens Your Defenses</h3>
-              <p class="blog-card-desc">Learn how simulated attacks help organizations identify blind spots and improve their overall security posture.</p>
-            </div>
-            <div class="blog-card-tags">
-              <span class="blog-tag">Red Team</span>
-              <span class="blog-tag">Offensive</span>
-            </div>
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/2ced93aa26ba03f6786e739abfbac2654ba8d116.png" alt="Red Team Operations">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 18, 2025</p>
+                <h3 class="nua-blog__title">Red Team Operations: How Offensive Security Strengthens Your Defenses</h3>
+                <p class="nua-blog__desc">Learn how simulated attacks help organizations identify blind spots and improve their overall security posture.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Red Team</span>
+                <span class="nua-blog__tag">Offensive</span>
+              </div>
+            </article>
           </a>
           <a href="#" class="blog-card">
-            <div class="blog-card-img">
-              <img src="assets/c05e62af7403a0af392ad5b8e2d82fc1fec78374.png" alt="Penetration Testing Best Practices">
-            </div>
-            <div class="blog-card-content">
-              <p class="blog-card-date">April 15, 2025</p>
-              <h3 class="blog-card-title">Penetration Testing Best Practices For Cloud-Native Applications</h3>
-              <p class="blog-card-desc">A comprehensive guide to testing the security of containerized and serverless applications in modern cloud environments.</p>
-            </div>
-            <div class="blog-card-tags">
-              <span class="blog-tag">Pentesting</span>
-              <span class="blog-tag">Cloud Native</span>
-            </div>
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/c05e62af7403a0af392ad5b8e2d82fc1fec78374.png" alt="Penetration Testing Best Practices">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 15, 2025</p>
+                <h3 class="nua-blog__title">Penetration Testing Best Practices For Cloud-Native Applications</h3>
+                <p class="nua-blog__desc">A comprehensive guide to testing the security of containerized and serverless applications in modern cloud environments.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Pentesting</span>
+                <span class="nua-blog__tag">Cloud Native</span>
+              </div>
+            </article>
           </a>
           <a href="#" class="blog-card">
-            <div class="blog-card-img">
-              <img src="assets/c05e62af7403a0af392ad5b8e2d82fc1fec78374.png" alt="Supply Chain Security">
-            </div>
-            <div class="blog-card-content">
-              <p class="blog-card-date">April 12, 2025</p>
-              <h3 class="blog-card-title">Supply Chain Security: Protecting Your Software Pipeline End To End</h3>
-              <p class="blog-card-desc">Understand the growing threat landscape around software supply chains and strategies to secure every link in the chain.</p>
-            </div>
-            <div class="blog-card-tags">
-              <span class="blog-tag">Supply Chain</span>
-              <span class="blog-tag">DevSecOps</span>
-            </div>
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/3f3296de4406e2af35edfd92ac1665d3418dd227.png" alt="Supply Chain Security">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 12, 2025</p>
+                <h3 class="nua-blog__title">Supply Chain Security: Protecting Your Software Pipeline End To End</h3>
+                <p class="nua-blog__desc">Understand the growing threat landscape around software supply chains and strategies to secure every link in the chain.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Supply Chain</span>
+                <span class="nua-blog__tag">DevSecOps</span>
+              </div>
+            </article>
           </a>
         </div>
       </div>

@@ -1,0 +1,177 @@
+/* =============================================================
+   NUA DESIGN SYSTEM — SLIDER FOUNDATION
+   Source: Figma / Nua-Design-System-2.0 / node 12736-101959
+   Usage:
+     <div class="nua-slider">
+       <div class="nua-slider__header">
+         <div class="nua-slider__label">
+           Label text
+           <span class="nua-slider__help">...</span>
+         </div>
+         <span class="nua-slider__value">8 hours</span>
+       </div>
+       <input type="range" class="nua-slider__input" min="1" max="8" value="8">
+       <div class="nua-slider__ticks">
+         <span>1</span><span>2</span>...<span>8</span>
+       </div>
+       <!-- optional error -->
+       <div class="nua-slider__error">
+         <iconify-icon icon="solar:letter-linear"></iconify-icon>
+         <span>Error message</span>
+       </div>
+     </div>
+   ============================================================= */
+
+/* ── Wrapper ─────────────────────────────────────────────────── */
+.nua-slider {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  width: 100%;
+}
+
+/* ── Header row (label + current value) ──────────────────────── */
+.nua-slider__header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.nua-slider__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  color: var(--colors-natural-950);
+  line-height: var(--line-height-14);
+  letter-spacing: 0.07px;
+  flex-shrink: 0;
+}
+
+/* Help tooltip icon */
+.nua-slider__help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  color: var(--colors-natural-400);
+  cursor: pointer;
+  flex-shrink: 0;
+  font-size: var(--font-size-14);
+}
+
+.nua-slider__value {
+  flex: 1;
+  text-align: right;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-regular);
+  color: var(--colors-natural-500);
+  line-height: var(--line-height-14);
+  letter-spacing: 0.07px;
+  white-space: nowrap;
+}
+
+/* ── Track (input[type=range]) ───────────────────────────────── */
+.nua-slider__input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+
+  /* Fill gradient — updated via JS with --_fill custom property */
+  background: linear-gradient(
+    to right,
+    var(--colors-blue-500) 0%,
+    var(--colors-blue-500) var(--_fill, 100%),
+    var(--colors-natural-150) var(--_fill, 100%),
+    var(--colors-natural-150) 100%
+  );
+
+  border: none;
+  padding: 0;
+  margin: 5px 0;   /* vertical room for thumb */
+}
+
+/* Thumb — webkit */
+.nua-slider__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--border-radius-full);
+  background: var(--colors-natural-50, #fff);
+  border: 1.5px solid var(--colors-blue-500);
+  cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.10);
+  transition: box-shadow 0.15s;
+}
+
+.nua-slider__input::-webkit-slider-thumb:hover,
+.nua-slider__input:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 5px rgba(47, 123, 255, 0.15);
+}
+
+/* Thumb — Firefox */
+.nua-slider__input::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--border-radius-full);
+  background: var(--colors-natural-50, #fff);
+  border: 1.5px solid var(--colors-blue-500);
+  cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(47, 123, 255, 0.10);
+  transition: box-shadow 0.15s;
+}
+
+/* ── Tick labels ──────────────────────────────────────────────── */
+.nua-slider__ticks {
+  display: flex;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-regular);
+  color: var(--colors-natural-300);
+  line-height: var(--line-height-14);
+  letter-spacing: 0.07px;
+  width: 100%;
+}
+
+.nua-slider__ticks span {
+  flex: 1;
+  text-align: center;
+}
+
+/* ── Error state ─────────────────────────────────────────────── */
+.nua-slider__error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-regular);
+  color: var(--colors-red-500);
+  line-height: var(--line-height-14);
+}
+
+.nua-slider__error iconify-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+  color: var(--colors-red-500);
+}
+
+.nua-slider__error--hidden {
+  display: none;
+}
+
+/* ── Disabled state ──────────────────────────────────────────── */
+.nua-slider--disabled .nua-slider__input {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.nua-slider--disabled .nua-slider__label,
+.nua-slider--disabled .nua-slider__value {
+  color: var(--colors-natural-300);
+}

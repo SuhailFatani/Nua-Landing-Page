@@ -1,0 +1,64 @@
+/* =============================================================
+   NUA DESIGN SYSTEM — EFFECTS FOUNDATION
+   Source: Figma / Nua-Design-System-2.0 / Effects
+   Tokens: effects.* → --blur-* (backdrop-filter blur values)
+           Semantic shadows composed from blur scale
+   ============================================================= */
+
+:root {
+
+  /* ── Blur scale (raw values from token: effects.*)  ────────
+     Usage: backdrop-filter: blur(var(--blur-md));
+     ─────────────────────────────────────────────────────── */
+
+  --blur-0:   0px;
+  --blur-1:   1px;
+  --blur-2:   2px;
+  --blur-3:   3px;
+  --blur-4:   4px;
+  --blur-6:   6px;
+  --blur-8:   8px;
+  --blur-10:  10px;
+  --blur-12:  12px;
+  --blur-14:  14px;
+  --blur-16:  16px;
+  --blur-18:  18px;
+  --blur-20:  20px;
+  --blur-22:  22px;
+  --blur-24:  24px;
+  --blur-32:  32px;
+  --blur-48:  48px;
+  --blur-64:  64px;
+
+  /* ── Semantic blur aliases ─────────────────────────────────
+     Usage: backdrop-filter: blur(var(--blur-xs));
+     ─────────────────────────────────────────────────────── */
+
+  --blur-xs:   var(--blur-4);
+  --blur-sm:   var(--blur-8);
+  --blur-md:   var(--blur-16);
+  --blur-lg:   var(--blur-24);
+  --blur-xl:   var(--blur-32);
+  --blur-2xl:  var(--blur-48);
+  --blur-3xl:  var(--blur-64);
+
+  /* ── Box Shadows ───────────────────────────────────────────
+     Composed using the blur scale and natural color palette.
+     Usage: box-shadow: var(--shadow-sm);
+     ─────────────────────────────────────────────────────── */
+
+  --shadow-xs:  0px 1px 2px 0px rgba(10, 13, 20, 0.06);
+  --shadow-sm:  0px 1px 4px 0px rgba(10, 13, 20, 0.06), 0px 2px 6px 0px rgba(10, 13, 20, 0.04);
+  --shadow-md:  0px 2px 8px 0px rgba(10, 13, 20, 0.08), 0px 4px 12px 0px rgba(10, 13, 20, 0.06);
+  --shadow-lg:  0px 4px 16px 0px rgba(10, 13, 20, 0.10), 0px 8px 24px 0px rgba(10, 13, 20, 0.06);
+  --shadow-xl:  0px 8px 24px 0px rgba(10, 13, 20, 0.12), 0px 16px 32px 0px rgba(10, 13, 20, 0.08);
+  --shadow-2xl: 0px 16px 48px 0px rgba(10, 13, 20, 0.14), 0px 24px 64px 0px rgba(10, 13, 20, 0.10);
+
+  /* ── Inset / Inner shadows ─────────────────────────────────
+     Usage: box-shadow: var(--shadow-inset-sm);
+     ─────────────────────────────────────────────────────── */
+
+  --shadow-inset-sm: inset 0px 1px 2px 0px rgba(10, 13, 20, 0.08);
+  --shadow-inset-md: inset 0px 2px 4px 0px rgba(10, 13, 20, 0.10);
+
+}

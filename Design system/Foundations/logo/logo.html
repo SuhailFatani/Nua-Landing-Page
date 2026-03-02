@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUA — Logo Foundation</title>
+  <link rel="stylesheet" href="../colors.css">
+  <link rel="stylesheet" href="../spacing.css">
+  <link rel="stylesheet" href="../typography.css">
+  <link rel="stylesheet" href="logo.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-family-primary);
+      background: var(--colors-natural-150, #F6F6F6);
+      padding: var(--space-40) var(--space-24);
+      color: var(--colors-natural-950);
+    }
+
+    .page { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-40); }
+
+    /* ── Header ── */
+    .ds-header {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170);
+      border-radius: 24px;
+      padding: var(--space-40);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+    .ds-badge {
+      display: inline-flex;
+      align-items: center;
+      background: var(--colors-blue-50);
+      color: var(--colors-blue-600);
+      font-size: var(--font-size-12);
+      font-weight: var(--font-weight-medium);
+      padding: 4px 10px;
+      border-radius: 100px;
+      width: fit-content;
+      margin-bottom: var(--space-4);
+    }
+    .ds-header h1 {
+      font-size: var(--font-size-28);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: -0.56px;
+    }
+    .ds-header p {
+      font-size: var(--font-size-16);
+      color: var(--color-text-caption);
+      line-height: var(--line-height-16);
+    }
+
+    /* ── Card ── */
+    .ds-card {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170);
+      border-radius: 24px;
+      padding: var(--space-40);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-32);
+    }
+    .ds-card-title {
+      font-size: var(--font-size-16);
+      font-weight: var(--font-weight-semibold);
+      color: var(--colors-natural-500);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding-bottom: var(--space-16);
+      border-bottom: 1px solid var(--colors-natural-170);
+    }
+
+    /* ── Logo rows ── */
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-32);
+      padding: var(--space-24) 0;
+      border-bottom: 1px solid var(--colors-natural-170);
+      flex-wrap: wrap;
+    }
+    .logo-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .logo-meta {
+      min-width: 200px;
+      flex-shrink: 0;
+    }
+    .logo-meta .label {
+      font-size: var(--font-size-12);
+      font-weight: var(--font-weight-medium);
+      color: var(--colors-natural-400);
+      font-family: monospace;
+      margin-bottom: var(--space-4);
+    }
+    .logo-meta .desc {
+      font-size: var(--font-size-12);
+      color: var(--color-text-caption);
+    }
+
+    /* ── Preview areas ── */
+    .preview-light {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--colors-natural-50);
+      border: 1px solid var(--colors-natural-170);
+      border-radius: 12px;
+      padding: var(--space-24) var(--space-32);
+      flex: 1;
+      min-height: 80px;
+    }
+
+    .preview-dark {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--colors-vulcan-1000, #060D17);
+      border-radius: 12px;
+      padding: var(--space-24) var(--space-32);
+      flex: 1;
+      min-height: 80px;
+    }
+
+    /* ── Logomark grid ── */
+    .mark-grid {
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      gap: var(--space-24);
+      align-items: end;
+    }
+
+    .mark-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-8);
+    }
+
+    .mark-label {
+      font-size: var(--font-size-12);
+      color: var(--color-text-caption);
+      font-weight: var(--font-weight-medium);
+      text-align: center;
+    }
+
+    /* ── Usage code ── */
+    .code-block {
+      background: var(--colors-natural-150);
+      border-radius: 8px;
+      padding: var(--space-16) var(--space-20);
+      font-family: monospace;
+      font-size: var(--font-size-12);
+      color: var(--colors-natural-800);
+      line-height: 1.6;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <div class="ds-header">
+      <span class="ds-badge">Foundation</span>
+      <h1>❖ Brand Logo</h1>
+      <p>Replace these logos with your brand logo to update all components in this design system. Two SVG files — <strong>nua-wordmark.svg</strong> and <strong>nua-mark.svg</strong> — control all logo appearances via CSS.</p>
+    </div>
+
+    <!-- Wordmark -->
+    <div class="ds-card">
+      <div class="ds-card-title">Wordmark</div>
+
+      <!-- Dark on light -->
+      <div class="logo-row">
+        <div class="logo-meta">
+          <div class="label">nua-wordmark--dark</div>
+          <div class="desc">Dark mark · Light background</div>
+        </div>
+        <div class="preview-light">
+          <div class="nua-logo">
+            <img src="nua-wordmark.svg" alt="NUA" style="height:24px; --logo-color:#1E1E1E;">
+          </div>
+        </div>
+        <div class="preview-light" style="background:var(--colors-natural-150)">
+          <div class="nua-logo">
+            <img src="nua-wordmark.svg" alt="NUA" style="height:24px; --logo-color:#1E1E1E;">
+          </div>
+        </div>
+      </div>
+
+      <!-- Light on dark -->
+      <div class="logo-row">
+        <div class="logo-meta">
+          <div class="label">nua-wordmark--light</div>
+          <div class="desc">Light mark · Dark background</div>
+        </div>
+        <div class="preview-dark">
+          <div class="nua-logo">
+            <img src="nua-wordmark.svg" alt="NUA" class="nua-wordmark--light" style="height:24px;">
+          </div>
+        </div>
+        <div class="preview-dark" style="background:var(--colors-vulcan-800)">
+          <div class="nua-logo">
+            <img src="nua-wordmark.svg" alt="NUA" class="nua-wordmark--light" style="height:24px;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logomark -->
+    <div class="ds-card">
+      <div class="ds-card-title">Logomark — All Variants</div>
+
+      <div class="mark-grid">
+
+        <!-- Light sm -->
+        <div class="mark-item">
+          <div class="nua-logomark nua-logomark--sm nua-logomark--light">
+            <img src="nua-mark.svg" alt="NUA mark">
+          </div>
+          <div class="mark-label">Light · Small<br>50×50px · r8</div>
+        </div>
+
+        <!-- Dark sm -->
+        <div class="mark-item">
+          <div class="nua-logomark nua-logomark--sm nua-logomark--dark">
+            <img src="nua-mark.svg" alt="NUA mark">
+          </div>
+          <div class="mark-label">Dark · Small<br>50×50px · r12</div>
+        </div>
+
+        <!-- Light lg -->
+        <div class="mark-item">
+          <div class="nua-logomark nua-logomark--lg nua-logomark--light">
+            <img src="nua-mark.svg" alt="NUA mark">
+          </div>
+          <div class="mark-label">Light · Large<br>100×100px · r24</div>
+        </div>
+
+        <!-- Dark lg -->
+        <div class="mark-item">
+          <div class="nua-logomark nua-logomark--lg nua-logomark--dark">
+            <img src="nua-mark.svg" alt="NUA mark">
+          </div>
+          <div class="mark-label">Dark · Large<br>100×100px · r24</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Usage -->
+    <div class="ds-card">
+      <div class="ds-card-title">How to Use</div>
+
+      <div style="display:flex; flex-direction:column; gap: var(--space-16)">
+
+        <div>
+          <p style="font-size:var(--font-size-14);font-weight:var(--font-weight-medium);margin-bottom:8px;">Wordmark (dark)</p>
+          <div class="code-block">&lt;!-- Link the CSS --&gt;
+&lt;link rel="stylesheet" href="Design system/Foundations/logo/logo.css"&gt;
+
+&lt;!-- Use the wordmark --&gt;
+&lt;img class="nua-wordmark" src="logo/nua-wordmark.svg" alt="NUA"&gt;</div>
+        </div>
+
+        <div>
+          <p style="font-size:var(--font-size-14);font-weight:var(--font-weight-medium);margin-bottom:8px;">Wordmark (light — on dark bg)</p>
+          <div class="code-block">&lt;img class="nua-wordmark nua-wordmark--light" src="logo/nua-wordmark.svg" alt="NUA"&gt;</div>
+        </div>
+
+        <div>
+          <p style="font-size:var(--font-size-14);font-weight:var(--font-weight-medium);margin-bottom:8px;">Logomark</p>
+          <div class="code-block">&lt;!-- Light background, small --&gt;
+&lt;div class="nua-logomark nua-logomark--sm nua-logomark--light"&gt;
+  &lt;img src="logo/nua-mark.svg" alt="NUA"&gt;
+&lt;/div&gt;
+
+&lt;!-- Dark background, large --&gt;
+&lt;div class="nua-logomark nua-logomark--lg nua-logomark--dark"&gt;
+  &lt;img src="logo/nua-mark.svg" alt="NUA"&gt;
+&lt;/div&gt;</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

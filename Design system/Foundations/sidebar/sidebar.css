@@ -1,0 +1,186 @@
+/* =============================================================
+   NUA DESIGN SYSTEM — SIDEBAR FOUNDATION
+   Sources: Figma / Nua-Design-System-2.0
+            node 9617-31527  (Button Sidebar component)
+            node 11021-48268 (Sidebar layouts)
+
+   Variants:
+     .nua-sidebar              — Default (icon-stacked, centred)
+     .nua-sidebar--settings    — Settings (icon-inline, left-aligned)
+
+   Button states:
+     .nua-sidebar__btn            — default
+     .nua-sidebar__btn:hover      — hover
+     .nua-sidebar__btn--active    — active (bg highlight on icon)
+   ============================================================= */
+
+/* ── Root ────────────────────────────────────────────────── */
+.nua-sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-32, 32px) var(--space-14, 14px);
+  height: 544px;
+  box-sizing: border-box;
+}
+
+/* ── Settings variant ────────────────────────────────────── */
+.nua-sidebar--settings {
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--space-12, 12px);
+  min-width: 148px;
+  max-width: 148px;
+  border-right: var(--border-stroke-xsm, 1px) solid var(--colors-natural-170, #e8e8e8);
+  height: auto;
+}
+
+/* ── Logo ────────────────────────────────────────────────── */
+.nua-sidebar__logo {
+  width: 54px;
+  height: 16px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.nua-sidebar__logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+.nua-sidebar__logo svg path {
+  fill: var(--colors-natural-950, #1e1e1e);
+}
+
+/* ── Top group (logo + nav) ──────────────────────────────── */
+.nua-sidebar__top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-58, 58px);
+  flex-shrink: 0;
+}
+
+/* ── Nav list ────────────────────────────────────────────── */
+.nua-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-18, 18px);
+  align-items: center;
+  width: 78px;
+}
+
+.nua-sidebar--settings .nua-sidebar__nav {
+  align-items: flex-start;
+  width: 100%;
+  gap: var(--space-18, 18px);
+}
+
+/* ── Section label (settings variant) ───────────────────── */
+.nua-sidebar__section-label {
+  font-family: var(--font-family-primary, 'DM Sans', sans-serif);
+  font-size: var(--font-size-12, 12px);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1.28;
+  color: var(--colors-natural-400, #989898);
+  white-space: nowrap;
+  font-variation-settings: 'opsz' 9;
+}
+
+/* ── Button ──────────────────────────────────────────────── */
+.nua-sidebar__btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4, 4px);
+  width: 100%;
+  cursor: pointer;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.nua-sidebar--settings .nua-sidebar__btn {
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+/* ── Icon wrapper ────────────────────────────────────────── */
+.nua-sidebar__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4, 4px);
+  border-radius: var(--border-radius-2xsm, 4px);
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.nua-sidebar--settings .nua-sidebar__icon {
+  padding: 4px;
+  border-radius: 3px;
+}
+
+/* ── Icon (iconify) ──────────────────────────────────────── */
+.nua-sidebar__icon iconify-icon {
+  font-size: 20px;
+  color: var(--colors-natural-400, #989898);
+  transition: color 0.15s ease;
+  display: block;
+}
+
+.nua-sidebar--settings .nua-sidebar__icon iconify-icon {
+  font-size: 16px;
+}
+
+/* Bold icon hidden by default, shown when active */
+.nua-sidebar__icon .icon-active {
+  display: none;
+}
+
+/* ── Text label ──────────────────────────────────────────── */
+.nua-sidebar__text {
+  font-family: var(--font-family-primary, 'DM Sans', sans-serif);
+  font-size: var(--font-size-12, 12px);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: 1.28;
+  color: var(--colors-natural-400, #989898);
+  text-align: center;
+  white-space: nowrap;
+  font-variation-settings: 'opsz' 14;
+  transition: color 0.15s ease;
+}
+
+.nua-sidebar--settings .nua-sidebar__text {
+  text-align: left;
+}
+
+/* ── Hover ───────────────────────────────────────────────── */
+.nua-sidebar__btn:hover .nua-sidebar__icon iconify-icon {
+  color: var(--colors-natural-600, #656565);
+}
+
+.nua-sidebar__btn:hover .nua-sidebar__text {
+  color: var(--colors-natural-600, #656565);
+}
+
+/* ── Active ──────────────────────────────────────────────── */
+.nua-sidebar__btn--active .nua-sidebar__icon {
+  background: var(--colors-natural-150, #f6f6f6);
+}
+
+.nua-sidebar__btn--active .nua-sidebar__icon .icon-default {
+  display: none;
+}
+
+.nua-sidebar__btn--active .nua-sidebar__icon .icon-active {
+  display: block;
+  color: var(--colors-natural-900, #242424);
+}
+
+.nua-sidebar__btn--active .nua-sidebar__text {
+  color: var(--colors-natural-900, #242424);
+}

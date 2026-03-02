@@ -1,0 +1,76 @@
+/* =============================================================
+   NUA DESIGN SYSTEM — ICONS FOUNDATION
+   Source:  Figma / Nua-Design-System-2.0 / Icons
+   Library: Solar Icons (via Iconify CDN)
+   CDN:     https://cdn.jsdelivr.net/npm/iconify-icon@2/dist/iconify-icon.min.js
+
+   Styles available per icon:
+     linear · bold · outline · broken · line-duotone · bold-duotone
+
+   Usage:
+     <iconify-icon icon="solar:home-linear"></iconify-icon>
+     <iconify-icon icon="solar:home-bold"></iconify-icon>
+     <iconify-icon class="icon-sm" icon="solar:add-circle-linear"></iconify-icon>
+   ============================================================= */
+
+/* ── Size tokens ─────────────────────────────────────────────── */
+:root {
+  --icon-size-xs:  12px;   /* extra small — inline labels       */
+  --icon-size-sm:  16px;   /* small — compact UI, chips         */
+  --icon-size-md:  20px;   /* medium — buttons, inputs          */
+  --icon-size-lg:  24px;   /* large — default (matches Figma)   */
+  --icon-size-xl:  32px;   /* extra large — feature icons       */
+  --icon-size-2xl: 40px;   /* 2xl — section headers             */
+  --icon-size-3xl: 48px;   /* 3xl — empty states, hero          */
+}
+
+/* ── Base icon element ───────────────────────────────────────── */
+iconify-icon,
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width:  var(--icon-size-lg);
+  height: var(--icon-size-lg);
+  font-size: var(--icon-size-lg);
+  color: currentColor;
+  line-height: 1;
+}
+
+/* ── Size modifiers ──────────────────────────────────────────── */
+.icon-xs  { width: var(--icon-size-xs);  height: var(--icon-size-xs);  font-size: var(--icon-size-xs);  }
+.icon-sm  { width: var(--icon-size-sm);  height: var(--icon-size-sm);  font-size: var(--icon-size-sm);  }
+.icon-md  { width: var(--icon-size-md);  height: var(--icon-size-md);  font-size: var(--icon-size-md);  }
+.icon-lg  { width: var(--icon-size-lg);  height: var(--icon-size-lg);  font-size: var(--icon-size-lg);  }
+.icon-xl  { width: var(--icon-size-xl);  height: var(--icon-size-xl);  font-size: var(--icon-size-xl);  }
+.icon-2xl { width: var(--icon-size-2xl); height: var(--icon-size-2xl); font-size: var(--icon-size-2xl); }
+.icon-3xl { width: var(--icon-size-3xl); height: var(--icon-size-3xl); font-size: var(--icon-size-3xl); }
+
+/* ── Color helpers ───────────────────────────────────────────── */
+.icon-primary  { color: var(--colors-blue-600,   #0C4EFF); }
+.icon-secondary{ color: var(--colors-orange-500, #FF7B0A); }
+.icon-success  { color: var(--colors-green-600,  #0D8E6A); }
+.icon-warning  { color: var(--colors-yellow-500, #EFB402); }
+.icon-danger   { color: var(--colors-red-500,    #F03838); }
+.icon-muted    { color: var(--colors-natural-400, #989898); }
+.icon-subtle   { color: var(--colors-natural-300, #BDBDBD); }
+.icon-white    { color: var(--colors-natural-50,  #FFFFFF); }
+
+/* ── Icon container (background pill/circle) ─────────────────── */
+.icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-xsm, 8px);
+  padding: var(--space-8, 8px);
+  background: var(--colors-natural-150, #F6F6F6);
+  color: var(--colors-natural-800, #464646);
+  flex-shrink: 0;
+}
+
+.icon-wrap--circle  { border-radius: 50%; }
+.icon-wrap--primary { background: var(--colors-blue-50, #E8F7FF);   color: var(--colors-blue-600, #0C4EFF); }
+.icon-wrap--success { background: var(--colors-green-50, #EDFCF6);  color: var(--colors-green-600, #0D8E6A); }
+.icon-wrap--warning { background: var(--colors-yellow-50, #FFFAEB); color: var(--colors-yellow-600, #BF9926); }
+.icon-wrap--danger  { background: var(--colors-red-50, #FEF2F2);    color: var(--colors-red-500, #F03838); }

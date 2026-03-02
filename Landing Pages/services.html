@@ -303,133 +303,6 @@
       text-transform: capitalize;
     }
 
-    /* ===== LOGO COMPANIES SECTION (Light Theme) ===== */
-    .svc-logos-section {
-      width: 100%;
-      background: var(--color-natural-50);
-      padding: 0;
-    }
-
-    .svc-logos-bar {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      max-width: 1280px;
-      margin: 0 auto;
-      height: 100px;
-      position: relative;
-      overflow: hidden;
-      background: unset;
-      border-radius: var(--border-radius-xsm);
-      padding: 0;
-    }
-
-    .svc-logos-text {
-      flex-shrink: 0;
-      width: 264px;
-      z-index: 2;
-      padding-left: var(--space-20);
-    }
-
-    .svc-logos-text h3 {
-      font-size: var(--font-size-16);
-      font-weight: var(--font-weight-light);
-      line-height: var(--font-line-height-for20);
-      color: var(--color-display);
-      opacity: 0.65;
-    }
-
-    .svc-logos-marquee-wrapper {
-      flex: 1;
-      overflow: hidden;
-      position: relative;
-      height: 68px;
-      display: flex;
-      align-items: center;
-      margin-left: 40px;
-    }
-
-    .svc-logos-marquee-wrapper::before,
-    .svc-logos-marquee-wrapper::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 80px;
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    .svc-logos-marquee-wrapper::before {
-      left: 0;
-      background: linear-gradient(to right, #FFFFFF, transparent);
-    }
-
-    .svc-logos-marquee-wrapper::after {
-      right: 0;
-      background: linear-gradient(to left, #FFFFFF, transparent);
-    }
-
-    .svc-logos-track {
-      display: flex;
-      align-items: center;
-      gap: 60px;
-      animation: scroll-logos 20s linear infinite;
-      white-space: nowrap;
-    }
-
-    @keyframes scroll-logos {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    .svc-logo-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-      opacity: 0.45;
-    }
-
-    .svc-logo-item svg,
-    .svc-logo-item img {
-      height: 28px;
-      width: auto;
-      filter: grayscale(100%) brightness(0) invert(62%) sepia(5%) saturate(10%) hue-rotate(345deg) brightness(92%) contrast(87%);
-      opacity: 1;
-      transition: filter 0.3s ease;
-    }
-
-    .svc-logo-item img:hover {
-      filter: none;
-      opacity: 1;
-    }
-
-    .svc-logo-item span {
-      font-family: var(--font-family-primary);
-      font-size: 15px;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-display);
-      white-space: nowrap;
-    }
-
-    .svc-logo-zid { font-size: 28px !important; font-weight: 700 !important; letter-spacing: 2px; }
-    .svc-logo-iot { font-size: 26px !important; font-weight: 700 !important; }
-    .svc-logo-iot sup { font-size: 14px; vertical-align: super; }
-    .svc-logo-jahez { font-size: 32px !important; font-weight: 800 !important; font-style: italic; }
-    .svc-logo-zatca { display: flex; align-items: center; gap: 8px; }
-    .svc-logo-zatca-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(30, 30, 30, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .svc-logo-zatca-text { font-size: 13px !important; font-weight: 500 !important; }
-    .svc-logo-stc { font-size: 30px !important; font-weight: 700 !important; letter-spacing: 1px; }
-
     /* ===== WHY NUA SECTION ===== */
     .why-nua-section {
       width: 100%;
@@ -1143,24 +1016,6 @@
         padding-top: 0;
       }
 
-      .svc-logos-bar {
-        flex-direction: column;
-        align-items: flex-start;
-        height: auto;
-        padding: 16px var(--space-20);
-        gap: 16px;
-      }
-
-      .svc-logos-text {
-        width: 100%;
-        padding-left: 0;
-      }
-
-      .svc-logos-marquee-wrapper {
-        margin-left: 0;
-        width: 100%;
-      }
-
       .why-nua-heading {
         font-size: 32px;
         line-height: 38.4px;
@@ -1498,44 +1353,7 @@
   </section>
 
   <!-- ===== LOGO COMPANIES SECTION ===== -->
-  <section class="svc-logos-section reveal">
-    <div class="svc-logos-bar">
-      <div class="svc-logos-text">
-        <h3>Powering Offensive Security For Industry Leaders</h3>
-      </div>
-      <div class="svc-logos-marquee-wrapper">
-        <div class="svc-logos-track">
-          <!-- First set -->
-          <div class="svc-logo-item"><img src="assets/Zid.svg" alt="Zid"></div>
-          <div class="svc-logo-item"><img src="assets/IOT.svg" alt="IOT"></div>
-          <div class="svc-logo-item"><img src="assets/Jahez.svg" alt="Jahez"></div>
-          <div class="svc-logo-item"><img src="assets/Zakat.svg" alt="Zakat, Tax and Customs Authority"></div>
-          <div class="svc-logo-item"><img src="assets/STC.svg" alt="stc"></div>
-          <div class="svc-logo-item"><img src="assets/Qiddiya.svg" alt="Qiddiya"></div>
-          <div class="svc-logo-item"><img src="assets/Tamara.svg" alt="Tamara"></div>
-          <div class="svc-logo-item"><img src="assets/Ministry of sport.svg" alt="Ministry of Sport"></div>
-          <div class="svc-logo-item"><img src="assets/Elm.svg" alt="Elm"></div>
-          <div class="svc-logo-item"><img src="assets/AlibabaCloud.svg" alt="Alibaba Cloud"></div>
-          <div class="svc-logo-item"><img src="assets/MoEnergy.svg" alt="Ministry of Energy"></div>
-          <div class="svc-logo-item"><img src="assets/FGS.svg" alt="FGS Global"></div>
-
-          <!-- Duplicate set -->
-          <div class="svc-logo-item"><img src="assets/Zid.svg" alt="Zid"></div>
-          <div class="svc-logo-item"><img src="assets/IOT.svg" alt="IOT"></div>
-          <div class="svc-logo-item"><img src="assets/Jahez.svg" alt="Jahez"></div>
-          <div class="svc-logo-item"><img src="assets/Zakat.svg" alt="Zakat, Tax and Customs Authority"></div>
-          <div class="svc-logo-item"><img src="assets/STC.svg" alt="stc"></div>
-          <div class="svc-logo-item"><img src="assets/Qiddiya.svg" alt="Qiddiya"></div>
-          <div class="svc-logo-item"><img src="assets/Tamara.svg" alt="Tamara"></div>
-          <div class="svc-logo-item"><img src="assets/Ministry of sport.svg" alt="Ministry of Sport"></div>
-          <div class="svc-logo-item"><img src="assets/Elm.svg" alt="Elm"></div>
-          <div class="svc-logo-item"><img src="assets/AlibabaCloud.svg" alt="Alibaba Cloud"></div>
-          <div class="svc-logo-item"><img src="assets/MoEnergy.svg" alt="Ministry of Energy"></div>
-          <div class="svc-logo-item"><img src="assets/FGS.svg" alt="FGS Global"></div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <div id="logo-marquee" style="width: 100%;" data-theme="light"></div>
 
   <!-- ===== WHY NUA SECTION ===== -->
   <section class="why-nua-section reveal">
@@ -1955,5 +1773,6 @@
     }
   </script>
 
+  <script src="../Components/Logos/Company logos loop.js"></script>
 </body>
 </html>

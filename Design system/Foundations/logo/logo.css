@@ -1,0 +1,111 @@
+/* =============================================================
+   NUA DESIGN SYSTEM — LOGO FOUNDATION
+   Source: Figma / Nua-Design-System-2.0 / Brand logo
+   Files:  nua-wordmark.svg  · nua-mark.svg
+   ============================================================= */
+
+/* ── Wordmark ─────────────────────────────────────────────────
+   Usage:
+     <img class="nua-wordmark" src="logo/nua-wordmark.svg" alt="NUA">
+     <img class="nua-wordmark nua-wordmark--light" src="logo/nua-wordmark.svg" alt="NUA">
+   ─────────────────────────────────────────────────────────── */
+
+.nua-wordmark {
+  display: block;
+  height: 24px;
+  width: auto;
+  --logo-color: var(--colors-natural-950, #1E1E1E);
+}
+
+/* On dark backgrounds — pass white via CSS variable */
+.nua-wordmark--light {
+  --logo-color: var(--colors-natural-50, #FFFFFF);
+  filter: brightness(0) invert(1);   /* fallback for <img> tags */
+}
+
+
+/* ── Logomark container ───────────────────────────────────────
+   Usage:
+     <div class="nua-logomark">
+       <img src="logo/nua-mark.svg" alt="NUA">
+     </div>
+
+   Variants:
+     .nua-logomark--sm      → 50px  (default)
+     .nua-logomark--lg      → 100px
+     .nua-logomark--dark    → dark bg, white mark (for dark UI)
+     .nua-logomark--light   → white bg, dark mark (default)
+   ─────────────────────────────────────────────────────────── */
+
+.nua-logomark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  /* Default: light bg, dark mark, small */
+  width: 50px;
+  height: 50px;
+  border-radius: var(--border-radius-xsm, 8px);
+  background: var(--colors-natural-50, #FFFFFF);
+}
+
+.nua-logomark img {
+  width: 63%;
+  height: auto;
+  display: block;
+  --logo-color: var(--colors-natural-950, #1E1E1E);
+}
+
+/* ── Size variants ── */
+.nua-logomark--sm {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--border-radius-xsm, 8px);
+}
+
+.nua-logomark--lg {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--border-radius-xlg, 24px);
+}
+
+/* ── Color variants ── */
+.nua-logomark--light {
+  background: var(--colors-natural-50, #FFFFFF);
+}
+
+.nua-logomark--light img {
+  --logo-color: var(--colors-natural-950, #1E1E1E);
+  filter: none;
+}
+
+.nua-logomark--dark {
+  background: var(--colors-natural-950, #1E1E1E);
+}
+
+.nua-logomark--dark img {
+  --logo-color: var(--colors-natural-50, #FFFFFF);
+  filter: brightness(0) invert(1);
+}
+
+
+/* ── Inline logo (wordmark + optional mark) ───────────────────
+   Usage:
+     <div class="nua-logo">
+       <img src="logo/nua-wordmark.svg" alt="NUA">
+     </div>
+   ─────────────────────────────────────────────────────────── */
+
+.nua-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8, 8px);
+}
+
+.nua-logo img {
+  display: block;
+  height: 24px;
+  width: auto;
+}

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUA — Footer Foundation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../colors.css">
+  <link rel="stylesheet" href="../spacing.css">
+  <link rel="stylesheet" href="../typography.css">
+  <link rel="stylesheet" href="../borders.css">
+  <link rel="stylesheet" href="../effects.css">
+  <link rel="stylesheet" href="footer.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-family-primary);
+      background: var(--colors-natural-150);
+      padding: var(--space-40) var(--space-24);
+      color: var(--colors-natural-950);
+    }
+
+    .page { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-40); }
+
+    /* ── Header ── */
+    .ds-header {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170);
+      border-radius: var(--border-radius-xlg);
+      padding: var(--space-40);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+    .ds-badge {
+      display: inline-flex;
+      background: var(--colors-blue-50);
+      color: var(--colors-blue-600);
+      font-size: var(--font-size-12);
+      font-weight: var(--font-weight-medium);
+      padding: 4px 10px;
+      border-radius: var(--border-radius-full);
+      width: fit-content;
+      margin-bottom: var(--space-4);
+    }
+    .ds-header h1 {
+      font-size: var(--font-size-28);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: -0.56px;
+    }
+    .ds-header p {
+      font-size: var(--font-size-16);
+      color: var(--colors-natural-500);
+    }
+
+    /* ── Card ── */
+    .ds-card {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170);
+      border-radius: var(--border-radius-xlg);
+      padding: var(--space-40);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-32);
+    }
+    .ds-card-title {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-semibold);
+      color: var(--colors-natural-500);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding-bottom: var(--space-16);
+      border-bottom: 1px solid var(--colors-natural-170);
+    }
+
+    /* ── Component card: no padding on the preview area ── */
+    .ds-card--component .component-preview {
+      margin: 0 calc(-1 * var(--space-40));
+      overflow: hidden;
+    }
+    .ds-card--component .component-preview:first-of-type {
+      border-radius: 0 0 var(--border-radius-xlg) var(--border-radius-xlg);
+    }
+
+    /* ── Usage code block ── */
+    .code-block {
+      background: var(--colors-natural-950);
+      color: var(--colors-natural-100);
+      border-radius: var(--border-radius-sm);
+      padding: var(--space-20) var(--space-24);
+      font-family: monospace;
+      font-size: var(--font-size-13);
+      line-height: 1.7;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .c-comment { color: #8691AA; }
+    .c-tag     { color: #85C8FF; }
+    .c-attr    { color: #FFC06D; }
+    .c-val     { color: #75E0BA; }
+    .c-str     { color: #A8FF78; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="ds-header">
+    <span class="ds-badge">Foundation</span>
+    <h1>&#10022; Footer</h1>
+    <p>Two variants: a raw <strong>BEM/CSS token</strong> footer (<code style="font-family:monospace;font-size:14px;background:var(--colors-natural-150);padding:2px 6px;border-radius:4px;">footer.css</code>) and the self-contained <strong>CTA + Footer JS component</strong> (<code style="font-family:monospace;font-size:14px;background:var(--colors-natural-150);padding:2px 6px;border-radius:4px;">Cta footer.js</code>). Both are responsive and require no framework.</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 1 — Static BEM Footer (footer.css)
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">Footer — Static (BEM + Tokens)</div>
+
+    <footer class="nua-footer">
+      <div class="nua-footer__inner">
+        <div class="nua-footer__content">
+
+          <!-- Links row -->
+          <div class="nua-footer__links-row">
+
+            <!-- Left: logo + social -->
+            <div class="nua-footer__brand">
+              <a href="#" class="nua-footer__logo" aria-label="NUA Home">
+                <svg preserveAspectRatio="none" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z" fill="white"/>
+                  <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z" fill="white"/>
+                  <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z" fill="white"/>
+                  <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z" fill="white"/>
+                  <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z" fill="white"/>
+                </svg>
+              </a>
+              <div class="nua-footer__social">
+                <a href="https://x.com/Nuasecurity" target="_blank" rel="noopener noreferrer" class="nua-footer__social-icon" aria-label="X (Twitter)">
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.27 1.59h2.97l-6.49 7.42 7.63 10.09h-5.98l-4.68-6.13-5.36 6.13H.39l6.94-7.93L0 1.59h6.13l4.23 5.6 4.91-5.6Zm-1.04 15.72h1.64L5.88 3.27H4.12l10.11 14.04Z" fill="white"/>
+                  </svg>
+                </a>
+                <a href="https://www.linkedin.com/company/nuasecurity/" target="_blank" rel="noopener noreferrer" class="nua-footer__social-icon" aria-label="LinkedIn">
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.52 0H1.48C.66 0 0 .645 0 1.44v17.12C0 19.355.66 20 1.48 20h17.04c.82 0 1.48-.645 1.48-1.44V1.44C20 .645 19.34 0 18.52 0ZM5.93 17.04H2.96V7.5h2.97v9.54ZM4.45 6.2a1.72 1.72 0 110-3.44 1.72 1.72 0 010 3.44Zm12.59 10.84h-2.97v-4.64c0-1.11-.02-2.53-1.54-2.53-1.54 0-1.78 1.2-1.78 2.45v4.72H7.78V7.5h2.85v1.3h.04c.4-.75 1.37-1.54 2.81-1.54 3.01 0 3.56 1.98 3.56 4.55v5.23Z" fill="white"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Right: nav columns -->
+            <div class="nua-footer__nav">
+              <div class="nua-footer__nav-col">
+                <span class="nua-footer__nav-label">Links</span>
+                <a href="#" class="nua-footer__nav-link">Company</a>
+                <a href="#" class="nua-footer__nav-link">Services</a>
+                <a href="#" class="nua-footer__nav-link">Pricing</a>
+                <a href="#" class="nua-footer__nav-link">Career</a>
+              </div>
+              <div class="nua-footer__nav-col">
+                <span class="nua-footer__nav-label">Resources</span>
+                <a href="#" class="nua-footer__nav-link">Blogs</a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom row -->
+          <div class="nua-footer__bottom">
+            <div class="nua-footer__badges">
+              <!-- ISO badge -->
+              <div class="nua-footer__iso">
+                <span class="nua-footer__iso-top">ISO</span>
+                <span class="nua-footer__iso-btm">27001</span>
+              </div>
+              <!-- Gartner badge -->
+              <div class="nua-footer__gartner">
+                <span class="nua-footer__gartner-top">Gartner<span style="font-size:8px;vertical-align:super;">&#174;</span></span>
+                <div class="nua-footer__gartner-row">
+                  <span class="nua-footer__gartner-peer">Peer</span>
+                  <span class="nua-footer__gartner-insights">Insights<span class="nua-footer__gartner-tm">&#8482;</span></span>
+                </div>
+              </div>
+            </div>
+            <!-- Contact -->
+            <div class="nua-footer__contact">
+              <span class="nua-footer__contact-text">info@nuasecurity.com</span>
+              <span class="nua-footer__contact-text">&#169; 2025 NUA USA.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Watermark -->
+        <div class="nua-footer__watermark" aria-hidden="true">
+          <svg preserveAspectRatio="none" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z"/>
+            <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z"/>
+            <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z"/>
+            <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z"/>
+            <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z"/>
+          </svg>
+        </div>
+        <div class="nua-footer__fade"></div>
+
+      </div>
+    </footer>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 2 — CTA + Footer JS Component (Variant 1: Lottie Strip)
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card ds-card--component">
+    <div class="ds-card-title">CTA + Footer — JS Component · Variant 1 (Lottie Strip)</div>
+    <p style="font-size:var(--font-size-14);color:var(--colors-natural-500);margin-top:calc(-1 * var(--space-16));">
+      Self-contained component. Drop <code style="font-family:monospace;background:var(--colors-natural-150);padding:2px 6px;border-radius:4px;">&lt;div id="cta-footer"&gt;&lt;/div&gt;</code> anywhere and load the script — it injects all HTML and CSS automatically. CTA section uses a full-width Lottie animation strip.
+    </p>
+
+    <!-- Live component preview -->
+    <div class="component-preview">
+      <div id="cta-footer"></div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 4 — How to Use
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">How to Use</div>
+
+    <!-- Static footer usage -->
+    <div>
+      <p style="font-size:var(--font-size-14);font-weight:var(--font-weight-semibold);color:var(--colors-natural-700);margin-bottom:var(--space-12);">Option A — Static BEM Footer</p>
+      <div class="code-block"><span class="c-comment">&lt;!-- 1. Link CSS --&gt;</span>
+<span class="c-tag">&lt;link</span> <span class="c-attr">rel</span>=<span class="c-val">"stylesheet"</span> <span class="c-attr">href</span>=<span class="c-val">"Design system/Foundations/footer/footer.css"</span><span class="c-tag">&gt;</span>
+
+<span class="c-comment">&lt;!-- 2. HTML structure --&gt;</span>
+<span class="c-tag">&lt;footer</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__inner"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__content"</span><span class="c-tag">&gt;</span>
+      <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__links-row"</span><span class="c-tag">&gt;</span>
+        <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__brand"</span><span class="c-tag">&gt;</span>
+          <span class="c-tag">&lt;a</span> <span class="c-attr">href</span>=<span class="c-val">"index.html"</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__logo"</span><span class="c-tag">&gt;</span>...svg...<span class="c-tag">&lt;/a&gt;</span>
+          <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__social"</span><span class="c-tag">&gt;</span>...icons...<span class="c-tag">&lt;/div&gt;</span>
+        <span class="c-tag">&lt;/div&gt;</span>
+        <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__nav"</span><span class="c-tag">&gt;</span>
+          <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__nav-col"</span><span class="c-tag">&gt;</span>
+            <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__nav-label"</span><span class="c-tag">&gt;</span>Links<span class="c-tag">&lt;/span&gt;</span>
+            <span class="c-tag">&lt;a</span> <span class="c-attr">href</span>=<span class="c-val">"company.html"</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__nav-link"</span><span class="c-tag">&gt;</span>Company<span class="c-tag">&lt;/a&gt;</span>
+          <span class="c-tag">&lt;/div&gt;</span>
+        <span class="c-tag">&lt;/div&gt;</span>
+      <span class="c-tag">&lt;/div&gt;</span>
+      <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__bottom"</span><span class="c-tag">&gt;</span>
+        <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__badges"</span><span class="c-tag">&gt;</span>...ISO + Gartner...<span class="c-tag">&lt;/div&gt;</span>
+        <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__contact"</span><span class="c-tag">&gt;</span>...email + copyright...<span class="c-tag">&lt;/div&gt;</span>
+      <span class="c-tag">&lt;/div&gt;</span>
+    <span class="c-tag">&lt;/div&gt;</span>
+    <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__watermark"</span><span class="c-tag">&gt;</span>...svg...<span class="c-tag">&lt;/div&gt;</span>
+    <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-footer__fade"</span><span class="c-tag">&gt;&lt;/div&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+<span class="c-tag">&lt;/footer&gt;</span></div>
+    </div>
+
+    <!-- JS component V1 usage -->
+    <div>
+      <p style="font-size:var(--font-size-14);font-weight:var(--font-weight-semibold);color:var(--colors-natural-700);margin-bottom:var(--space-12);">Option B — Variant 1: Lottie Strip</p>
+      <div class="code-block"><span class="c-comment">&lt;!-- Mount point --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">id</span>=<span class="c-val">"cta-footer"</span><span class="c-tag">&gt;&lt;/div&gt;</span>
+
+<span class="c-comment">&lt;!-- Script (before &lt;/body&gt;) --&gt;</span>
+<span class="c-tag">&lt;script</span> <span class="c-attr">src</span>=<span class="c-val">"Design system/Components/Footer/Cta footer.js"</span><span class="c-tag">&gt;&lt;/script&gt;</span></div>
+    </div>
+
+    <!-- JS component V2 usage -->
+    <div>
+      <p style="font-size:var(--font-size-14);font-weight:var(--font-weight-semibold);color:var(--colors-natural-700);margin-bottom:var(--space-12);">Option C — Variant 2: Orb Edition</p>
+      <div class="code-block"><span class="c-comment">&lt;!-- Mount point (different id) --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">id</span>=<span class="c-val">"cta-footer-2"</span><span class="c-tag">&gt;&lt;/div&gt;</span>
+
+<span class="c-comment">&lt;!-- Script (before &lt;/body&gt;) --&gt;</span>
+<span class="c-tag">&lt;script</span> <span class="c-attr">src</span>=<span class="c-val">"Design system/Components/Footer/Cta footer 2.js"</span><span class="c-tag">&gt;&lt;/script&gt;</span>
+
+<span class="c-comment">&lt;!-- Optional: same data-* API as Variant 1 --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">id</span>=<span class="c-val">"cta-footer-2"</span>
+     <span class="c-attr">data-heading</span>=<span class="c-val">"Custom Heading"</span>
+     <span class="c-attr">data-subheading</span>=<span class="c-val">"Custom subheading text"</span>
+     <span class="c-attr">data-cta-text</span>=<span class="c-val">"Get Started"</span>
+     <span class="c-attr">data-cta-link</span>=<span class="c-val">"book-a-demo.html"</span>
+     <span class="c-attr">data-show-cta</span>=<span class="c-val">"true"</span>
+     <span class="c-attr">data-email</span>=<span class="c-val">"hello@example.com"</span>
+     <span class="c-attr">data-copyright</span>=<span class="c-val">"© 2025 Company."</span><span class="c-tag">&gt;</span>
+<span class="c-tag">&lt;/div&gt;</span>
+
+<span class="c-comment">&lt;!-- Footer only (hide CTA) --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">id</span>=<span class="c-val">"cta-footer-2"</span> <span class="c-attr">data-show-cta</span>=<span class="c-val">"false"</span><span class="c-tag">&gt;&lt;/div&gt;</span></div>
+    </div>
+
+    <!-- Data attributes table -->
+    <div>
+      <p style="font-size:var(--font-size-14);font-weight:var(--font-weight-semibold);color:var(--colors-natural-700);margin-bottom:var(--space-12);">Data Attributes</p>
+      <table style="width:100%;border-collapse:collapse;font-size:var(--font-size-13);">
+        <thead>
+          <tr style="border-bottom:2px solid var(--colors-natural-170);">
+            <th style="text-align:left;padding:8px 12px;color:var(--colors-natural-500);font-weight:var(--font-weight-semibold);">Attribute</th>
+            <th style="text-align:left;padding:8px 12px;color:var(--colors-natural-500);font-weight:var(--font-weight-semibold);">Default</th>
+            <th style="text-align:left;padding:8px 12px;color:var(--colors-natural-500);font-weight:var(--font-weight-semibold);">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--colors-natural-150);">
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-blue-600);">data-heading</td>
+            <td style="padding:8px 12px;color:var(--colors-natural-500);">"Get Ahead Of Threats"</td>
+            <td style="padding:8px 12px;">CTA heading text</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150);">
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-blue-600);">data-subheading</td>
+            <td style="padding:8px 12px;color:var(--colors-natural-500);">Long default text</td>
+            <td style="padding:8px 12px;">CTA subtitle text</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150);">
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-blue-600);">data-cta-text</td>
+            <td style="padding:8px 12px;color:var(--colors-natural-500);">"Book a demo"</td>
+            <td style="padding:8px 12px;">CTA button label</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150);">
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-blue-600);">data-cta-link</td>
+            <td style="padding:8px 12px;color:var(--colors-natural-500);">"book-a-demo.html"</td>
+            <td style="padding:8px 12px;">CTA button href</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150);">
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-blue-600);">data-show-cta</td>
+            <td style="padding:8px 12px;color:var(--colors-natural-500);">"true"</td>
+            <td style="padding:8px 12px;">Show/hide the CTA card ("false" = footer only)</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150);">
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-blue-600);">data-email</td>
+            <td style="padding:8px 12px;color:var(--colors-natural-500);">"info@nuasecurity.com"</td>
+            <td style="padding:8px 12px;">Contact email in footer</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-blue-600);">data-copyright</td>
+            <td style="padding:8px 12px;color:var(--colors-natural-500);">"© 2025 NUA USA."</td>
+            <td style="padding:8px 12px;">Copyright text</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Load Variant 1: Lottie Strip -->
+<script src="../../Components/Footer/Cta footer.js"></script>
+<!-- Load Variant 2: Orb Edition -->
+<script src="../../Components/Footer/Cta footer 2.js"></script>
+</body>
+</html>

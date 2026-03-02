@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUA — Sidebar Foundation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../colors.css">
+  <link rel="stylesheet" href="../spacing.css">
+  <link rel="stylesheet" href="../typography.css">
+  <link rel="stylesheet" href="../borders.css">
+  <link rel="stylesheet" href="sidebar.css">
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2/dist/iconify-icon.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-family-primary, 'DM Sans', sans-serif);
+      background: var(--colors-natural-150, #f6f6f6);
+      padding: var(--space-40, 40px) var(--space-24, 24px);
+      color: var(--colors-natural-950, #1e1e1e);
+    }
+
+    .page { max-width: 960px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-40, 40px); }
+
+    /* ── Header ── */
+    .ds-header {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170, #e8e8e8);
+      border-radius: var(--border-radius-xlg, 20px);
+      padding: var(--space-40, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8, 8px);
+    }
+    .ds-badge {
+      display: inline-flex;
+      background: var(--colors-blue-50, #E8F7FF);
+      color: var(--colors-blue-600, #0C4EFF);
+      font-size: var(--font-size-12, 12px);
+      font-weight: var(--font-weight-medium, 500);
+      padding: 4px 10px;
+      border-radius: var(--border-radius-full, 9999px);
+      width: fit-content;
+      margin-bottom: var(--space-4, 4px);
+    }
+    .ds-header h1 {
+      font-size: var(--font-size-28, 28px);
+      font-weight: var(--font-weight-semibold, 600);
+      letter-spacing: -0.56px;
+    }
+    .ds-header p {
+      font-size: var(--font-size-16, 16px);
+      color: var(--colors-natural-500, #7c7c7c);
+    }
+
+    /* ── Card ── */
+    .ds-card {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170, #e8e8e8);
+      border-radius: var(--border-radius-xlg, 20px);
+      padding: var(--space-40, 40px);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-32, 32px);
+    }
+    .ds-card-title {
+      font-size: var(--font-size-14, 14px);
+      font-weight: var(--font-weight-semibold, 600);
+      color: var(--colors-natural-500, #7c7c7c);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding-bottom: var(--space-16, 16px);
+      border-bottom: 1px solid var(--colors-natural-170, #e8e8e8);
+    }
+
+    /* ── States grid ── */
+    .states-grid {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      gap: var(--space-32, 32px) var(--space-40, 40px);
+      align-items: start;
+      justify-content: start;
+    }
+    .state-label {
+      font-size: var(--font-size-12, 12px);
+      font-weight: var(--font-weight-medium, 500);
+      color: var(--colors-natural-400, #989898);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: var(--space-12, 12px);
+    }
+
+    /* ── Sidebar preview wrapper ── */
+    .sidebar-preview {
+      display: inline-flex;
+      background: #fff;
+      border: 1px solid var(--colors-natural-170, #e8e8e8);
+      border-radius: var(--border-radius-sm, 12px);
+      overflow: hidden;
+    }
+
+    /* ── Code block ── */
+    .code-block {
+      background: var(--colors-natural-950, #1e1e1e);
+      color: var(--colors-natural-100, #fafafa);
+      border-radius: var(--border-radius-sm, 12px);
+      padding: var(--space-20, 20px) var(--space-24, 24px);
+      font-family: monospace;
+      font-size: var(--font-size-13, 13px);
+      line-height: 1.7;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .c-comment { color: #8691AA; }
+    .c-tag     { color: #85C8FF; }
+    .c-attr    { color: #FFC06D; }
+    .c-val     { color: #75E0BA; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Header ── -->
+  <div class="ds-header">
+    <span class="ds-badge">Foundation</span>
+    <h1>&#10022; Sidebar</h1>
+    <p>Two sidebar variants: <strong>Default</strong> (icon stacked, centered) and <strong>Settings</strong> (icon inline, left-aligned). Three button states: Default, Hover, Active. All values from <strong>sidebar.css</strong>.</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 1 — Button states
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">Button — Stacked layout (Default sidebar)</div>
+
+    <div class="states-grid">
+
+      <!-- Default -->
+      <div>
+        <p class="state-label">Default</p>
+        <a href="#" class="nua-sidebar__btn" style="width:78px;">
+          <span class="nua-sidebar__icon">
+            <iconify-icon icon="solar:layers-linear" class="icon-default"></iconify-icon>
+            <iconify-icon icon="solar:layers-bold" class="icon-active"></iconify-icon>
+          </span>
+          <span class="nua-sidebar__text">Inventory</span>
+        </a>
+      </div>
+
+      <!-- Hover (forced) -->
+      <div>
+        <p class="state-label">Hover</p>
+        <a href="#" class="nua-sidebar__btn" style="width:78px;pointer-events:none;">
+          <span class="nua-sidebar__icon" style="color:var(--colors-natural-600,#656565);">
+            <iconify-icon icon="solar:layers-linear" style="color:var(--colors-natural-600,#656565);"></iconify-icon>
+          </span>
+          <span class="nua-sidebar__text" style="color:var(--colors-natural-600,#656565);">Inventory</span>
+        </a>
+      </div>
+
+      <!-- Active -->
+      <div>
+        <p class="state-label">Active</p>
+        <a href="#" class="nua-sidebar__btn nua-sidebar__btn--active" style="width:78px;">
+          <span class="nua-sidebar__icon">
+            <iconify-icon icon="solar:layers-linear" class="icon-default"></iconify-icon>
+            <iconify-icon icon="solar:layers-bold" class="icon-active"></iconify-icon>
+          </span>
+          <span class="nua-sidebar__text">Inventory</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Button — Inline layout ── -->
+  <div class="ds-card">
+    <div class="ds-card-title">Button — Inline layout (Settings sidebar)</div>
+
+    <div class="states-grid">
+
+      <!-- Default -->
+      <div>
+        <p class="state-label">Default</p>
+        <div style="width:120px;">
+          <a href="#" class="nua-sidebar__btn" style="flex-direction:row;justify-content:flex-start;">
+            <span class="nua-sidebar__icon" style="padding:4px;border-radius:3px;">
+              <iconify-icon icon="solar:user-linear" class="icon-default" style="font-size:16px;"></iconify-icon>
+              <iconify-icon icon="solar:user-bold" class="icon-active" style="font-size:16px;"></iconify-icon>
+            </span>
+            <span class="nua-sidebar__text" style="text-align:left;">Profile</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Hover (forced) -->
+      <div>
+        <p class="state-label">Hover</p>
+        <div style="width:120px;">
+          <a href="#" class="nua-sidebar__btn" style="flex-direction:row;justify-content:flex-start;pointer-events:none;">
+            <span class="nua-sidebar__icon" style="padding:4px;border-radius:3px;">
+              <iconify-icon icon="solar:user-linear" style="font-size:16px;color:var(--colors-natural-600,#656565);"></iconify-icon>
+            </span>
+            <span class="nua-sidebar__text" style="text-align:left;color:var(--colors-natural-600,#656565);">Profile</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Active -->
+      <div>
+        <p class="state-label">Active</p>
+        <div style="width:120px;">
+          <a href="#" class="nua-sidebar__btn nua-sidebar__btn--active" style="flex-direction:row;justify-content:flex-start;">
+            <span class="nua-sidebar__icon" style="padding:4px;border-radius:3px;">
+              <iconify-icon icon="solar:user-linear" class="icon-default" style="font-size:16px;"></iconify-icon>
+              <iconify-icon icon="solar:user-bold" class="icon-active" style="font-size:16px;"></iconify-icon>
+            </span>
+            <span class="nua-sidebar__text" style="text-align:left;">Profile</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 2 — Default sidebar (full)
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">Default Sidebar</div>
+
+    <div class="sidebar-preview">
+      <nav class="nua-sidebar">
+
+        <!-- Top: logo + nav -->
+        <div class="nua-sidebar__top">
+
+          <!-- Logo -->
+          <a href="#" class="nua-sidebar__logo">
+            <svg width="82" height="24" viewBox="0 0 81.7961 23.952" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g>
+                <g>
+                  <path d="M0.000114441 6.07511H6.03115V23.9519H0.000114441V6.15361C0.000114441 6.12718 0.000114441 6.10154 0.000114441 6.07511Z"/>
+                  <path d="M27.9164 23.952H21.1412L12.0286 6.11759C12.015 6.09115 11.9877 6.07513 11.9581 6.07513H6.03197V0.000836856C6.05841 3.58149e-05 6.08484 3.58157e-05 6.11128 3.58157e-05H11.9581C14.2643 3.58157e-05 16.3494 1.31775 17.3996 3.37162L27.9164 23.952Z"/>
+                </g>
+                <path d="M71.2961 3.3716C70.2459 1.31773 68.1608 1.60418e-05 65.8546 1.60418e-05H60.0086C59.9822 1.60418e-05 59.9549 1.60411e-05 59.9285 0.000817082L59.9285 6.07512H65.8546C65.8842 6.07512 65.9115 6.09114 65.9251 6.11757L69.1389 12.4009L59.9285 16.7939V6.07512H53.8975C53.8967 6.10155 53.8967 6.12799 53.8967 6.15442L53.8862 23.952H59.9181L71.9161 17.8312L75.0209 23.952H81.7961L71.2961 3.3716Z"/>
+                <g>
+                  <path d="M37.0979 17.9682H43.0232L43.016 23.952C42.9896 23.952 42.9623 23.952 42.9359 23.952H37.0907C36.7607 23.952 36.4371 23.9263 36.1182 23.8751C34.2094 23.5715 32.556 22.4316 31.6556 20.6717L21.0851 0.000839233H27.8595L37.0266 17.9257C37.0402 17.9522 37.0675 17.9682 37.0979 17.9682Z"/>
+                  <path d="M49.0561 0.000823975V17.8897C49.0561 17.9161 49.0561 17.9425 49.0553 17.9682H43.0234V0.000823975H49.0561Z"/>
+                </g>
+              </g>
+            </svg>
+          </a>
+
+          <!-- Nav buttons -->
+          <div class="nua-sidebar__nav">
+
+            <a href="#" class="nua-sidebar__btn">
+              <span class="nua-sidebar__icon">
+                <iconify-icon icon="solar:widget-2-linear" class="icon-default"></iconify-icon>
+                <iconify-icon icon="solar:widget-2-bold" class="icon-active"></iconify-icon>
+              </span>
+              <span class="nua-sidebar__text">Dashboard</span>
+            </a>
+
+            <a href="#" class="nua-sidebar__btn">
+              <span class="nua-sidebar__icon">
+                <iconify-icon icon="solar:clipboard-list-linear" class="icon-default"></iconify-icon>
+                <iconify-icon icon="solar:clipboard-list-bold" class="icon-active"></iconify-icon>
+              </span>
+              <span class="nua-sidebar__text">Assessments</span>
+            </a>
+
+            <a href="#" class="nua-sidebar__btn">
+              <span class="nua-sidebar__icon">
+                <iconify-icon icon="solar:telescope-linear" class="icon-default"></iconify-icon>
+                <iconify-icon icon="solar:telescope-bold" class="icon-active"></iconify-icon>
+              </span>
+              <span class="nua-sidebar__text">Findings</span>
+            </a>
+
+            <a href="#" class="nua-sidebar__btn nua-sidebar__btn--active">
+              <span class="nua-sidebar__icon">
+                <iconify-icon icon="solar:layers-linear" class="icon-default"></iconify-icon>
+                <iconify-icon icon="solar:layers-bold" class="icon-active"></iconify-icon>
+              </span>
+              <span class="nua-sidebar__text">Inventory</span>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- Bottom: settings -->
+        <a href="#" class="nua-sidebar__btn" style="width:78px;">
+          <span class="nua-sidebar__icon">
+            <iconify-icon icon="solar:settings-linear" class="icon-default"></iconify-icon>
+            <iconify-icon icon="solar:settings-bold" class="icon-active"></iconify-icon>
+          </span>
+          <span class="nua-sidebar__text">Settings</span>
+        </a>
+
+      </nav>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 3 — Settings sidebar (full)
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">Settings Sidebar</div>
+
+    <div class="sidebar-preview">
+      <nav class="nua-sidebar nua-sidebar--settings">
+
+        <!-- Section label -->
+        <span class="nua-sidebar__section-label">Settings</span>
+
+        <!-- Nav buttons -->
+        <div class="nua-sidebar__nav">
+
+          <a href="#" class="nua-sidebar__btn nua-sidebar__btn--active">
+            <span class="nua-sidebar__icon">
+              <iconify-icon icon="solar:user-linear" class="icon-default"></iconify-icon>
+              <iconify-icon icon="solar:user-bold" class="icon-active"></iconify-icon>
+            </span>
+            <span class="nua-sidebar__text">Profile</span>
+          </a>
+
+          <a href="#" class="nua-sidebar__btn">
+            <span class="nua-sidebar__icon">
+              <iconify-icon icon="solar:users-group-rounded-linear" class="icon-default"></iconify-icon>
+              <iconify-icon icon="solar:users-group-rounded-bold" class="icon-active"></iconify-icon>
+            </span>
+            <span class="nua-sidebar__text">People</span>
+          </a>
+
+          <a href="#" class="nua-sidebar__btn">
+            <span class="nua-sidebar__icon">
+              <iconify-icon icon="solar:card-linear" class="icon-default"></iconify-icon>
+              <iconify-icon icon="solar:card-bold" class="icon-active"></iconify-icon>
+            </span>
+            <span class="nua-sidebar__text">Billing</span>
+          </a>
+
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 4 — How to Use
+       ══════════════════════════════════════════════════════════ -->
+  <div class="ds-card">
+    <div class="ds-card-title">How to Use</div>
+
+    <div>
+      <p style="font-size:var(--font-size-14,14px);font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);margin-bottom:12px;">1. Link CSS + Iconify</p>
+      <div class="code-block"><span class="c-tag">&lt;link</span> <span class="c-attr">rel</span>=<span class="c-val">"stylesheet"</span> <span class="c-attr">href</span>=<span class="c-val">"Design system/Foundations/sidebar/sidebar.css"</span><span class="c-tag">&gt;</span>
+<span class="c-tag">&lt;script</span> <span class="c-attr">src</span>=<span class="c-val">"https://cdn.jsdelivr.net/npm/iconify-icon@2/dist/iconify-icon.min.js"</span><span class="c-tag">&gt;&lt;/script&gt;</span></div>
+    </div>
+
+    <div>
+      <p style="font-size:var(--font-size-14,14px);font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);margin-bottom:12px;">2. Default sidebar</p>
+      <div class="code-block"><span class="c-tag">&lt;nav</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar"</span><span class="c-tag">&gt;</span>
+  <span class="c-comment">&lt;!-- Top: logo + nav --&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar__top"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;a</span> <span class="c-attr">href</span>=<span class="c-val">"/"</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar__logo"</span><span class="c-tag">&gt;</span>...svg...<span class="c-tag">&lt;/a&gt;</span>
+    <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar__nav"</span><span class="c-tag">&gt;</span>
+      <span class="c-tag">&lt;a</span> <span class="c-attr">href</span>=<span class="c-val">"/dashboard"</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar__btn nua-sidebar__btn--active"</span><span class="c-tag">&gt;</span>
+        <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar__icon"</span><span class="c-tag">&gt;</span>
+          <span class="c-tag">&lt;iconify-icon</span> <span class="c-attr">icon</span>=<span class="c-val">"solar:widget-2-linear"</span> <span class="c-attr">class</span>=<span class="c-val">"icon-default"</span><span class="c-tag">&gt;&lt;/iconify-icon&gt;</span>
+          <span class="c-tag">&lt;iconify-icon</span> <span class="c-attr">icon</span>=<span class="c-val">"solar:widget-2-bold"</span> <span class="c-attr">class</span>=<span class="c-val">"icon-active"</span><span class="c-tag">&gt;&lt;/iconify-icon&gt;</span>
+        <span class="c-tag">&lt;/span&gt;</span>
+        <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar__text"</span><span class="c-tag">&gt;</span>Dashboard<span class="c-tag">&lt;/span&gt;</span>
+      <span class="c-tag">&lt;/a&gt;</span>
+      <span class="c-comment">&lt;!-- more buttons ... --&gt;</span>
+    <span class="c-tag">&lt;/div&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+  <span class="c-comment">&lt;!-- Bottom: settings button --&gt;</span>
+  <span class="c-tag">&lt;a</span> <span class="c-attr">href</span>=<span class="c-val">"/settings"</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar__btn"</span><span class="c-tag">&gt;</span>...<span class="c-tag">&lt;/a&gt;</span>
+<span class="c-tag">&lt;/nav&gt;</span></div>
+    </div>
+
+    <div>
+      <p style="font-size:var(--font-size-14,14px);font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);margin-bottom:12px;">3. Settings sidebar</p>
+      <div class="code-block"><span class="c-tag">&lt;nav</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar nua-sidebar--settings"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar__section-label"</span><span class="c-tag">&gt;</span>Settings<span class="c-tag">&lt;/span&gt;</span>
+  <span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar__nav"</span><span class="c-tag">&gt;</span>
+    <span class="c-tag">&lt;a</span> <span class="c-attr">href</span>=<span class="c-val">"/settings/profile"</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar__btn nua-sidebar__btn--active"</span><span class="c-tag">&gt;</span>
+      <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar__icon"</span><span class="c-tag">&gt;</span>
+        <span class="c-tag">&lt;iconify-icon</span> <span class="c-attr">icon</span>=<span class="c-val">"solar:user-linear"</span> <span class="c-attr">class</span>=<span class="c-val">"icon-default"</span><span class="c-tag">&gt;&lt;/iconify-icon&gt;</span>
+        <span class="c-tag">&lt;iconify-icon</span> <span class="c-attr">icon</span>=<span class="c-val">"solar:user-bold"</span> <span class="c-attr">class</span>=<span class="c-val">"icon-active"</span><span class="c-tag">&gt;&lt;/iconify-icon&gt;</span>
+      <span class="c-tag">&lt;/span&gt;</span>
+      <span class="c-tag">&lt;span</span> <span class="c-attr">class</span>=<span class="c-val">"nua-sidebar__text"</span><span class="c-tag">&gt;</span>Profile<span class="c-tag">&lt;/span&gt;</span>
+    <span class="c-tag">&lt;/a&gt;</span>
+  <span class="c-tag">&lt;/div&gt;</span>
+<span class="c-tag">&lt;/nav&gt;</span></div>
+    </div>
+
+    <div>
+      <p style="font-size:var(--font-size-14,14px);font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);margin-bottom:12px;">Available nav icons (Solar Linear → Bold on active)</p>
+      <table style="width:100%;border-collapse:collapse;font-size:var(--font-size-13,13px);">
+        <thead>
+          <tr style="border-bottom:2px solid var(--colors-natural-170,#e8e8e8);">
+            <th style="text-align:left;padding:8px 12px;font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);">Page</th>
+            <th style="text-align:left;padding:8px 12px;font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);">icon-default</th>
+            <th style="text-align:left;padding:8px 12px;font-weight:var(--font-weight-semibold,600);color:var(--colors-natural-700,#525252);">icon-active</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--colors-natural-150,#f6f6f6);">
+            <td style="padding:8px 12px;">Dashboard</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:widget-2-linear</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:widget-2-bold</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150,#f6f6f6);">
+            <td style="padding:8px 12px;">Assessments</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:clipboard-list-linear</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:clipboard-list-bold</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150,#f6f6f6);">
+            <td style="padding:8px 12px;">Findings</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:telescope-linear</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:telescope-bold</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150,#f6f6f6);">
+            <td style="padding:8px 12px;">Inventory</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:layers-linear</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:layers-bold</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150,#f6f6f6);">
+            <td style="padding:8px 12px;">Settings</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:settings-linear</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:settings-bold</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150,#f6f6f6);">
+            <td style="padding:8px 12px;">Profile</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:user-linear</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:user-bold</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--colors-natural-150,#f6f6f6);">
+            <td style="padding:8px 12px;">People</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:users-group-rounded-linear</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:users-group-rounded-bold</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;">Billing</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:card-linear</td>
+            <td style="padding:8px 12px;font-family:monospace;color:var(--colors-natural-600,#656565);">solar:card-bold</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

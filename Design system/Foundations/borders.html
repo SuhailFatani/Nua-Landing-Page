@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUA — Borders Foundation</title>
+  <link rel="stylesheet" href="colors.css">
+  <link rel="stylesheet" href="spacing.css">
+  <link rel="stylesheet" href="typography.css">
+  <link rel="stylesheet" href="borders.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-family-primary);
+      background: var(--colors-natural-150);
+      padding: var(--space-40) var(--space-24);
+      color: var(--colors-natural-950);
+    }
+
+    .page { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-40); }
+
+    /* ── Header ── */
+    .ds-header {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170);
+      border-radius: 24px;
+      padding: var(--space-40);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+    .ds-badge {
+      display: inline-flex;
+      background: var(--colors-blue-50);
+      color: var(--colors-blue-600);
+      font-size: var(--font-size-12);
+      font-weight: var(--font-weight-medium);
+      padding: 4px 10px;
+      border-radius: 100px;
+      width: fit-content;
+      margin-bottom: var(--space-4);
+    }
+    .ds-header h1 {
+      font-size: var(--font-size-28);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: -0.56px;
+    }
+    .ds-header p {
+      font-size: var(--font-size-16);
+      color: var(--color-text-caption);
+    }
+
+    /* ── Card ── */
+    .ds-card {
+      background: #fff;
+      border: 1px solid var(--colors-natural-170);
+      border-radius: 24px;
+      padding: var(--space-40);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-32);
+    }
+    .ds-card-title {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-semibold);
+      color: var(--colors-natural-500);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding-bottom: var(--space-16);
+      border-bottom: 1px solid var(--colors-natural-170);
+    }
+
+    /* ── Radius grid ── */
+    .radius-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-24);
+    }
+
+    .radius-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+      align-items: flex-start;
+    }
+
+    .radius-box {
+      width: 80px;
+      height: 80px;
+      background: var(--colors-blue-50);
+      border: 2px solid var(--colors-blue-200);
+    }
+
+    .radius-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .radius-name {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-semibold);
+      color: var(--colors-natural-900);
+    }
+    .radius-token {
+      font-size: var(--font-size-12);
+      color: var(--colors-natural-400);
+      font-family: monospace;
+    }
+    .radius-value {
+      font-size: var(--font-size-12);
+      font-weight: var(--font-weight-medium);
+      color: var(--colors-blue-600);
+    }
+
+    /* ── Stroke row ── */
+    .stroke-row {
+      display: flex;
+      gap: var(--space-32);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .stroke-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-16);
+    }
+
+    .stroke-line {
+      width: 120px;
+      height: 0;
+      background: transparent;
+      border-top-color: var(--colors-natural-950);
+      border-top-style: solid;
+    }
+
+    .stroke-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .stroke-name {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-semibold);
+      color: var(--colors-natural-900);
+    }
+    .stroke-token {
+      font-size: var(--font-size-12);
+      color: var(--colors-natural-400);
+      font-family: monospace;
+    }
+    .stroke-value {
+      font-size: var(--font-size-12);
+      font-weight: var(--font-weight-medium);
+      color: var(--colors-blue-600);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <div class="ds-header">
+      <span class="ds-badge">Foundation</span>
+      <h1>&#10022; Borders</h1>
+      <p>Border radius and stroke width tokens used across all components. Link <strong>borders.css</strong> to access all tokens via CSS custom properties.</p>
+    </div>
+
+    <!-- Border Radius -->
+    <div class="ds-card">
+      <div class="ds-card-title">Border Radius</div>
+      <div class="radius-grid">
+
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: var(--border-radius-zero)"></div>
+          <div class="radius-meta">
+            <div class="radius-name">Zero</div>
+            <div class="radius-token">--border-radius-zero</div>
+            <div class="radius-value">0px</div>
+          </div>
+        </div>
+
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: var(--border-radius-2xsm)"></div>
+          <div class="radius-meta">
+            <div class="radius-name">2X Small</div>
+            <div class="radius-token">--border-radius-2xsm</div>
+            <div class="radius-value">4px</div>
+          </div>
+        </div>
+
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: var(--border-radius-xsm)"></div>
+          <div class="radius-meta">
+            <div class="radius-name">X Small</div>
+            <div class="radius-token">--border-radius-xsm</div>
+            <div class="radius-value">8px</div>
+          </div>
+        </div>
+
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: var(--border-radius-sm)"></div>
+          <div class="radius-meta">
+            <div class="radius-name">Small</div>
+            <div class="radius-token">--border-radius-sm</div>
+            <div class="radius-value">12px</div>
+          </div>
+        </div>
+
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: var(--border-radius-md)"></div>
+          <div class="radius-meta">
+            <div class="radius-name">Medium</div>
+            <div class="radius-token">--border-radius-md</div>
+            <div class="radius-value">16px</div>
+          </div>
+        </div>
+
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: var(--border-radius-lg)"></div>
+          <div class="radius-meta">
+            <div class="radius-name">Large</div>
+            <div class="radius-token">--border-radius-lg</div>
+            <div class="radius-value">20px</div>
+          </div>
+        </div>
+
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: var(--border-radius-xlg)"></div>
+          <div class="radius-meta">
+            <div class="radius-name">X Large</div>
+            <div class="radius-token">--border-radius-xlg</div>
+            <div class="radius-value">24px</div>
+          </div>
+        </div>
+
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: var(--border-radius-2xlg)"></div>
+          <div class="radius-meta">
+            <div class="radius-name">2X Large</div>
+            <div class="radius-token">--border-radius-2xlg</div>
+            <div class="radius-value">28px</div>
+          </div>
+        </div>
+
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: var(--border-radius-3xlg)"></div>
+          <div class="radius-meta">
+            <div class="radius-name">3X Large</div>
+            <div class="radius-token">--border-radius-3xlg</div>
+            <div class="radius-value">32px</div>
+          </div>
+        </div>
+
+        <div class="radius-item">
+          <div class="radius-box" style="border-radius: var(--border-radius-full); width: 80px; height: 80px;"></div>
+          <div class="radius-meta">
+            <div class="radius-name">Full</div>
+            <div class="radius-token">--border-radius-full</div>
+            <div class="radius-value">9999px</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Border Stroke -->
+    <div class="ds-card">
+      <div class="ds-card-title">Border Stroke</div>
+      <div class="stroke-row">
+
+        <div class="stroke-item">
+          <div class="stroke-line" style="border-top-width: var(--border-stroke-xsm)"></div>
+          <div class="stroke-meta">
+            <div class="stroke-name">X Small</div>
+            <div class="stroke-token">--border-stroke-xsm</div>
+            <div class="stroke-value">1px</div>
+          </div>
+        </div>
+
+        <div class="stroke-item">
+          <div class="stroke-line" style="border-top-width: var(--border-stroke-sm)"></div>
+          <div class="stroke-meta">
+            <div class="stroke-name">Small</div>
+            <div class="stroke-token">--border-stroke-sm</div>
+            <div class="stroke-value">2px</div>
+          </div>
+        </div>
+
+        <div class="stroke-item">
+          <div class="stroke-line" style="border-top-width: var(--border-stroke-md)"></div>
+          <div class="stroke-meta">
+            <div class="stroke-name">Medium</div>
+            <div class="stroke-token">--border-stroke-md</div>
+            <div class="stroke-value">3px</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

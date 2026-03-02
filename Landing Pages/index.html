@@ -7,6 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../Design system/Foundations/colors.css">
+  <link rel="stylesheet" href="../Design system/Foundations/spacing.css">
+  <link rel="stylesheet" href="../Design system/Foundations/typography.css">
+  <link rel="stylesheet" href="../Design system/Foundations/blog/blog.css">
   <style>
     /* ===== RESET ===== */
     *, *::before, *::after {
@@ -366,149 +370,6 @@
     }
 
     /* ===== LOGOS SECTION ===== */
-    .logos-section {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      height: 100px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .logos-text {
-      flex-shrink: 0;
-      width: 264px;
-      z-index: 2;
-    }
-
-    .logos-text h3 {
-      font-size: var(--font-size-16);
-      font-weight: var(--font-weight-light);
-      line-height: var(--font-line-height-for20);
-      color: var(--color-natural-50);
-      opacity: 0.85;
-    }
-
-    .logos-marquee-wrapper {
-      flex: 1;
-      overflow: hidden;
-      position: relative;
-      height: 68px;
-      display: flex;
-      align-items: center;
-      margin-left: 40px;
-    }
-
-    /* Fade masks on edges */
-    .logos-marquee-wrapper::before,
-    .logos-marquee-wrapper::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 80px;
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    .logos-marquee-wrapper::before {
-      left: 0;
-      background: linear-gradient(to right, var(--hero-bg-page), transparent);
-    }
-
-    .logos-marquee-wrapper::after {
-      right: 0;
-      background: linear-gradient(to left, var(--hero-bg-page), transparent);
-    }
-
-    .logos-track {
-      display: flex;
-      align-items: center;
-      gap: 60px;
-      animation: scroll-logos 20s linear infinite;
-      white-space: nowrap;
-    }
-
-    @keyframes scroll-logos {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-50%);
-      }
-    }
-
-    .logo-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-      opacity: 0.55;
-    }
-
-    .logo-item svg,
-    .logo-item img {
-      height: 28px;
-      width: auto;
-    }
-
-    .logo-item span {
-      font-family: var(--font-family-primary);
-      font-size: 15px;
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-natural-50);
-      white-space: nowrap;
-    }
-
-    .logo-zid {
-      font-size: 28px !important;
-      font-weight: 700 !important;
-      letter-spacing: 2px;
-    }
-
-    .logo-iot {
-      font-size: 26px !important;
-      font-weight: 700 !important;
-    }
-
-    .logo-iot sup {
-      font-size: 14px;
-      vertical-align: super;
-    }
-
-    .logo-jahez {
-      font-size: 32px !important;
-      font-weight: 800 !important;
-      font-style: italic;
-    }
-
-    .logo-zatca {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .logo-zatca-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .logo-zatca-text {
-      font-size: 13px !important;
-      font-weight: 500 !important;
-    }
-
-    .logo-stc {
-      font-size: 30px !important;
-      font-weight: 700 !important;
-      letter-spacing: 1px;
-    }
-
     /* ===== PROBLEM SECTION ===== */
     .problem-section {
       width: 100%;
@@ -905,21 +766,6 @@
         height: 320px;
       }
 
-      .logos-section {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-        height: auto;
-      }
-
-      .logos-text {
-        width: 100%;
-      }
-
-      .logos-marquee-wrapper {
-        width: 100%;
-        margin-left: 0;
-      }
     }
 
     @media (max-width: 767px) {
@@ -1054,13 +900,6 @@
         height: 260px;
       }
 
-      .logos-marquee-wrapper {
-        height: 56px;
-      }
-
-      .logos-track {
-        gap: 36px;
-      }
     }
 
     @media (max-width: 480px) {
@@ -1140,14 +979,6 @@
         font-size: 16px;
       }
 
-      .logos-text h3 {
-        font-size: 14px;
-        line-height: 20px;
-      }
-
-      .logo-item span {
-        font-size: 13px;
-      }
     }
 
     /* ===== SOLUTIONS SECTION ===== */
@@ -3075,42 +2906,7 @@
       </div>
 
       <!-- ===== LOGOS SECTION ===== -->
-      <div class="logos-section">
-        <div class="logos-text">
-          <h3>Powering Offensive Security For Industry Leaders</h3>
-        </div>
-        <div class="logos-marquee-wrapper">
-          <div class="logos-track">
-            <!-- First set -->
-            <div class="logo-item"><img src="assets/Zid.svg" alt="Zid"></div>
-            <div class="logo-item"><img src="assets/IOT.svg" alt="IOT"></div>
-            <div class="logo-item"><img src="assets/Jahez.svg" alt="Jahez"></div>
-            <div class="logo-item"><img src="assets/Zakat.svg" alt="Zakat, Tax and Customs Authority"></div>
-            <div class="logo-item"><img src="assets/STC.svg" alt="stc"></div>
-            <div class="logo-item"><img src="assets/Qiddiya.svg" alt="Qiddiya"></div>
-            <div class="logo-item"><img src="assets/Tamara.svg" alt="Tamara"></div>
-            <div class="logo-item"><img src="assets/Ministry of sport.svg" alt="Ministry of Sport"></div>
-            <div class="logo-item"><img src="assets/Elm.svg" alt="Elm"></div>
-            <div class="logo-item"><img src="assets/AlibabaCloud.svg" alt="Alibaba Cloud"></div>
-            <div class="logo-item"><img src="assets/MoEnergy.svg" alt="Ministry of Energy"></div>
-            <div class="logo-item"><img src="assets/FGS.svg" alt="FGS Global"></div>
-
-            <!-- Duplicate set -->
-            <div class="logo-item"><img src="assets/Zid.svg" alt="Zid"></div>
-            <div class="logo-item"><img src="assets/IOT.svg" alt="IOT"></div>
-            <div class="logo-item"><img src="assets/Jahez.svg" alt="Jahez"></div>
-            <div class="logo-item"><img src="assets/Zakat.svg" alt="Zakat, Tax and Customs Authority"></div>
-            <div class="logo-item"><img src="assets/STC.svg" alt="stc"></div>
-            <div class="logo-item"><img src="assets/Qiddiya.svg" alt="Qiddiya"></div>
-            <div class="logo-item"><img src="assets/Tamara.svg" alt="Tamara"></div>
-            <div class="logo-item"><img src="assets/Ministry of sport.svg" alt="Ministry of Sport"></div>
-            <div class="logo-item"><img src="assets/Elm.svg" alt="Elm"></div>
-            <div class="logo-item"><img src="assets/AlibabaCloud.svg" alt="Alibaba Cloud"></div>
-            <div class="logo-item"><img src="assets/MoEnergy.svg" alt="Ministry of Energy"></div>
-            <div class="logo-item"><img src="assets/FGS.svg" alt="FGS Global"></div>
-          </div>
-        </div>
-      </div>
+      <div id="logo-marquee"></div>
 
     </div>
   </section>
@@ -3240,7 +3036,7 @@
               <p class="sol-card-desc">Trained by top ethical hackers and proven in real-world environments, achieving a 90% success rate across leading offensive security benchmarks.</p>
             </div>
             <div class="sol-card-image">
-              <img src="assets/Thinks like an expert.svg" alt="Performance benchmark chart showing 90% success rate" />
+              <img src="../Design system/Assets/Thinks like an expert.svg" alt="Performance benchmark chart showing 90% success rate" />
             </div>
           </div>
 
@@ -3453,7 +3249,7 @@
           <!-- Card 1: Qiddiya -->
           <div class="feedback-card">
             <div class="feedback-card-logo">
-              <img src="assets/abd24348f15e0ed8c96f4988c5f2e458be1ffcc1.svg" alt="Qiddiya" style="width:51px;height:48px;">
+              <img src="../Design system/Assets/Qiddiya.svg" alt="Qiddiya" style="height:48px;width:auto;">
             </div>
             <div class="feedback-card-body">
               <p class="feedback-card-quote">"Our experience with Nua Assessment has been exceptional. The team's smooth collaboration, unwavering support, and dedication have truly stood out."</p>
@@ -3467,8 +3263,7 @@
           <!-- Card 2: ZATCA -->
           <div class="feedback-card">
             <div class="feedback-card-logo">
-              <img src="assets/0b9d14903dd21bdb4e3a2af49ae43673b28cfb34.svg" alt="ZATCA" style="width:26px;height:32px;">
-              <img src="assets/507215a65f79401e88e5a0006a78b5b7629950ac.svg" alt="ZATCA" style="width:198px;height:12px;">
+              <img src="../Design system/Assets/Zakat.svg" alt="ZATCA" style="height:36px;width:auto;">
             </div>
             <div class="feedback-card-body">
               <p class="feedback-card-quote">"Nua platform stands out with its exceptional and specialized expertise in penetration testing, making it an essential component of the cybersecurity strategy formulated by ZATCA."</p>
@@ -3482,13 +3277,13 @@
           <!-- Card 3: Jahez -->
           <div class="feedback-card">
             <div class="feedback-card-logo">
-              <img src="assets/6fbdfc386f3b5c67c98fc7f1a4c54b0f70da1153.svg" alt="Jahez" style="width:96px;height:24px;">
+              <img src="../Design system/Assets/Jahez.svg" alt="Jahez" style="height:28px;width:auto;">
             </div>
             <div class="feedback-card-body">
               <p class="feedback-card-quote">"An exceptional experience different from any previous penetration test, a clear view of all details, and automated processes in a smooth and easy manner."</p>
               <div class="feedback-card-author">
                 <p class="feedback-card-name">Waleed Alhajri</p>
-                <p class="feedback-card-role">Cybersecurity Team Lead, Jahiz</p>
+                <p class="feedback-card-role">Cybersecurity Team Lead, Jahez</p>
               </div>
             </div>
           </div>
@@ -3496,7 +3291,7 @@
           <!-- Card 4: Alibaba Cloud -->
           <div class="feedback-card">
             <div class="feedback-card-logo">
-              <img src="assets/4e1a4b6b7624696050fb09db6a0433253b597f3d.svg" alt="Alibaba Cloud" style="width:190px;height:24px;">
+              <img src="../Design system/Assets/AlibabaCloud.svg" alt="Alibaba Cloud" style="height:28px;width:auto;">
             </div>
             <div class="feedback-card-body">
               <p class="feedback-card-quote">"With Nua, we went from waiting weeks for reports to seeing critical findings in real time"</p>
@@ -3510,7 +3305,7 @@
           <!-- Card 5: Tamara -->
           <div class="feedback-card">
             <div class="feedback-card-logo">
-              <img src="assets/179ba9746fbdb1e8bb7ad608c8b3d15f8296a96b.svg" alt="Tamara" style="width:125px;height:24px;">
+              <img src="../Design system/Assets/Tamara.svg" alt="Tamara" style="height:28px;width:auto;">
             </div>
             <div class="feedback-card-body">
               <p class="feedback-card-quote">"With Nua, we went from waiting weeks for reports to seeing critical findings in real time"</p>
@@ -3524,9 +3319,7 @@
           <!-- Card 6: FGS Global -->
           <div class="feedback-card">
             <div class="feedback-card-logo">
-              <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <text x="0" y="18" fill="white" font-family="DM Sans, sans-serif" font-size="18" font-weight="700" letter-spacing="1">FGS</text>
-              </svg>
+              <img src="../Design system/Assets/FGS.svg" alt="FGS Global" style="height:28px;width:auto;">
             </div>
             <div class="feedback-card-body">
               <p class="feedback-card-quote">"From day one, Nua earned our trust. Their combination of innovation and real expertise mitigates risks faster than ever."</p>
@@ -3542,7 +3335,7 @@
           <!-- Card 1: Qiddiya (duplicate) -->
           <div class="feedback-card">
             <div class="feedback-card-logo">
-              <img src="assets/abd24348f15e0ed8c96f4988c5f2e458be1ffcc1.svg" alt="Qiddiya" style="width:51px;height:48px;">
+              <img src="../Design system/Assets/Qiddiya.svg" alt="Qiddiya" style="height:48px;width:auto;">
             </div>
             <div class="feedback-card-body">
               <p class="feedback-card-quote">"Our experience with Nua Assessment has been exceptional. The team's smooth collaboration, unwavering support, and dedication have truly stood out."</p>
@@ -3556,8 +3349,7 @@
           <!-- Card 2: ZATCA (duplicate) -->
           <div class="feedback-card">
             <div class="feedback-card-logo">
-              <img src="assets/0b9d14903dd21bdb4e3a2af49ae43673b28cfb34.svg" alt="ZATCA" style="width:26px;height:32px;">
-              <img src="assets/507215a65f79401e88e5a0006a78b5b7629950ac.svg" alt="ZATCA" style="width:198px;height:12px;">
+              <img src="../Design system/Assets/Zakat.svg" alt="ZATCA" style="height:36px;width:auto;">
             </div>
             <div class="feedback-card-body">
               <p class="feedback-card-quote">"Nua platform stands out with its exceptional and specialized expertise in penetration testing, making it an essential component of the cybersecurity strategy formulated by ZATCA."</p>
@@ -3571,13 +3363,13 @@
           <!-- Card 3: Jahez (duplicate) -->
           <div class="feedback-card">
             <div class="feedback-card-logo">
-              <img src="assets/6fbdfc386f3b5c67c98fc7f1a4c54b0f70da1153.svg" alt="Jahez" style="width:96px;height:24px;">
+              <img src="../Design system/Assets/Jahez.svg" alt="Jahez" style="height:28px;width:auto;">
             </div>
             <div class="feedback-card-body">
               <p class="feedback-card-quote">"An exceptional experience different from any previous penetration test, a clear view of all details, and automated processes in a smooth and easy manner."</p>
               <div class="feedback-card-author">
                 <p class="feedback-card-name">Waleed Alhajri</p>
-                <p class="feedback-card-role">Cybersecurity Team Lead, Jahiz</p>
+                <p class="feedback-card-role">Cybersecurity Team Lead, Jahez</p>
               </div>
             </div>
           </div>
@@ -3585,7 +3377,7 @@
           <!-- Card 4: Alibaba Cloud (duplicate) -->
           <div class="feedback-card">
             <div class="feedback-card-logo">
-              <img src="assets/4e1a4b6b7624696050fb09db6a0433253b597f3d.svg" alt="Alibaba Cloud" style="width:190px;height:24px;">
+              <img src="../Design system/Assets/AlibabaCloud.svg" alt="Alibaba Cloud" style="height:28px;width:auto;">
             </div>
             <div class="feedback-card-body">
               <p class="feedback-card-quote">"With Nua, we went from waiting weeks for reports to seeing critical findings in real time"</p>
@@ -3599,7 +3391,7 @@
           <!-- Card 5: Tamara (duplicate) -->
           <div class="feedback-card">
             <div class="feedback-card-logo">
-              <img src="assets/179ba9746fbdb1e8bb7ad608c8b3d15f8296a96b.svg" alt="Tamara" style="width:125px;height:24px;">
+              <img src="../Design system/Assets/Tamara.svg" alt="Tamara" style="height:28px;width:auto;">
             </div>
             <div class="feedback-card-body">
               <p class="feedback-card-quote">"With Nua, we went from waiting weeks for reports to seeing critical findings in real time"</p>
@@ -3613,9 +3405,7 @@
           <!-- Card 6: FGS Global (duplicate) -->
           <div class="feedback-card">
             <div class="feedback-card-logo">
-              <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <text x="0" y="18" fill="white" font-family="DM Sans, sans-serif" font-size="18" font-weight="700" letter-spacing="1">FGS</text>
-              </svg>
+              <img src="../Design system/Assets/FGS.svg" alt="FGS Global" style="height:28px;width:auto;">
             </div>
             <div class="feedback-card-body">
               <p class="feedback-card-quote">"From day one, Nua earned our trust. Their combination of innovation and real expertise mitigates risks faster than ever."</p>
@@ -3640,52 +3430,51 @@
         <h2 class="blog-heading">Latest Publications And Research</h2>
       </div>
 
-      <!-- Articles -->
-      <div class="blog-articles">
-        <!-- Divider -->
-        <hr class="blog-divider">
+      <!-- Articles — using nua-blog component -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
 
         <!-- Article 1 -->
-        <a href="#" class="blog-article">
-          <div class="blog-article-image">
-            <img src="assets/2ced93aa26ba03f6786e739abfbac2654ba8d116.png" alt="A New Chapter: Introducing Nua">
-          </div>
-          <div class="blog-article-text">
-            <p class="blog-article-date">April 29, 2025</p>
-            <h3 class="blog-article-title">A New Chapter: Introducing Nua</h3>
-            <p class="blog-article-desc">Today, I'm honored and excited to share a major milestone in our journey.</p>
-          </div>
+        <a href="#" class="blog-article" style="text-decoration:none;color:inherit;">
+          <article class="nua-blog">
+            <div class="nua-blog__img">
+              <img src="../Design system/Assets/2ced93aa26ba03f6786e739abfbac2654ba8d116.png" alt="A New Chapter: Introducing Nua">
+            </div>
+            <div class="nua-blog__text">
+              <p class="nua-blog__date">April 29, 2025</p>
+              <h3 class="nua-blog__title">A New Chapter: Introducing Nua</h3>
+              <p class="nua-blog__desc">Today, I'm honored and excited to share a major milestone in our journey.</p>
+            </div>
+          </article>
         </a>
-
-        <!-- Divider -->
-        <hr class="blog-divider">
 
         <!-- Article 2 -->
-        <a href="#" class="blog-article">
-          <div class="blog-article-image">
-            <img src="assets/146ce381899b9dce8a1669a9f25ca5119ba92069.png" alt="Meet Us At RSA 2025">
-          </div>
-          <div class="blog-article-text">
-            <p class="blog-article-date">April 29, 2025</p>
-            <h3 class="blog-article-title">Meet Us At RSA 2025</h3>
-            <p class="blog-article-desc">We're thrilled to announce that Nua will be exhibiting at RSA Conference 2025, one of the world's leading cybersecurity events.</p>
-          </div>
+        <a href="#" class="blog-article" style="text-decoration:none;color:inherit;">
+          <article class="nua-blog">
+            <div class="nua-blog__img">
+              <img src="../Design system/Assets/146ce381899b9dce8a1669a9f25ca5119ba92069.png" alt="Meet Us At RSA 2025">
+            </div>
+            <div class="nua-blog__text">
+              <p class="nua-blog__date">April 29, 2025</p>
+              <h3 class="nua-blog__title">Meet Us At RSA 2025</h3>
+              <p class="nua-blog__desc">We're thrilled to announce that Nua will be exhibiting at RSA Conference 2025, one of the world's leading cybersecurity events.</p>
+            </div>
+          </article>
         </a>
-
-        <!-- Divider -->
-        <hr class="blog-divider">
 
         <!-- Article 3 -->
-        <a href="#" class="blog-article">
-          <div class="blog-article-image">
-            <img src="assets/e6cfed6b423c2947e0a943e5de9143925f9edf36.png" alt="A New Chapter: Introducing Nua">
-          </div>
-          <div class="blog-article-text">
-            <p class="blog-article-date">April 29, 2025</p>
-            <h3 class="blog-article-title">A New Chapter: Introducing Nua</h3>
-            <p class="blog-article-desc">Deploy hundreds of specialized AI agents working together to uncover vulnerabilities at scale.</p>
-          </div>
+        <a href="#" class="blog-article" style="text-decoration:none;color:inherit;">
+          <article class="nua-blog">
+            <div class="nua-blog__img">
+              <img src="../Design system/Assets/e6cfed6b423c2947e0a943e5de9143925f9edf36.png" alt="A New Chapter: Introducing Nua">
+            </div>
+            <div class="nua-blog__text">
+              <p class="nua-blog__date">April 29, 2025</p>
+              <h3 class="nua-blog__title">A New Chapter: Introducing Nua</h3>
+              <p class="nua-blog__desc">Deploy hundreds of specialized AI agents working together to uncover vulnerabilities at scale.</p>
+            </div>
+          </article>
         </a>
+
       </div>
     </div>
 
@@ -4011,5 +3800,6 @@
     }
   </script>
 
+  <script src="../Components/Logos/Company logos loop.js"></script>
 </body>
 </html>
