@@ -314,16 +314,16 @@
     }
     .pricing-compare-header { display: flex; flex-direction: column; gap: var(--space-8); }
     .pricing-compare-title {
-      font-size: var(--font-size-24); font-weight: var(--font-weight-medium);
-      line-height: var(--line-height-24); color: var(--color-text-display1);
+      font-size: var(--font-size-48); font-weight: var(--font-weight-medium);
+      line-height: var(--line-height-48); color: var(--color-text-display1);
     }
     .pricing-compare-subtitle {
-      font-size: var(--font-size-16); font-weight: var(--font-weight-regular);
-      line-height: var(--line-height-16); color: var(--color-text-body1);
+      font-size: var(--font-size-20); font-weight: var(--font-weight-regular);
+      line-height: var(--line-height-20); color: var(--color-text-body1);
     }
 
     .pricing-compare-wrap {
-      width: 100%; overflow-x: auto;
+      width: 100%; overflow-x: clip;
       border: 1px solid var(--colors-natural-170);
       border-radius: var(--border-radius-sm);
     }
@@ -347,7 +347,7 @@
       border-left: 1px solid var(--colors-natural-170);
     }
     .pct-th:first-child { text-align: left; border-left: none; }
-    .pct-th--enterprise { background: #F6F8FF; }
+    .pct-th--enterprise { background: var(--colors-natural-50); }
 
     .pct-th-inner { display: flex; flex-direction: column; gap: var(--space-8); align-items: center; }
     .pct-th:first-child .pct-th-inner { align-items: flex-start; }
@@ -408,8 +408,6 @@
       vertical-align: middle;
     }
     .pct-row-feature:hover td { background: #fafbff; }
-    .pct-row-feature td:nth-child(4) { background: #F6F8FF; }
-    .pct-row-feature:hover td:nth-child(4) { background: #eef1ff; }
 
     .pct-feature-name {
       font-size: var(--font-size-14); font-weight: var(--font-weight-regular);
@@ -422,6 +420,17 @@
     .pct-icon-dash { color: #D0D0D0; display: inline-flex; }
     .pct-icon-check svg, .pct-icon-dash svg { width: 20px; height: 20px; }
 
+    /* Sticky category label overlay (fixed div, not a table cell) */
+    .pct-sticky-bar {
+      display: none; position: fixed; z-index: 50; pointer-events: none;
+      background: var(--colors-natural-100);
+      padding: var(--space-8) var(--space-16);
+      font-size: var(--font-size-12); font-weight: var(--font-weight-semibold);
+      color: var(--color-text-body1); text-transform: uppercase; letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--colors-natural-170);
+      box-sizing: border-box;
+    }
+
     /* ═══════════════════════════════════════════════
        FAQ SECTION
     ════════════════════════════════════════════════ */
@@ -431,8 +440,8 @@
       gap: var(--space-28); padding-bottom: var(--space-40);
     }
     .pricing-faq-title {
-      font-size: var(--font-size-24); font-weight: var(--font-weight-medium);
-      line-height: var(--line-height-24); color: var(--color-text-display1);
+      font-size: var(--font-size-48); font-weight: var(--font-weight-medium);
+      line-height: var(--line-height-48); color: var(--color-text-display1);
     }
     .pricing-faq-list { display: flex; flex-direction: column; }
     .faq-item { border-top: 1px solid var(--colors-natural-170); }
@@ -441,16 +450,31 @@
       display: flex; align-items: center; justify-content: space-between;
       gap: var(--space-20); padding: var(--space-20) 0;
       cursor: pointer; user-select: none;
+      transition: opacity 0.2s ease;
     }
+    .faq-question:hover { opacity: 0.7; }
     .faq-question-text {
       font-size: var(--font-size-18); font-weight: var(--font-weight-medium);
       line-height: var(--line-height-18); color: var(--color-text-display1);
+      transition: color 0.2s ease;
     }
-    .faq-icon { width: 20px; height: 20px; flex-shrink: 0; transition: transform 0.3s ease; color: var(--color-text-body1); }
+    .faq-icon {
+      width: 20px; height: 20px; flex-shrink: 0; color: var(--color-text-body1);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
     .faq-item.is-open .faq-icon { transform: rotate(45deg); }
-    .faq-answer { display: none; padding: 0 0 var(--space-20); }
-    .faq-item.is-open .faq-answer { display: block; }
-    .faq-answer p { font-size: var(--font-size-16); font-weight: var(--font-weight-regular); line-height: var(--line-height-16); color: var(--color-text-body1); }
+    .faq-answer {
+      overflow: hidden; height: 0;
+      transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .faq-answer p {
+      padding-bottom: var(--space-20);
+      font-size: var(--font-size-16); font-weight: var(--font-weight-regular);
+      line-height: var(--line-height-16); color: var(--color-text-body1);
+      opacity: 0; transform: translateY(-4px);
+      transition: opacity 0.3s ease 0.05s, transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.05s;
+    }
+    .faq-item.is-open .faq-answer p { opacity: 1; transform: translateY(0); }
 
     /* ═══════════════════════════════════════════════
        CTA + FOOTER
@@ -556,7 +580,8 @@
       .svc-navbar .btn-primary { display: none; }
       .navbar-light .nav-hamburger { color: #1E1E1E; }
       .navbar-dark .nav-hamburger { color: #ffffff; }
-      /* Compare table — mobile */
+      /* Compare table — mobile: re-enable horizontal scroll (sticky won't work here, that's ok) */
+      .pricing-compare-wrap { overflow-x: auto; }
       .pricing-compare-table { min-width: 500px; }
       .pct-th { padding: var(--space-10) var(--space-8); top: 60px; }
       .pct-th-name { font-size: var(--font-size-16); }
@@ -1240,13 +1265,89 @@
     })();
   </script>
 
+  <!-- ===== COMPARE TABLE — STICKY CATEGORY LABEL OVERLAY ===== -->
+  <script>
+    (function() {
+      var categoryRows = Array.prototype.slice.call(document.querySelectorAll('.pct-row-category'));
+      var thead = document.querySelector('.pricing-compare-table thead');
+      var table = document.querySelector('.pricing-compare-table');
+      var wrap = document.querySelector('.pricing-compare-wrap');
+      if (!categoryRows.length || !thead || !table || !wrap) return;
+
+      /* Create the overlay bar once and append to body */
+      var bar = document.createElement('div');
+      bar.className = 'pct-sticky-bar';
+      document.body.appendChild(bar);
+
+      function update() {
+        var navH = window.innerWidth <= 767 ? 60 : 80;
+        var stickyTop = thead.offsetHeight + navH;
+        var wrapRect = wrap.getBoundingClientRect();
+        var tableBottom = table.getBoundingClientRect().bottom;
+
+        /* Hide if table has exited the sticky zone */
+        if (tableBottom <= stickyTop + 40 || wrapRect.bottom <= stickyTop) {
+          bar.style.display = 'none';
+          return;
+        }
+
+        /* Find the last category row that has scrolled past the sticky threshold */
+        var activeRow = null;
+        categoryRows.forEach(function(row) {
+          if (row.getBoundingClientRect().top <= stickyTop + 1) activeRow = row;
+        });
+
+        if (activeRow) {
+          var td = activeRow.querySelector('td');
+          bar.textContent = td ? td.textContent : '';
+          bar.style.display = 'block';
+          bar.style.top = stickyTop + 'px';
+          bar.style.left = wrapRect.left + 'px';
+          bar.style.width = wrapRect.width + 'px';
+        } else {
+          bar.style.display = 'none';
+        }
+      }
+
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update, { passive: true });
+      update();
+    })();
+  </script>
+
   <!-- ===== FAQ ACCORDION ===== -->
   <script>
+    function closeFaqItem(item) {
+      var answer = item.querySelector('.faq-answer');
+      answer.style.height = answer.scrollHeight + 'px';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          answer.style.height = '0';
+          item.classList.remove('is-open');
+        });
+      });
+    }
+
+    function openFaqItem(item) {
+      var answer = item.querySelector('.faq-answer');
+      item.classList.add('is-open');
+      answer.style.height = '0';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          answer.style.height = answer.scrollHeight + 'px';
+          answer.addEventListener('transitionend', function done() {
+            if (item.classList.contains('is-open')) answer.style.height = 'auto';
+            answer.removeEventListener('transitionend', done);
+          });
+        });
+      });
+    }
+
     function toggleFaq(questionEl) {
       var item = questionEl.parentElement;
       var isOpen = item.classList.contains('is-open');
-      document.querySelectorAll('.faq-item.is-open').forEach(function(el) { el.classList.remove('is-open'); });
-      if (!isOpen) item.classList.add('is-open');
+      document.querySelectorAll('.faq-item.is-open').forEach(function(el) { closeFaqItem(el); });
+      if (!isOpen) openFaqItem(item);
     }
   </script>
 
