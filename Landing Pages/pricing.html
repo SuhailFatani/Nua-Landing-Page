@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <script>
+    // Reveal all hidden elements for Figma capture
+    if (location.hash.includes('figmacapture')) {
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.reveal').forEach(function(el) {
+          el.classList.add('visible');
+        });
+      });
+    }
+  </script>
   <title>NUA - Pricing</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
