@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nua CMS — Team</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css">
+  <style>
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+      z-index: 200; align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 32px;
+      width: 100%; max-width: 440px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+      animation: fadeUp 0.2s ease;
+    }
+    @keyframes fadeUp { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-title { font-size: 17px; font-weight: 600; color: #111827; margin-bottom: 24px; }
+    .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <div class="topbar">
+      <span class="topbar-title">Team Members</span>
+      <div class="topbar-actions">
+        <button class="btn btn-primary" id="btnInvite">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Invite Member
+        </button>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="card" style="padding:0;">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Member</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Last Login</th>
+                <th>Joined</th>
+                <th style="width:100px;"></th>
+              </tr>
+            </thead>
+            <tbody id="teamTableBody">
+              <tr><td colspan="6"><div class="loading"><div class="spinner-sm"></div> Loading...</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Invite Modal -->
+  <div class="modal-overlay" id="inviteModal">
+    <div class="modal">
+      <h2 class="modal-title">Invite Team Member</h2>
+      <form id="inviteForm" novalidate>
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-input" id="inviteName" placeholder="Jane Smith" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" id="inviteEmail" placeholder="jane@nua.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Temporary Password</label>
+          <input type="text" class="form-input" id="invitePassword" placeholder="Min 12 chars, uppercase, number, symbol" required>
+          <div style="font-size:11px; color:#9ca3af; margin-top:5px;">Team member should change this on first login.</div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">Role</label>
+          <select class="form-select" id="inviteRole">
+            <option value="EDITOR">Editor — can write and publish content</option>
+            <option value="ADMIN">Admin — full access including team management</option>
+            <option value="VIEWER">Viewer — read-only access</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btnCancelInvite">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitInvite">Create Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { requireAuth, requireRole, renderSidebar, apiFetch, showToast, getUser } from './admin.js'
+
+    requireAuth()
+    requireRole('ADMIN')
+    renderSidebar('team')
+
+    const currentUser = getUser()
+
+    async function loadTeam() {
+      const res = await apiFetch('/users')
+      if (!res.ok) return
+
+      const users = await res.json()
+      const tbody = document.getElementById('teamTableBody')
+
+      if (users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><p>No team members found.</p></div></td></tr>'
+        return
+      }
+
+      tbody.innerHTML = users.map(user => {
+        const initials = user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
+        const isCurrentUser = user.id === currentUser?.id
+
+        return `
+          <tr>
+            <td>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <div style="
+                  width:34px; height:34px; border-radius:50%;
+                  background:#e0e7ff; color:#4338ca;
+                  display:flex; align-items:center; justify-content:center;
+                  font-size:12px; font-weight:700; flex-shrink:0;
+                ">${initials}</div>
+                <div>
+                  <div style="font-size:14px; font-weight:500; color:#111827;">
+                    ${escHtml(user.name)}
+                    ${isCurrentUser ? '<span style="font-size:10px; color:#9ca3af; font-weight:400; margin-left:6px;">(you)</span>' : ''}
+                  </div>
+                  <div style="font-size:12px; color:#6b7280;">${escHtml(user.email)}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="badge badge-${user.role.toLowerCase()}">${user.role}</span>
+            </td>
+            <td>
+              <span style="font-size:13px; color:${user.isActive ? '#16a34a' : '#9ca3af'};">
+                ${user.isActive ? '● Active' : '○ Inactive'}
+              </span>
+            </td>
+            <td style="font-size:13px; color:#6b7280;">
+              ${user.lastLoginAt ? formatDate(user.lastLoginAt) : 'Never'}
+            </td>
+            <td style="font-size:13px; color:#6b7280;">${formatDate(user.createdAt)}</td>
+            <td>
+              ${!isCurrentUser ? `
+                <div style="display:flex; gap:6px;">
+                  <button class="btn btn-secondary btn-sm" onclick="toggleUserStatus('${user.id}', ${user.isActive})">
+                    ${user.isActive ? 'Deactivate' : 'Activate'}
+                  </button>
+                </div>
+              ` : ''}
+            </td>
+          </tr>
+        `
+      }).join('')
+    }
+
+    window.toggleUserStatus = async function(id, isActive) {
+      const action = isActive ? 'deactivate' : 'activate'
+      if (!confirm(`${action.charAt(0).toUpperCase() + action.slice(1)} this user?`)) return
+
+      const res = await apiFetch(`/users/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ isActive: !isActive }),
+      })
+
+      if (res.ok) {
+        showToast(`User ${action}d.`, 'success')
+        loadTeam()
+      } else {
+        const err = await res.json()
+        showToast(err.message || 'Failed.', 'error')
+      }
+    }
+
+    // ── Invite modal ────────────────────────────────────────────
+    document.getElementById('btnInvite').addEventListener('click', () => {
+      document.getElementById('inviteModal').classList.add('open')
+    })
+    document.getElementById('btnCancelInvite').addEventListener('click', () => {
+      document.getElementById('inviteModal').classList.remove('open')
+    })
+
+    document.getElementById('inviteForm').addEventListener('submit', async (e) => {
+      e.preventDefault()
+      const btn = document.getElementById('btnSubmitInvite')
+      btn.disabled = true
+      btn.textContent = 'Creating...'
+
+      const res = await apiFetch('/users', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: document.getElementById('inviteName').value.trim(),
+          email: document.getElementById('inviteEmail').value.trim(),
+          password: document.getElementById('invitePassword').value,
+          role: document.getElementById('inviteRole').value,
+        }),
+      })
+
+      btn.disabled = false
+      btn.textContent = 'Create Account'
+
+      if (res.ok) {
+        document.getElementById('inviteModal').classList.remove('open')
+        document.getElementById('inviteForm').reset()
+        showToast('Team member created!', 'success')
+        loadTeam()
+      } else {
+        const err = await res.json()
+        showToast(err.message || 'Failed to create user.', 'error')
+      }
+    })
+
+    function escHtml(str) {
+      const d = document.createElement('div')
+      d.textContent = str || ''
+      return d.innerHTML
+    }
+
+    function formatDate(iso) {
+      return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    }
+
+    loadTeam()
+  </script>
+</body>
+</html>

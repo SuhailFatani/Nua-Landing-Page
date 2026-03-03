@@ -1268,5 +1268,90 @@
     }
   </script>
 
+  <!-- ═══════════════════════════════════════════════════════════
+       NUA CMS INTEGRATION — Loads single blog post from API
+       Uses ?slug=post-slug in URL to identify the post
+       Falls back to static content if API is unavailable
+  ══════════════════════════════════════════════════════════════ -->
+  <script>
+  (function () {
+    'use strict';
+
+    var CMS_API = 'http://localhost:3001/api';
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      return new Date(dateStr).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+    }
+
+    function getSlugFromURL() {
+      var params = new URLSearchParams(window.location.search);
+      return params.get('slug');
+    }
+
+    function loadPost(slug) {
+      fetch(CMS_API + '/blog/' + encodeURIComponent(slug))
+        .then(function (res) {
+          if (!res.ok) throw new Error('Post not found (' + res.status + ')');
+          return res.json();
+        })
+        .then(function (post) {
+          // ── Update <title> ──────────────────────────────────
+          if (post.metaTitle) document.title = post.metaTitle;
+          else document.title = post.title + ' | Nua Security';
+
+          // ── Update article title ────────────────────────────
+          var titleEl = document.querySelector('.article-title');
+          if (titleEl) titleEl.textContent = post.title;
+
+          // ── Update article meta (author + date) ────────────
+          var metaEl = document.querySelector('.article-meta');
+          if (metaEl) {
+            var authorName = post.author ? post.author.name : 'Nua Security';
+            metaEl.innerHTML = 'By ' + authorName + ' &mdash; ' + formatDate(post.publishedAt);
+          }
+
+          // ── Update hero image ────────────────────────────────
+          var heroImg = document.querySelector('.article-hero-img img');
+          if (heroImg && post.coverImage) {
+            heroImg.src = post.coverImage.url;
+            heroImg.alt = post.coverImage.alt || post.title;
+          }
+
+          // ── Replace article content with CMS content ────────
+          var contentEl = document.querySelector('.article-content');
+          if (contentEl && post.content) {
+            contentEl.innerHTML = post.content;
+          }
+
+          // ── Update meta description ──────────────────────────
+          var metaDesc = document.querySelector('meta[name="description"]');
+          if (metaDesc && post.metaDesc) metaDesc.setAttribute('content', post.metaDesc);
+
+          console.log('[Nua CMS] Loaded post: "' + post.title + '"');
+        })
+        .catch(function (err) {
+          console.warn('[Nua CMS] Post API unavailable, using static content.', err.message);
+        });
+    }
+
+    // ── Run on DOM ready ─────────────────────────────────────────
+    function init() {
+      var slug = getSlugFromURL();
+      if (slug) loadPost(slug);
+      // No slug = show static default content (for local preview)
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+  })();
+  </script>
+
 </body>
 </html>

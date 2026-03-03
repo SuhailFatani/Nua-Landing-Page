@@ -1626,5 +1626,131 @@
     }
   </script>
 
+  <!-- ═══════════════════════════════════════════════════════════
+       NUA CMS INTEGRATION — Fetches live blog posts from API
+       API: http://localhost:3001/api/blog
+       Falls back to static content if API is unavailable
+  ══════════════════════════════════════════════════════════════ -->
+  <script>
+  (function () {
+    'use strict';
+
+    var CMS_API = 'http://localhost:3001/api';
+
+    // ── Format date ─────────────────────────────────────────────
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      var d = new Date(dateStr);
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    // ── Build a blog card HTML string ────────────────────────────
+    function buildBlogCard(post) {
+      var tags = (post.tags || [])
+        .map(function (t) { return '<span class="nua-blog__tag">' + (t.tag ? t.tag.name : t.name || '') + '</span>'; })
+        .join('');
+
+      var imgHtml = post.coverImage
+        ? '<img src="' + post.coverImage.url + '" alt="' + (post.coverImage.alt || post.title) + '" loading="lazy">'
+        : '<img src="../Design system/Assets/5a060a639f4b4614e53778c560c4f2bcf9b638e0.png" alt="' + post.title + '">';
+
+      var slug = post.slug || '';
+      return (
+        '<a href="blog-post.html?slug=' + slug + '" class="blog-card">' +
+          '<article class="nua-blog">' +
+            '<div class="nua-blog__img">' + imgHtml + '</div>' +
+            '<div class="nua-blog__text">' +
+              '<p class="nua-blog__date">' + formatDate(post.publishedAt) + '</p>' +
+              '<h3 class="nua-blog__title">' + post.title + '</h3>' +
+              '<p class="nua-blog__desc">' + (post.excerpt || '') + '</p>' +
+            '</div>' +
+            '<div class="nua-blog__tags">' + tags + '</div>' +
+          '</article>' +
+        '</a>'
+      );
+    }
+
+    // ── Render posts into grid rows (3 per row) ──────────────────
+    function renderGrid(posts, gridEl) {
+      gridEl.innerHTML = '';
+      for (var i = 0; i < posts.length; i += 3) {
+        var row = document.createElement('div');
+        row.className = 'blog-grid-row';
+        for (var j = i; j < Math.min(i + 3, posts.length); j++) {
+          row.innerHTML += buildBlogCard(posts[j]);
+        }
+        gridEl.appendChild(row);
+      }
+    }
+
+    // ── Update featured post (first/latest) ──────────────────────
+    function updateFeatured(post) {
+      var featuredEl = document.querySelector('.blog-featured');
+      if (!featuredEl || !post) return;
+
+      // Update href
+      featuredEl.setAttribute('href', 'blog-post.html?slug=' + (post.slug || ''));
+
+      // Update image
+      var imgEl = featuredEl.querySelector('.blog-featured-img img');
+      if (imgEl && post.coverImage) {
+        imgEl.src = post.coverImage.url;
+        imgEl.alt = post.coverImage.alt || post.title;
+      }
+
+      // Update text
+      var dateEl = featuredEl.querySelector('.blog-featured-date');
+      var titleEl = featuredEl.querySelector('.blog-featured-title');
+      var descEl = featuredEl.querySelector('.blog-featured-desc');
+
+      if (dateEl) dateEl.textContent = formatDate(post.publishedAt);
+      if (titleEl) titleEl.textContent = post.title;
+      if (descEl) descEl.textContent = post.excerpt || '';
+    }
+
+    // ── Fetch and render blog posts ──────────────────────────────
+    function loadBlogPosts() {
+      fetch(CMS_API + '/blog?limit=9', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error('API responded with ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          var posts = data.data || [];
+          if (!posts.length) return; // Keep static content if no posts
+
+          var gridEl = document.querySelector('.blog-grid');
+
+          // Update featured post (latest)
+          updateFeatured(posts[0]);
+
+          // Render remaining posts in grid (skip first — it's featured)
+          if (gridEl && posts.length > 1) {
+            renderGrid(posts.slice(1), gridEl);
+          } else if (gridEl) {
+            renderGrid(posts, gridEl);
+          }
+
+          console.log('[Nua CMS] Loaded ' + posts.length + ' blog posts from API');
+        })
+        .catch(function (err) {
+          // Silently fall back to static content — no error shown to visitors
+          console.warn('[Nua CMS] Blog API unavailable, using static content.', err.message);
+        });
+    }
+
+    // ── Run on DOM ready ─────────────────────────────────────────
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadBlogPosts);
+    } else {
+      loadBlogPosts();
+    }
+
+  })();
+  </script>
+
 </body>
 </html>

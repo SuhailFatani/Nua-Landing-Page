@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nua CMS — Media</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css">
+  <style>
+    .upload-zone {
+      border: 2px dashed #d1d5db;
+      border-radius: 12px;
+      padding: 40px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 24px;
+      position: relative;
+      background: #ffffff;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: #2563eb;
+      background: rgba(37, 99, 235, 0.03);
+    }
+    .upload-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .upload-icon { font-size: 32px; margin-bottom: 12px; opacity: 0.4; }
+    .upload-text { font-size: 14px; color: #6b7280; }
+    .upload-text strong { color: #2563eb; }
+    .upload-sub { font-size: 12px; color: #9ca3af; margin-top: 6px; }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .media-item {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      position: relative;
+    }
+    .media-item:hover { border-color: #9ca3af; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .media-item.selected { border-color: #2563eb; }
+    .media-thumb {
+      width: 100%; aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      background: #f3f4f6;
+    }
+    .media-thumb-placeholder {
+      width: 100%; aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px; background: #f3f4f6;
+    }
+    .media-info {
+      padding: 8px 10px;
+    }
+    .media-name {
+      font-size: 12px; font-weight: 500; color: #111827;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .media-size { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+    .media-delete {
+      position: absolute; top: 6px; right: 6px;
+      background: rgba(239,68,68,0.85);
+      border: none; border-radius: 6px;
+      width: 24px; height: 24px;
+      display: none; align-items: center; justify-content: center;
+      cursor: pointer; color: #fff; font-size: 12px;
+    }
+    .media-item:hover .media-delete { display: flex; }
+
+    .progress-bar-wrap {
+      background: #e5e7eb;
+      border-radius: 100px;
+      height: 4px;
+      margin-top: 12px;
+      overflow: hidden;
+      display: none;
+    }
+    .progress-bar {
+      height: 100%;
+      background: #2563eb;
+      border-radius: 100px;
+      transition: width 0.2s;
+      width: 0%;
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <div class="topbar">
+      <span class="topbar-title">Media Library</span>
+      <div class="topbar-actions">
+        <span id="mediaCount" style="font-size:13px; color:#6b7280;"></span>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- Upload zone -->
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="fileInput" accept="image/*,application/pdf" multiple>
+        <div class="upload-icon">📁</div>
+        <div class="upload-text"><strong>Click to upload</strong> or drag and drop</div>
+        <div class="upload-sub">JPEG, PNG, WebP, GIF, SVG, PDF · Max 10MB</div>
+        <div class="progress-bar-wrap" id="progressWrap">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div id="uploadStatus" style="font-size:13px; color:#6b7280; margin-top:10px;"></div>
+      </div>
+
+      <!-- Media grid -->
+      <div id="mediaGrid" class="media-grid">
+        <div class="loading" style="grid-column: 1/-1;"><div class="spinner-sm"></div> Loading media...</div>
+      </div>
+
+      <!-- Pagination -->
+      <div style="display:flex; justify-content:center; gap:8px; margin-top:24px;" id="mediaPagination"></div>
+
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireAuth, renderSidebar, apiFetch, showToast, getUser } from './admin.js'
+
+    requireAuth()
+    renderSidebar('media')
+
+    const user = getUser()
+    let currentPage = 1
+    const LIMIT = 30
+
+    async function loadMedia() {
+      const res = await apiFetch(`/media?page=${currentPage}&limit=${LIMIT}`)
+      if (!res.ok) return
+
+      const { data, meta } = await res.json()
+
+      document.getElementById('mediaCount').textContent = `${meta.total} file${meta.total !== 1 ? 's' : ''}`
+
+      const grid = document.getElementById('mediaGrid')
+
+      if (data.length === 0) {
+        grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state-icon">📁</div><p>No media yet. Upload your first file above.</p></div>'
+        return
+      }
+
+      grid.innerHTML = data.map(item => {
+        const isImage = item.mimeType.startsWith('image/')
+        return `
+          <div class="media-item" data-id="${item.id}">
+            ${isImage
+              ? `<img class="media-thumb" src="${escHtml(item.url)}" alt="${escHtml(item.alt || item.originalName)}" loading="lazy">`
+              : `<div class="media-thumb-placeholder">📄</div>`
+            }
+            <div class="media-info">
+              <div class="media-name" title="${escHtml(item.originalName)}">${escHtml(item.originalName)}</div>
+              <div class="media-size">${formatBytes(item.size)}</div>
+            </div>
+            <button class="media-delete" onclick="deleteMedia('${item.id}', event)" title="Delete">✕</button>
+          </div>
+        `
+      }).join('')
+
+      // Pagination
+      const pages = document.getElementById('mediaPagination')
+      if (meta.totalPages > 1) {
+        pages.innerHTML = `
+          <button class="btn btn-secondary btn-sm" ${currentPage <= 1 ? 'disabled' : ''} onclick="goPage(${currentPage - 1})">← Prev</button>
+          <span style="font-size:13px; color:#6b7280; padding:0 8px;">Page ${meta.page} of ${meta.totalPages}</span>
+          <button class="btn btn-secondary btn-sm" ${currentPage >= meta.totalPages ? 'disabled' : ''} onclick="goPage(${currentPage + 1})">Next →</button>
+        `
+      } else {
+        pages.innerHTML = ''
+      }
+    }
+
+    window.goPage = function(page) {
+      currentPage = page
+      loadMedia()
+    }
+
+    window.deleteMedia = async function(id, event) {
+      event.stopPropagation()
+      if (!confirm('Delete this file? This cannot be undone.')) return
+
+      const res = await apiFetch(`/media/${id}`, { method: 'DELETE' })
+      if (res.ok) {
+        showToast('File deleted.', 'success')
+        loadMedia()
+      } else {
+        showToast('Delete failed.', 'error')
+      }
+    }
+
+    // ── Upload handler ──────────────────────────────────────────
+    async function uploadFiles(files) {
+      const progressWrap = document.getElementById('progressWrap')
+      const progressBar = document.getElementById('progressBar')
+      const uploadStatus = document.getElementById('uploadStatus')
+
+      progressWrap.style.display = 'block'
+      let completed = 0
+
+      for (const file of files) {
+        if (file.size > 10 * 1024 * 1024) {
+          showToast(`${file.name} exceeds 10MB limit.`, 'error')
+          continue
+        }
+
+        uploadStatus.textContent = `Uploading ${file.name}...`
+        progressBar.style.width = `${Math.round((completed / files.length) * 100)}%`
+
+        const formData = new FormData()
+        formData.append('file', file)
+
+        const token = sessionStorage.getItem('access_token')
+        const res = await fetch('http://localhost:3001/api/media/upload', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        })
+
+        if (res.ok) {
+          completed++
+          showToast(`${file.name} uploaded.`, 'success')
+        } else {
+          const err = await res.json()
+          showToast(`${file.name}: ${err.message}`, 'error')
+        }
+      }
+
+      progressBar.style.width = '100%'
+      uploadStatus.textContent = `${completed} of ${files.length} file${files.length !== 1 ? 's' : ''} uploaded.`
+
+      setTimeout(() => {
+        progressWrap.style.display = 'none'
+        progressBar.style.width = '0%'
+        uploadStatus.textContent = ''
+      }, 2000)
+
+      if (completed > 0) loadMedia()
+    }
+
+    const fileInput = document.getElementById('fileInput')
+    const uploadZone = document.getElementById('uploadZone')
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files?.length) uploadFiles(Array.from(e.target.files))
+      fileInput.value = ''
+    })
+
+    uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.classList.add('dragover') })
+    uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'))
+    uploadZone.addEventListener('drop', (e) => {
+      e.preventDefault()
+      uploadZone.classList.remove('dragover')
+      const files = Array.from(e.dataTransfer?.files || [])
+      if (files.length) uploadFiles(files)
+    })
+
+    function escHtml(str) {
+      const d = document.createElement('div')
+      d.textContent = str || ''
+      return d.innerHTML
+    }
+
+    function formatBytes(bytes) {
+      if (bytes < 1024) return `${bytes} B`
+      if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`
+      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+    }
+
+    loadMedia()
+  </script>
+</body>
+</html>

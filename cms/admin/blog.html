@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nua CMS — Blog Posts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css">
+  <style>
+    .editor-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 1024px) {
+      .editor-layout { grid-template-columns: 1fr; }
+    }
+
+    .editor-area {
+      min-height: 320px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      color: #111827;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      padding: 16px;
+      outline: none;
+      line-height: 1.7;
+      resize: vertical;
+    }
+    .editor-area:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .editor-area[placeholder]:empty::before {
+      content: attr(placeholder);
+      color: #9ca3af;
+      pointer-events: none;
+    }
+    .editor-toolbar {
+      display: flex;
+      gap: 4px;
+      padding: 8px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+    }
+    .toolbar-btn {
+      padding: 5px 9px;
+      border-radius: 5px;
+      border: none;
+      background: none;
+      color: #6b7280;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      transition: all 0.1s;
+    }
+    .toolbar-btn:hover { background: #e5e7eb; color: #111827; }
+    .toolbar-divider { width: 1px; background: #e5e7eb; margin: 4px 2px; }
+    .editor-area-wrap .editor-area { border-radius: 0 0 8px 8px; }
+
+    /* List view */
+    #listView table { font-size: 14px; }
+    .post-title-cell { max-width: 280px; }
+    .post-title-cell a { color: #111827; text-decoration: none; font-weight: 500; }
+    .post-title-cell a:hover { color: #2563eb; }
+    .post-excerpt { font-size: 12px; color: #9ca3af; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+
+    /* Section labels inside cards */
+    .section-label {
+      font-size: 11px; font-weight: 600; color: #9ca3af;
+      text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <div class="topbar">
+      <span class="topbar-title" id="topbarTitle">Blog Posts</span>
+      <div class="topbar-actions" id="topbarActions">
+        <button class="btn btn-primary" id="btnNewPost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Post
+        </button>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- LIST VIEW -->
+      <div id="listView">
+        <!-- Filters -->
+        <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; align-items:center;">
+          <input type="search" class="form-input" placeholder="Search posts..." id="searchInput" style="max-width:240px;">
+          <select class="form-select" id="statusFilter" style="width:auto; min-width:130px;">
+            <option value="">All statuses</option>
+            <option value="PUBLISHED">Published</option>
+            <option value="DRAFT">Draft</option>
+            <option value="ARCHIVED">Archived</option>
+          </select>
+        </div>
+
+        <div class="card" style="padding:0;">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:40%">Post</th>
+                  <th>Author</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th style="width:120px"></th>
+                </tr>
+              </thead>
+              <tbody id="postsTableBody">
+                <tr><td colspan="5"><div class="loading"><div class="spinner-sm"></div> Loading posts...</div></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div id="pagination" style="display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-top:1px solid #e5e7eb;">
+            <span id="paginationInfo" style="font-size:13px; color:#9ca3af;"></span>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-secondary btn-sm" id="btnPrev" disabled>← Prev</button>
+              <button class="btn btn-secondary btn-sm" id="btnNext" disabled>Next →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EDITOR VIEW (hidden by default) -->
+      <div id="editorView" style="display:none;">
+        <button class="btn btn-secondary btn-sm" id="btnBackToList" style="margin-bottom:20px;">
+          ← Back to posts
+        </button>
+
+        <div class="editor-layout">
+          <!-- Left: Main content -->
+          <div>
+            <div class="card" style="margin-bottom:16px;">
+              <input type="text" id="postTitle" placeholder="Post title..."
+                style="font-size:20px; font-weight:600; width:100%; border:none; outline:none; color:#111827; background:none; font-family:'DM Sans',sans-serif;">
+            </div>
+
+            <div class="card" style="margin-bottom:16px; padding:0;">
+              <div class="editor-toolbar">
+                <button class="toolbar-btn" onclick="execCmd('bold')" title="Bold"><b>B</b></button>
+                <button class="toolbar-btn" onclick="execCmd('italic')" title="Italic"><i>I</i></button>
+                <button class="toolbar-btn" onclick="execCmd('underline')" title="Underline"><u>U</u></button>
+                <div class="toolbar-divider"></div>
+                <button class="toolbar-btn" onclick="execCmd('formatBlock','h2')" title="Heading 2">H2</button>
+                <button class="toolbar-btn" onclick="execCmd('formatBlock','h3')" title="Heading 3">H3</button>
+                <div class="toolbar-divider"></div>
+                <button class="toolbar-btn" onclick="execCmd('insertUnorderedList')" title="Bullet list">• List</button>
+                <button class="toolbar-btn" onclick="execCmd('insertOrderedList')" title="Numbered list">1. List</button>
+                <div class="toolbar-divider"></div>
+                <button class="toolbar-btn" onclick="insertLink()" title="Insert link">Link</button>
+                <button class="toolbar-btn" onclick="execCmd('formatBlock','blockquote')" title="Quote">"Quote"</button>
+              </div>
+              <div class="editor-area-wrap">
+                <div class="editor-area" id="postContent" contenteditable="true" spellcheck="true"
+                  placeholder="Write your post here..."></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="section-label">SEO</div>
+              <div class="form-group">
+                <label class="form-label">Meta Title <span style="color:#9ca3af; font-weight:400;">(optional — defaults to post title)</span></label>
+                <input type="text" class="form-input" id="postMetaTitle" placeholder="SEO title..." maxlength="160">
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Meta Description</label>
+                <textarea class="form-textarea" id="postMetaDesc" placeholder="SEO description..." maxlength="320" style="min-height:80px;"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Sidebar -->
+          <div>
+            <div class="card" style="margin-bottom:16px;">
+              <div class="section-label">Publish</div>
+              <div class="form-group">
+                <label class="form-label">Status</label>
+                <select class="form-select" id="postStatus">
+                  <option value="DRAFT">Draft</option>
+                  <option value="PUBLISHED">Published</option>
+                  <option value="ARCHIVED">Archived</option>
+                </select>
+              </div>
+              <div style="display:flex; gap:8px; margin-top:4px;">
+                <button class="btn btn-secondary" id="btnSaveDraft" style="flex:1;">Save Draft</button>
+                <button class="btn btn-primary" id="btnPublish" style="flex:1;">Publish</button>
+              </div>
+              <div id="saveStatus" style="font-size:12px; color:#9ca3af; text-align:center; margin-top:10px;"></div>
+            </div>
+
+            <div class="card" style="margin-bottom:16px;">
+              <div class="section-label">Excerpt</div>
+              <textarea class="form-textarea" id="postExcerpt" placeholder="Short description for blog listing..." style="min-height:90px;" maxlength="500"></textarea>
+            </div>
+
+            <div class="card" style="margin-bottom:16px;">
+              <div class="section-label">Tags</div>
+              <input type="text" class="form-input" id="postTags" placeholder="tag1, tag2, tag3">
+              <div style="font-size:11px; color:#9ca3af; margin-top:6px;">Separate tags with commas</div>
+            </div>
+
+            <div id="deleteSection" style="display:none;">
+              <button class="btn btn-danger" id="btnDelete" style="width:100%;">Delete Post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireAuth, renderSidebar, apiFetch, showToast, getUser } from './admin.js'
+
+    requireAuth()
+    renderSidebar('blog')
+
+    const user = getUser()
+    let currentPage = 1
+    let currentPostId = null
+    let totalPages = 1
+
+    // ── View switching ──────────────────────────────────────────
+    function showList() {
+      document.getElementById('listView').style.display = 'block'
+      document.getElementById('editorView').style.display = 'none'
+      document.getElementById('topbarTitle').textContent = 'Blog Posts'
+      document.getElementById('topbarActions').innerHTML = `
+        <button class="btn btn-primary" id="btnNewPost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Post
+        </button>
+      `
+      document.getElementById('btnNewPost').addEventListener('click', () => showEditor(null))
+      loadPosts()
+      window.history.replaceState({}, '', 'blog.html')
+    }
+
+    function showEditor(postId) {
+      currentPostId = postId
+      document.getElementById('listView').style.display = 'none'
+      document.getElementById('editorView').style.display = 'block'
+      document.getElementById('topbarTitle').textContent = postId ? 'Edit Post' : 'New Post'
+      document.getElementById('topbarActions').innerHTML = ''
+
+      // Reset form
+      document.getElementById('postTitle').value = ''
+      document.getElementById('postContent').innerHTML = ''
+      document.getElementById('postExcerpt').value = ''
+      document.getElementById('postTags').value = ''
+      document.getElementById('postMetaTitle').value = ''
+      document.getElementById('postMetaDesc').value = ''
+      document.getElementById('postStatus').value = 'DRAFT'
+      document.getElementById('saveStatus').textContent = ''
+      document.getElementById('deleteSection').style.display = postId ? 'block' : 'none'
+
+      if (postId) loadPostForEdit(postId)
+    }
+
+    // ── Load posts list ─────────────────────────────────────────
+    async function loadPosts() {
+      const search = document.getElementById('searchInput').value
+      const status = document.getElementById('statusFilter').value
+
+      const params = new URLSearchParams({ page: currentPage, limit: 15 })
+      if (search) params.set('search', search)
+      if (status) params.set('status', status)
+
+      const res = await apiFetch(`/blog/admin/all?${params}`)
+      if (!res.ok) return
+
+      const { data, meta } = await res.json()
+      totalPages = meta.totalPages
+
+      document.getElementById('paginationInfo').textContent =
+        `${meta.total} post${meta.total !== 1 ? 's' : ''} · Page ${meta.page} of ${meta.totalPages}`
+      document.getElementById('btnPrev').disabled = meta.page <= 1
+      document.getElementById('btnNext').disabled = meta.page >= meta.totalPages
+
+      const tbody = document.getElementById('postsTableBody')
+      if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">✍</div><p>No posts found. <a href="#" onclick="editPost(null)" style="color:#2563eb;">Create your first post</a></p></div></td></tr>`
+        return
+      }
+
+      tbody.innerHTML = data.map(post => `
+        <tr>
+          <td class="post-title-cell">
+            <a href="#" onclick="editPost('${post.id}'); return false;">${escHtml(post.title)}</a>
+            ${post.excerpt ? `<div class="post-excerpt">${escHtml(post.excerpt)}</div>` : ''}
+          </td>
+          <td style="color:#6b7280; white-space:nowrap;">${escHtml(post.author?.name || '—')}</td>
+          <td><span class="badge badge-${post.status.toLowerCase()}">${post.status}</span></td>
+          <td style="color:#6b7280; font-size:13px; white-space:nowrap;">${formatDate(post.updatedAt)}</td>
+          <td style="text-align:right;">
+            <button class="btn btn-secondary btn-sm" onclick="editPost('${post.id}')">Edit</button>
+          </td>
+        </tr>
+      `).join('')
+    }
+
+    // ── Load post into editor ───────────────────────────────────
+    async function loadPostForEdit(id) {
+      document.getElementById('saveStatus').textContent = 'Loading...'
+
+      const allRes = await apiFetch(`/blog/admin/all?limit=100`)
+      if (!allRes.ok) return
+      const { data } = await allRes.json()
+      const post = data.find(p => p.id === id)
+      if (!post) return
+
+      document.getElementById('postTitle').value = post.title
+      document.getElementById('postContent').innerHTML = post.content || ''
+      document.getElementById('postExcerpt').value = post.excerpt || ''
+      document.getElementById('postTags').value = (post.tags || []).map(t => t.tag.name).join(', ')
+      document.getElementById('postMetaTitle').value = post.metaTitle || ''
+      document.getElementById('postMetaDesc').value = post.metaDesc || ''
+      document.getElementById('postStatus').value = post.status
+      document.getElementById('saveStatus').textContent = `Last saved ${formatDate(post.updatedAt)}`
+    }
+
+    // ── Save post ───────────────────────────────────────────────
+    async function savePost(status) {
+      const title = document.getElementById('postTitle').value.trim()
+      if (!title) { showToast('Post title is required.', 'error'); return }
+
+      const content = document.getElementById('postContent').innerHTML
+      const excerpt = document.getElementById('postExcerpt').value.trim()
+      const tagsRaw = document.getElementById('postTags').value
+      const tags = tagsRaw.split(',').map(t => t.trim()).filter(Boolean)
+      const metaTitle = document.getElementById('postMetaTitle').value.trim()
+      const metaDesc = document.getElementById('postMetaDesc').value.trim()
+
+      const body = { title, content, excerpt, tags, metaTitle, metaDesc, status }
+      const saveStatus = document.getElementById('saveStatus')
+      saveStatus.textContent = 'Saving...'
+
+      const res = currentPostId
+        ? await apiFetch(`/blog/${currentPostId}`, { method: 'PATCH', body: JSON.stringify(body) })
+        : await apiFetch('/blog', { method: 'POST', body: JSON.stringify(body) })
+
+      if (res.ok) {
+        const data = await res.json()
+        if (!currentPostId) {
+          currentPostId = data.id
+          document.getElementById('deleteSection').style.display = 'block'
+        }
+        saveStatus.textContent = `Saved ${new Date().toLocaleTimeString()}`
+        showToast(status === 'PUBLISHED' ? 'Post published!' : 'Draft saved.', 'success')
+        document.getElementById('postStatus').value = status
+      } else {
+        const err = await res.json()
+        saveStatus.textContent = 'Save failed.'
+        showToast(err.message || 'Save failed.', 'error')
+      }
+    }
+
+    // ── Delete post ─────────────────────────────────────────────
+    async function deletePost() {
+      if (!currentPostId) return
+      if (!confirm('Delete this post? This cannot be undone.')) return
+
+      const res = await apiFetch(`/blog/${currentPostId}`, { method: 'DELETE' })
+      if (res.ok) {
+        showToast('Post deleted.', 'success')
+        showList()
+      } else {
+        showToast('Delete failed.', 'error')
+      }
+    }
+
+    // ── Rich text helpers ───────────────────────────────────────
+    window.execCmd = (cmd, value = null) => {
+      document.getElementById('postContent').focus()
+      document.execCommand(cmd, false, value)
+    }
+
+    window.insertLink = () => {
+      const url = prompt('Enter URL:')
+      if (url) document.execCommand('createLink', false, url)
+    }
+
+    // ── Globals for onclick ─────────────────────────────────────
+    window.editPost = (id) => showEditor(id)
+
+    // ── Events ──────────────────────────────────────────────────
+    document.getElementById('btnBackToList').addEventListener('click', showList)
+    document.getElementById('btnSaveDraft').addEventListener('click', () => savePost('DRAFT'))
+    document.getElementById('btnPublish').addEventListener('click', () => savePost('PUBLISHED'))
+    document.getElementById('btnDelete').addEventListener('click', deletePost)
+    document.getElementById('btnNewPost').addEventListener('click', () => showEditor(null))
+
+    let searchDebounce
+    document.getElementById('searchInput').addEventListener('input', () => {
+      clearTimeout(searchDebounce)
+      searchDebounce = setTimeout(() => { currentPage = 1; loadPosts() }, 400)
+    })
+    document.getElementById('statusFilter').addEventListener('change', () => { currentPage = 1; loadPosts() })
+    document.getElementById('btnPrev').addEventListener('click', () => { currentPage--; loadPosts() })
+    document.getElementById('btnNext').addEventListener('click', () => { currentPage++; loadPosts() })
+
+    // ── Check URL params ────────────────────────────────────────
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('new')) {
+      showEditor(null)
+    } else if (params.get('edit')) {
+      showEditor(params.get('edit'))
+    } else {
+      loadPosts()
+    }
+
+    function escHtml(str) {
+      const d = document.createElement('div')
+      d.textContent = str || ''
+      return d.innerHTML
+    }
+
+    function formatDate(iso) {
+      return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    }
+  </script>
+</body>
+</html>

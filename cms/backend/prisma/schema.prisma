@@ -1,0 +1,239 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // DEV: SQLite (no server needed) — switch to postgresql for production
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────
+// AUTH & TEAM
+// Role values: "ADMIN" | "EDITOR" | "VIEWER"
+// ─────────────────────────────────────────────────────────────
+
+model User {
+  id             String    @id @default(uuid())
+  email          String    @unique
+  passwordHash   String
+  name           String
+  role           String    @default("EDITOR") // ADMIN | EDITOR | VIEWER
+  avatarUrl      String?
+  isActive       Boolean   @default(true)
+
+  // Security
+  failedLoginAttempts  Int       @default(0)
+  lockedUntil          DateTime?
+  lastLoginAt          DateTime?
+  lastLoginIp          String?
+
+  refreshTokens  RefreshToken[]
+  auditLogs      AuditLog[]
+  blogPosts      BlogPost[]
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id         String    @id @default(uuid())
+  tokenHash  String    @unique
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  family     String
+  createdAt  DateTime  @default(now())
+
+  @@index([userId])
+  @@index([family])
+  @@map("refresh_tokens")
+}
+
+// ─────────────────────────────────────────────────────────────
+// LANDING PAGE CONTENT
+// slug values: "home" | "pricing" | "services" | "company" | "blog" | "book_a_demo"
+// ─────────────────────────────────────────────────────────────
+
+model Page {
+  id        String    @id @default(uuid())
+  slug      String    @unique // home | pricing | services | company | blog | book_a_demo
+  title     String
+  metaDesc  String?
+
+  // JSON stored as TEXT in SQLite
+  content   String    @default("{}")
+
+  isPublished  Boolean   @default(true)
+  publishedAt  DateTime?
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@map("pages")
+}
+
+// ─────────────────────────────────────────────────────────────
+// BLOG
+// status values: "DRAFT" | "PUBLISHED" | "ARCHIVED"
+// ─────────────────────────────────────────────────────────────
+
+model BlogPost {
+  id           String      @id @default(uuid())
+  title        String
+  slug         String      @unique
+  excerpt      String?
+  content      String      // Rich text HTML (sanitized on save)
+  coverImageId String?
+  coverImage   Media?      @relation(fields: [coverImageId], references: [id])
+
+  status       String      @default("DRAFT") // DRAFT | PUBLISHED | ARCHIVED
+  publishedAt  DateTime?
+  scheduledAt  DateTime?
+
+  authorId     String
+  author       User        @relation(fields: [authorId], references: [id])
+
+  tags         PostTag[]
+
+  // SEO
+  metaTitle    String?
+  metaDesc     String?
+
+  // Analytics
+  viewCount    Int         @default(0)
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([status, publishedAt])
+  @@index([authorId])
+  @@map("blog_posts")
+}
+
+model Tag {
+  id    String    @id @default(uuid())
+  name  String    @unique
+  slug  String    @unique
+  posts PostTag[]
+
+  @@map("tags")
+}
+
+model PostTag {
+  postId  String
+  tagId   String
+  post    BlogPost  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag     Tag       @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+  @@map("post_tags")
+}
+
+// ─────────────────────────────────────────────────────────────
+// MEDIA LIBRARY
+// ─────────────────────────────────────────────────────────────
+
+model Media {
+  id           String     @id @default(uuid())
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int
+  url          String
+  publicId     String
+  alt          String?
+  width        Int?
+  height       Int?
+
+  blogPosts    BlogPost[]
+
+  createdAt    DateTime   @default(now())
+
+  @@map("media")
+}
+
+// ─────────────────────────────────────────────────────────────
+// ANALYTICS
+// ─────────────────────────────────────────────────────────────
+
+model PageView {
+  id         String   @id @default(uuid())
+  page       String
+  ipHash     String
+  referrer   String?
+  userAgent  String?
+  country    String?
+  sessionId  String?
+  createdAt  DateTime @default(now())
+
+  @@index([page, createdAt])
+  @@index([createdAt])
+  @@map("page_views")
+}
+
+model Event {
+  id        String   @id @default(uuid())
+  type      String
+  page      String
+  label     String?
+  metadata  String?  // JSON as TEXT in SQLite
+  sessionId String?
+  ipHash    String?
+  createdAt DateTime @default(now())
+
+  @@index([type, createdAt])
+  @@index([page, createdAt])
+  @@index([createdAt])
+  @@map("events")
+}
+
+// ─────────────────────────────────────────────────────────────
+// DEMO BOOKINGS
+// status values: "NEW" | "CONTACTED" | "COMPLETED" | "CANCELLED"
+// ─────────────────────────────────────────────────────────────
+
+model DemoBooking {
+  id          String   @id @default(uuid())
+  name        String
+  email       String
+  company     String?
+  phone       String?
+  message     String?
+  status      String   @default("NEW") // NEW | CONTACTED | COMPLETED | CANCELLED
+  source      String?
+  notes       String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([createdAt])
+  @@map("demo_bookings")
+}
+
+// ─────────────────────────────────────────────────────────────
+// AUDIT LOG
+// ─────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+  action     String
+  resource   String
+  resourceId String?
+  oldValue   String?  // JSON as TEXT
+  newValue   String?  // JSON as TEXT
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([resource, resourceId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}

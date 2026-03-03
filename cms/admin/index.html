@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nua CMS — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <div class="topbar">
+      <span class="topbar-title">Dashboard</span>
+      <div class="topbar-actions">
+        <a href="blog.html?new=1" class="btn btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Post
+        </a>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- Stats -->
+      <div class="stat-grid" id="statsGrid">
+        <div class="stat-card">
+          <div class="stat-label">Published Posts</div>
+          <div class="stat-value" id="statPublished">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Draft Posts</div>
+          <div class="stat-value" id="statDrafts">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Team Members</div>
+          <div class="stat-value" id="statTeam">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Media Files</div>
+          <div class="stat-value" id="statMedia">—</div>
+        </div>
+      </div>
+
+      <!-- Recent Posts -->
+      <div class="card">
+        <div class="card-header">
+          <h2 style="font-size:15px; font-weight:600; color:#111827;">Recent Blog Posts</h2>
+          <a href="blog.html" class="btn btn-secondary btn-sm">View all</a>
+        </div>
+        <div class="table-wrap">
+          <table id="recentPostsTable">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="recentPostsBody">
+              <tr><td colspan="5"><div class="loading"><div class="spinner-sm"></div> Loading...</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Pages overview -->
+      <div class="card" style="margin-top:16px;">
+        <div class="card-header">
+          <h2 style="font-size:15px; font-weight:600; color:#111827;">Landing Pages</h2>
+          <a href="pages.html" class="btn btn-secondary btn-sm">Edit pages</a>
+        </div>
+        <div id="pagesGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:12px;">
+          <div class="loading"><div class="spinner-sm"></div> Loading...</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireAuth, renderSidebar, apiFetch, getUser } from './admin.js'
+
+    requireAuth()
+    renderSidebar('dashboard')
+
+    async function loadDashboard() {
+      const user = getUser()
+
+      // Parallel requests
+      const [postsRes, mediaRes, teamRes, pagesRes] = await Promise.allSettled([
+        apiFetch('/blog/admin/all?limit=5'),
+        apiFetch('/media?limit=1'),
+        user?.role === 'ADMIN' ? apiFetch('/users') : Promise.resolve(null),
+        apiFetch('/pages/admin/all'),
+      ])
+
+      // Stats
+      if (postsRes.status === 'fulfilled' && postsRes.value.ok) {
+        const data = await postsRes.value.json()
+        document.getElementById('statPublished').textContent =
+          data.data.filter(p => p.status === 'PUBLISHED').length
+        document.getElementById('statDrafts').textContent =
+          data.data.filter(p => p.status === 'DRAFT').length
+
+        // Recent posts table
+        const tbody = document.getElementById('recentPostsBody')
+        if (data.data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><p>No posts yet. <a href="blog.html?new=1" style="color:#2563eb;">Create your first post</a></p></div></td></tr>'
+        } else {
+          tbody.innerHTML = data.data.map(post => `
+            <tr>
+              <td style="font-weight:500; color:#111827; max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escHtml(post.title)}</td>
+              <td style="color:#6b7280;">${escHtml(post.author?.name || '—')}</td>
+              <td><span class="badge badge-${post.status.toLowerCase()}">${post.status}</span></td>
+              <td style="color:#6b7280; font-size:13px;">${formatDate(post.updatedAt)}</td>
+              <td><a href="blog.html?edit=${post.id}" class="btn btn-secondary btn-sm">Edit</a></td>
+            </tr>
+          `).join('')
+        }
+      }
+
+      if (mediaRes.status === 'fulfilled' && mediaRes.value?.ok) {
+        const data = await mediaRes.value.json()
+        document.getElementById('statMedia').textContent = data.meta?.total ?? '—'
+      }
+
+      if (teamRes.status === 'fulfilled' && teamRes.value?.ok) {
+        const data = await teamRes.value.json()
+        document.getElementById('statTeam').textContent = data.length
+      } else {
+        document.getElementById('statTeam').textContent = '—'
+      }
+
+      // Pages grid
+      if (pagesRes.status === 'fulfilled' && pagesRes.value.ok) {
+        const pages = await pagesRes.value.json()
+        const grid = document.getElementById('pagesGrid')
+        grid.innerHTML = pages.map(p => `
+          <a href="pages.html?slug=${p.slug}" style="
+            display:block; padding:16px; border-radius:10px;
+            background:#f9fafb; border:1px solid #e5e7eb;
+            text-decoration:none; transition:border-color 0.15s;
+          " onmouseover="this.style.borderColor='#2563eb'"
+             onmouseout="this.style.borderColor='#e5e7eb'">
+            <div style="font-size:13px; font-weight:600; color:#111827; margin-bottom:4px;">${formatSlug(p.slug)}</div>
+            <div style="font-size:11px; color:${p.isPublished ? '#16a34a' : '#9ca3af'};">${p.isPublished ? '● Live' : '○ Hidden'}</div>
+          </a>
+        `).join('')
+      }
+    }
+
+    function escHtml(str) {
+      const d = document.createElement('div')
+      d.textContent = str
+      return d.innerHTML
+    }
+
+    function formatDate(iso) {
+      return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    }
+
+    function formatSlug(slug) {
+      return slug.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+    }
+
+    loadDashboard()
+  </script>
+</body>
+</html>

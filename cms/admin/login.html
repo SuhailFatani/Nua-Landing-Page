@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nua CMS — Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ── LEFT PANEL ─────────────────────────────────── */
+    .left-panel {
+      flex: 1;
+      background: linear-gradient(160deg, #1e2a4a 0%, #141c35 40%, #0f1628 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+    }
+
+    /* Blurred orb background */
+    .left-panel::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(79, 108, 255, 0.18) 0%, transparent 70%);
+      bottom: -100px;
+      left: -100px;
+      pointer-events: none;
+    }
+    .left-panel::after {
+      content: '';
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
+      top: -80px;
+      right: -80px;
+      pointer-events: none;
+    }
+
+    .left-logo {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Dashboard mockup */
+    .dashboard-mockup {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 0;
+    }
+
+    .mockup-window {
+      background: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06);
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .mockup-topbar {
+      background: #f8f9fb;
+      border-bottom: 1px solid #e8eaed;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mockup-dots { display: flex; gap: 6px; }
+    .mockup-dots span {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .mockup-dots span:nth-child(1) { background: #ff5f57; }
+    .mockup-dots span:nth-child(2) { background: #febc2e; }
+    .mockup-dots span:nth-child(3) { background: #28c840; }
+
+    .mockup-titlebar {
+      flex: 1;
+      background: #fff;
+      border: 1px solid #e8eaed;
+      border-radius: 6px;
+      height: 22px;
+    }
+
+    .mockup-body { padding: 16px; }
+
+    .mockup-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .mockup-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .mockup-btn {
+      background: #2563eb;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .mockup-subtitle {
+      font-size: 9px;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+
+    .mockup-row {
+      display: grid;
+      grid-template-columns: 2fr 1.5fr 1fr 1fr 0.8fr;
+      gap: 6px;
+      padding: 8px 0;
+      border-bottom: 1px solid #f3f4f6;
+      align-items: center;
+    }
+
+    .mockup-row.header .cell {
+      font-size: 8px;
+      font-weight: 600;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .cell {
+      font-size: 9px;
+      color: #374151;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 8px;
+      font-weight: 600;
+    }
+    .badge.critical { background: #fef2f2; color: #dc2626; }
+    .badge.high     { background: #fff7ed; color: #ea580c; }
+    .badge.medium   { background: #fefce8; color: #ca8a04; }
+    .badge.low      { background: #f0fdf4; color: #16a34a; }
+    .badge.open     { background: #eff6ff; color: #2563eb; }
+    .badge.resolved { background: #f0fdf4; color: #16a34a; }
+    .badge.progress { background: #fdf4ff; color: #9333ea; }
+
+    /* Left panel bottom text */
+    .left-bottom {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .left-bottom h2 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+
+    .left-bottom p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.5;
+    }
+
+    .dots-indicator {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 20px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+    }
+    .dot.active {
+      background: #2563eb;
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    /* ── RIGHT PANEL ─────────────────────────────────── */
+    .right-panel {
+      width: 480px;
+      min-width: 480px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 56px;
+    }
+
+    .right-inner {
+      width: 100%;
+      max-width: 360px;
+    }
+
+    /* Nua Logo */
+    .nua-logo {
+      margin-bottom: 40px;
+      text-align: left;
+    }
+
+    .nua-logo svg {
+      height: 32px;
+      width: auto;
+    }
+
+    /* Form heading */
+    .form-heading h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #111827;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .form-heading p {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 36px;
+    }
+
+    /* Form fields */
+    .field-group { margin-bottom: 20px; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon-right {
+      position: absolute;
+      right: 14px;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 14px 12px 42px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      color: #111827;
+      background: #fff;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    input::placeholder { color: #d1d5db; }
+
+    /* Remember + forgot */
+    .form-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .remember input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1.5px solid #d1d5db;
+      padding: 0;
+      cursor: pointer;
+      accent-color: #2563eb;
+    }
+
+    .remember span {
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .forgot-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: #2563eb;
+      text-decoration: none;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+
+    /* Login button */
+    .btn-login {
+      width: 100%;
+      padding: 13px;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-login:hover {
+      background: #1d4ed8;
+      box-shadow: 0 4px 16px rgba(37,99,235,0.3);
+    }
+    .btn-login:active { transform: scale(0.99); }
+    .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* Messages */
+    .error-msg {
+      display: none;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #dc2626;
+      margin-top: 16px;
+    }
+    .error-msg.show { display: block; }
+
+    .lockout-msg {
+      display: none;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #92400e;
+      margin-top: 16px;
+    }
+    .lockout-msg.show { display: block; }
+
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .left-panel { display: none; }
+      .right-panel { width: 100%; min-width: 0; padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── LEFT PANEL ── -->
+  <div class="left-panel">
+    <!-- Logo top left -->
+    <div class="left-logo">
+      <svg width="60" height="22" viewBox="0 0 60 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="18" font-family="DM Sans, sans-serif" font-size="22" font-weight="700" fill="#ffffff" letter-spacing="-1">nua</text>
+      </svg>
+    </div>
+
+    <!-- Dashboard mockup card -->
+    <div class="dashboard-mockup">
+      <div class="mockup-window">
+        <div class="mockup-topbar">
+          <div class="mockup-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="mockup-titlebar"></div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-header-row">
+            <div>
+              <div class="mockup-title">Findings</div>
+              <div class="mockup-subtitle">Track and manage all security findings in one place</div>
+            </div>
+            <div class="mockup-btn">+ Create Finding</div>
+          </div>
+          <div class="mockup-row header">
+            <div class="cell">Findings</div>
+            <div class="cell">Asset</div>
+            <div class="cell">Severity</div>
+            <div class="cell">Status</div>
+            <div class="cell">Created</div>
+          </div>
+          <div class="mockup-row">
+            <div class="cell">IDOR Leads to Unauthorised Data...</div>
+            <div class="cell" style="color:#6b7280;">amazonaws.com</div>
+            <div class="cell"><span class="badge critical">Critical</span></div>
+            <div class="cell"><span class="badge open">Open</span></div>
+            <div class="cell" style="color:#9ca3af;">Jun 9, 2025</div>
+          </div>
+          <div class="mockup-row">
+            <div class="cell">Cross-Site Scripting (XSS) Leads t...</div>
+            <div class="cell" style="color:#6b7280;">alibaba.com</div>
+            <div class="cell"><span class="badge low">Low</span></div>
+            <div class="cell"><span class="badge progress">In Progress</span></div>
+            <div class="cell" style="color:#9ca3af;">Jun 7, 2025</div>
+          </div>
+          <div class="mockup-row">
+            <div class="cell">SQL Leads to Full Server Compromi...</div>
+            <div class="cell" style="color:#6b7280;">figma.com</div>
+            <div class="cell"><span class="badge critical">Critical</span></div>
+            <div class="cell"><span class="badge resolved">Resolved</span></div>
+            <div class="cell" style="color:#9ca3af;">Jun 8, 2025</div>
+          </div>
+          <div class="mockup-row">
+            <div class="cell">Open Redirect Leads to Phishing A...</div>
+            <div class="cell" style="color:#6b7280;">#n/a</div>
+            <div class="cell"><span class="badge low">Low</span></div>
+            <div class="cell"><span class="badge open">Open</span></div>
+            <div class="cell" style="color:#9ca3af;">Jun 10, 2025</div>
+          </div>
+          <div class="mockup-row">
+            <div class="cell">CSRF Leads to Unauthorized Fund...</div>
+            <div class="cell" style="color:#6b7280;">international.com</div>
+            <div class="cell"><span class="badge medium">Medium</span></div>
+            <div class="cell"><span class="badge open">Open</span></div>
+            <div class="cell" style="color:#9ca3af;">Jun 10, 2025</div>
+          </div>
+          <div class="mockup-row">
+            <div class="cell">Exposed S3 Bucket Leads to Sens...</div>
+            <div class="cell" style="color:#6b7280;">ibm.com</div>
+            <div class="cell"><span class="badge high">High</span></div>
+            <div class="cell"><span class="badge open">Risk accepted</span></div>
+            <div class="cell" style="color:#9ca3af;">Jun 30, 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom text + dots -->
+    <div class="left-bottom">
+      <h2>Stay in control your time</h2>
+      <p>Keep an eye on your projects and handle everything<br>right from the dashboard!</p>
+      <div class="dots-indicator">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RIGHT PANEL ── -->
+  <div class="right-panel">
+    <div class="right-inner">
+
+      <!-- Nua Logo -->
+      <div class="nua-logo">
+        <svg viewBox="0 0 80 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="24" font-family="DM Sans, sans-serif" font-size="28" font-weight="800" fill="#0f172a" letter-spacing="-1.5">nua</text>
+        </svg>
+      </div>
+
+      <!-- Heading -->
+      <div class="form-heading">
+        <h1>Log in to your account</h1>
+        <p>Welcome back! Please enter your details.</p>
+      </div>
+
+      <!-- Form -->
+      <form id="loginForm" novalidate>
+
+        <!-- Email -->
+        <div class="field-group">
+          <label for="email">Email</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+              </svg>
+            </span>
+            <input type="email" id="email" name="email" placeholder="nuasecurity@test.com" autocomplete="email" required>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="field-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
+              </svg>
+            </span>
+            <input type="password" id="password" name="password" placeholder="Nua2025" autocomplete="current-password" required>
+            <span class="input-icon-right" id="togglePwd" title="Show/hide password">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Remember + Forgot -->
+        <div class="form-footer">
+          <label class="remember">
+            <input type="checkbox" id="rememberMe">
+            <span>Remember for 30 days</span>
+          </label>
+          <a href="#" class="forgot-link">Forgot password</a>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-login" id="loginBtn">
+          <span id="btnText">Log in</span>
+          <div class="spinner" id="spinner"></div>
+        </button>
+
+        <div class="error-msg" id="errorMsg"></div>
+        <div class="lockout-msg" id="lockoutMsg"></div>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    const API = 'http://localhost:3001/api'
+
+    // Toggle password visibility
+    document.getElementById('togglePwd').addEventListener('click', () => {
+      const pwd = document.getElementById('password')
+      pwd.type = pwd.type === 'password' ? 'text' : 'password'
+    })
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault()
+
+      const email    = document.getElementById('email').value.trim()
+      const password = document.getElementById('password').value
+      const btn      = document.getElementById('loginBtn')
+      const btnText  = document.getElementById('btnText')
+      const spinner  = document.getElementById('spinner')
+      const errorMsg = document.getElementById('errorMsg')
+      const lockoutMsg = document.getElementById('lockoutMsg')
+
+      // Reset
+      errorMsg.classList.remove('show')
+      lockoutMsg.classList.remove('show')
+      btn.disabled = true
+      btnText.style.display = 'none'
+      spinner.style.display = 'block'
+
+      try {
+        const res = await fetch(`${API}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ email, password }),
+        })
+
+        const data = await res.json()
+
+        if (!res.ok) {
+          if (res.status === 403) {
+            lockoutMsg.textContent = data.message
+            lockoutMsg.classList.add('show')
+          } else {
+            errorMsg.textContent = data.message || 'Invalid email or password.'
+            errorMsg.classList.add('show')
+          }
+          return
+        }
+
+        sessionStorage.setItem('access_token', data.accessToken)
+        sessionStorage.setItem('user', JSON.stringify(data.user))
+        window.location.href = './index.html'
+
+      } catch (err) {
+        errorMsg.textContent = 'Connection error. Make sure the CMS server is running.'
+        errorMsg.classList.add('show')
+      } finally {
+        btn.disabled = false
+        btnText.style.display = 'block'
+        spinner.style.display = 'none'
+      }
+    })
+  </script>
+</body>
+</html>

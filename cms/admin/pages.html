@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nua CMS — Pages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css">
+  <style>
+    .pages-grid {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .page-list-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px; border-radius: 8px;
+      cursor: pointer; transition: background 0.15s;
+      border: 1px solid transparent;
+    }
+    .page-list-item:hover { background: #f5f6f8; }
+    .page-list-item.active {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+    }
+    .page-list-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: #f3f4f6;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; flex-shrink: 0;
+    }
+    .page-list-name { font-size: 14px; font-weight: 500; color: #111827; }
+    .page-list-status { font-size: 11px; color: #9ca3af; }
+
+    .section-editor { margin-bottom: 12px; }
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      user-select: none;
+    }
+    .section-header:hover { background: #e5e7eb; }
+    .section-title {
+      font-size: 13px; font-weight: 600;
+      color: #111827;
+      text-transform: capitalize;
+    }
+    .section-body {
+      padding: 16px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+    }
+    .field-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      margin-bottom: 12px;
+    }
+    .field-row:last-child { margin-bottom: 0; }
+    .field-row.full { grid-template-columns: 1fr; }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <div class="topbar">
+      <span class="topbar-title">Landing Pages</span>
+      <div class="topbar-actions">
+        <button class="btn btn-primary" id="btnSavePage" disabled>Save Changes</button>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="pages-grid">
+
+        <!-- Page selector -->
+        <div class="card" style="padding:16px;">
+          <div style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:#9ca3af; margin-bottom:12px;">Pages</div>
+          <div id="pagesList">
+            <div class="loading"><div class="spinner-sm"></div></div>
+          </div>
+        </div>
+
+        <!-- Page editor -->
+        <div id="pageEditor">
+          <div class="card" style="padding:60px; text-align:center;">
+            <div style="font-size:32px; margin-bottom:12px; opacity:0.3;">📄</div>
+            <p style="color:#9ca3af; font-size:14px;">Select a page to edit its content</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireAuth, renderSidebar, apiFetch, showToast } from './admin.js'
+
+    requireAuth()
+    renderSidebar('pages')
+
+    const PAGE_ICONS = {
+      home: '🏠', pricing: '💲', services: '⚙️',
+      company: '🏢', blog: '✍️', book_a_demo: '📅',
+    }
+
+    const PAGE_LABELS = {
+      home: 'Home', pricing: 'Pricing', services: 'Services',
+      company: 'Company', blog: 'Blog', book_a_demo: 'Book a Demo',
+    }
+
+    let pages = []
+    let currentSlug = null
+    let currentPage = null
+
+    async function loadPages() {
+      const res = await apiFetch('/pages/admin/all')
+      if (!res.ok) return
+      pages = await res.json()
+
+      const list = document.getElementById('pagesList')
+      list.innerHTML = pages.map(p => `
+        <div class="page-list-item" data-slug="${p.slug}" onclick="selectPage('${p.slug}')">
+          <div class="page-list-icon">${PAGE_ICONS[p.slug] || '📄'}</div>
+          <div>
+            <div class="page-list-name">${PAGE_LABELS[p.slug] || p.slug}</div>
+            <div class="page-list-status" style="color:${p.isPublished ? '#16a34a' : '#9ca3af'}">${p.isPublished ? '● Live' : '○ Hidden'}</div>
+          </div>
+        </div>
+      `).join('')
+
+      // Auto-select from URL
+      const params = new URLSearchParams(window.location.search)
+      const slugParam = params.get('slug')
+      if (slugParam && pages.find(p => p.slug === slugParam)) {
+        selectPage(slugParam)
+      }
+    }
+
+    window.selectPage = function(slug) {
+      currentSlug = slug
+      currentPage = pages.find(p => p.slug === slug)
+      if (!currentPage) return
+
+      // Update active state
+      document.querySelectorAll('.page-list-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.slug === slug)
+      })
+
+      document.getElementById('btnSavePage').disabled = false
+      renderPageEditor(currentPage)
+    }
+
+    function renderPageEditor(page) {
+      const content = page.content || {}
+      const sections = Object.entries(content)
+
+      const editor = document.getElementById('pageEditor')
+      editor.innerHTML = `
+        <div class="card" style="margin-bottom:16px;">
+          <h2 style="font-size:15px; font-weight:600; color:#111827; margin-bottom:20px;">
+            ${PAGE_ICONS[page.slug] || ''} ${PAGE_LABELS[page.slug] || page.slug} — Settings
+          </h2>
+          <div class="field-row">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Page Title (SEO)</label>
+              <input type="text" class="form-input" id="pageTitle" value="${escHtml(page.title || '')}" maxlength="160">
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Visibility</label>
+              <select class="form-select" id="pagePublished">
+                <option value="true" ${page.isPublished ? 'selected' : ''}>Published (Live)</option>
+                <option value="false" ${!page.isPublished ? 'selected' : ''}>Hidden</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:12px; margin-bottom:0;">
+            <label class="form-label">Meta Description</label>
+            <input type="text" class="form-input" id="pageMetaDesc" value="${escHtml(page.metaDesc || '')}" maxlength="320" placeholder="SEO description...">
+          </div>
+        </div>
+
+        <div id="sectionEditors">
+          ${sections.map(([key, val]) => renderSection(key, val)).join('')}
+        </div>
+
+        <div class="card" style="padding:16px; margin-top:16px;">
+          <div style="display:flex; gap:10px; align-items:center;">
+            <button class="btn btn-primary" id="btnSavePageInline">Save Changes</button>
+            <button class="btn btn-secondary" onclick="window.open('/${page.slug === 'home' ? '' : page.slug}', '_blank')">Preview ↗</button>
+          </div>
+        </div>
+      `
+
+      document.getElementById('btnSavePageInline').addEventListener('click', savePage)
+    }
+
+    function renderSection(key, val) {
+      if (typeof val !== 'object' || val === null) return ''
+      const fields = Object.entries(val)
+      if (fields.length === 0) return ''
+
+      return `
+        <div class="section-editor">
+          <div class="section-header" onclick="toggleSection('${key}')">
+            <span class="section-title">${key.replace(/_/g, ' ')}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="section-body" id="section-${key}">
+            ${fields.map(([field, fieldVal]) => renderField(`${key}.${field}`, field, fieldVal)).join('')}
+          </div>
+        </div>
+      `
+    }
+
+    function renderField(path, label, value) {
+      const id = `field-${path.replace(/\./g, '-')}`
+      const displayLabel = label.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+
+      if (Array.isArray(value)) {
+        return `
+          <div class="form-group">
+            <label class="form-label">${displayLabel} <span style="color:#9ca3af; font-size:11px;">(JSON array)</span></label>
+            <textarea class="form-textarea" id="${id}" data-path="${path}" style="min-height:80px; font-family:monospace; font-size:12px;">${escHtml(JSON.stringify(value, null, 2))}</textarea>
+          </div>
+        `
+      }
+
+      if (typeof value === 'object' && value !== null) {
+        return `
+          <div class="form-group">
+            <label class="form-label">${displayLabel} <span style="color:#9ca3af; font-size:11px;">(JSON)</span></label>
+            <textarea class="form-textarea" id="${id}" data-path="${path}" style="min-height:60px; font-family:monospace; font-size:12px;">${escHtml(JSON.stringify(value, null, 2))}</textarea>
+          </div>
+        `
+      }
+
+      const isLong = typeof value === 'string' && value.length > 80
+      return `
+        <div class="form-group">
+          <label class="form-label">${displayLabel}</label>
+          ${isLong
+            ? `<textarea class="form-textarea" id="${id}" data-path="${path}" style="min-height:80px;">${escHtml(String(value))}</textarea>`
+            : `<input type="text" class="form-input" id="${id}" data-path="${path}" value="${escHtml(String(value ?? ''))}">`
+          }
+        </div>
+      `
+    }
+
+    window.toggleSection = function(key) {
+      const body = document.getElementById(`section-${key}`)
+      if (body) body.style.display = body.style.display === 'none' ? 'block' : 'none'
+    }
+
+    async function savePage() {
+      if (!currentSlug || !currentPage) return
+
+      const title = document.getElementById('pageTitle').value.trim()
+      const metaDesc = document.getElementById('pageMetaDesc').value.trim()
+      const isPublished = document.getElementById('pagePublished').value === 'true'
+
+      const content = JSON.parse(JSON.stringify(currentPage.content || {}))
+
+      document.querySelectorAll('[data-path]').forEach(el => {
+        const path = el.dataset.path.split('.')
+        let obj = content
+        for (let i = 0; i < path.length - 1; i++) {
+          if (!obj[path[i]]) obj[path[i]] = {}
+          obj = obj[path[i]]
+        }
+        const lastKey = path[path.length - 1]
+        try {
+          obj[lastKey] = JSON.parse(el.value)
+        } catch {
+          obj[lastKey] = el.value
+        }
+      })
+
+      const btn = document.getElementById('btnSavePage')
+      btn.disabled = true
+      btn.textContent = 'Saving...'
+
+      const res = await apiFetch(`/pages/${currentSlug}`, {
+        method: 'PUT',
+        body: JSON.stringify({ title, metaDesc, content, isPublished }),
+      })
+
+      btn.disabled = false
+      btn.textContent = 'Save Changes'
+
+      if (res.ok) {
+        const updated = await res.json()
+        const idx = pages.findIndex(p => p.slug === currentSlug)
+        if (idx >= 0) pages[idx] = updated
+        currentPage = updated
+        showToast('Page saved!', 'success')
+      } else {
+        const err = await res.json()
+        showToast(err.message || 'Save failed.', 'error')
+      }
+    }
+
+    document.getElementById('btnSavePage').addEventListener('click', savePage)
+
+    function escHtml(str) {
+      const d = document.createElement('div')
+      d.textContent = String(str || '')
+      return d.innerHTML
+    }
+
+    loadPages()
+  </script>
+</body>
+</html>
