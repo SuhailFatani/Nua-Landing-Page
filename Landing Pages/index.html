@@ -3430,55 +3430,156 @@
         <h2 class="blog-heading">Latest Publications And Research</h2>
       </div>
 
-      <!-- Articles — using nua-blog component -->
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
-
-        <!-- Article 1 -->
-        <a href="#" class="blog-article" style="text-decoration:none;color:inherit;">
-          <article class="nua-blog">
-            <div class="nua-blog__img">
-              <img src="../Design system/Assets/2ced93aa26ba03f6786e739abfbac2654ba8d116.png" alt="A New Chapter: Introducing Nua">
-            </div>
-            <div class="nua-blog__text">
-              <p class="nua-blog__date">April 29, 2025</p>
-              <h3 class="nua-blog__title">A New Chapter: Introducing Nua</h3>
-              <p class="nua-blog__desc">Today, I'm honored and excited to share a major milestone in our journey.</p>
-            </div>
-          </article>
-        </a>
-
-        <!-- Article 2 -->
-        <a href="#" class="blog-article" style="text-decoration:none;color:inherit;">
-          <article class="nua-blog">
-            <div class="nua-blog__img">
-              <img src="../Design system/Assets/146ce381899b9dce8a1669a9f25ca5119ba92069.png" alt="Meet Us At RSA 2025">
-            </div>
-            <div class="nua-blog__text">
-              <p class="nua-blog__date">April 29, 2025</p>
-              <h3 class="nua-blog__title">Meet Us At RSA 2025</h3>
-              <p class="nua-blog__desc">We're thrilled to announce that Nua will be exhibiting at RSA Conference 2025, one of the world's leading cybersecurity events.</p>
-            </div>
-          </article>
-        </a>
-
-        <!-- Article 3 -->
-        <a href="#" class="blog-article" style="text-decoration:none;color:inherit;">
-          <article class="nua-blog">
-            <div class="nua-blog__img">
-              <img src="../Design system/Assets/e6cfed6b423c2947e0a943e5de9143925f9edf36.png" alt="A New Chapter: Introducing Nua">
-            </div>
-            <div class="nua-blog__text">
-              <p class="nua-blog__date">April 29, 2025</p>
-              <h3 class="nua-blog__title">A New Chapter: Introducing Nua</h3>
-              <p class="nua-blog__desc">Deploy hundreds of specialized AI agents working together to uncover vulnerabilities at scale.</p>
-            </div>
-          </article>
-        </a>
-
+      <!-- Articles — dynamically loaded from CMS API -->
+      <div id="blogArticlesGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+        <!-- Skeleton placeholders shown while loading -->
+        <div class="blog-skeleton"></div>
+        <div class="blog-skeleton"></div>
+        <div class="blog-skeleton"></div>
       </div>
-    </div>
 
+      <!-- Empty state (hidden by default) -->
+      <div id="blogEmptyState" style="display:none; text-align:center; padding:48px 0; color:#6b7280;">
+        <p style="font-size:16px;">No blog posts published yet. Check back soon.</p>
+      </div>
+
+    </div>
   </section>
+
+  <!-- ===== BLOG SECTION — Dynamic loading styles ===== -->
+  <style>
+    .blog-skeleton {
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .blog-skeleton::before {
+      content: '';
+      display: block;
+      height: 200px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+      background-size: 200% 100%;
+      animation: blogSkeletonShimmer 1.4s infinite;
+    }
+    .blog-skeleton::after {
+      content: '';
+      display: block;
+      height: 100px;
+      margin: 16px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+      background-size: 200% 100%;
+      animation: blogSkeletonShimmer 1.4s infinite 0.2s;
+    }
+    @keyframes blogSkeletonShimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    @media (max-width: 900px) {
+      #blogArticlesGrid { grid-template-columns: repeat(2,1fr) !important; }
+    }
+    @media (max-width: 580px) {
+      #blogArticlesGrid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+
+  <!-- ===== BLOG SECTION — CMS fetch script ===== -->
+  <script>
+    (function () {
+      var CMS_API = 'http://localhost:3001/api';
+      var BLOG_PAGE_PATH = 'blog-post.html'; // relative path from Landing Pages/
+
+      function formatDate(iso) {
+        if (!iso) return '';
+        try {
+          return new Date(iso).toLocaleDateString('en-US', {
+            year: 'numeric', month: 'long', day: 'numeric'
+          });
+        } catch (e) { return ''; }
+      }
+
+      function esc(str) {
+        return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      function renderPosts(posts) {
+        var grid = document.getElementById('blogArticlesGrid');
+        var empty = document.getElementById('blogEmptyState');
+
+        if (!posts || posts.length === 0) {
+          grid.style.display = 'none';
+          empty.style.display = 'block';
+          return;
+        }
+
+        grid.innerHTML = posts.map(function(post) {
+          var imgSrc = post.coverImage && post.coverImage.url
+            ? esc(post.coverImage.url)
+            : '../Design system/Assets/2ced93aa26ba03f6786e739abfbac2654ba8d116.png';
+
+          var imgAlt = post.coverImage && post.coverImage.alt
+            ? esc(post.coverImage.alt)
+            : esc(post.title);
+
+          var date = formatDate(post.publishedAt);
+          var href = BLOG_PAGE_PATH + '?slug=' + encodeURIComponent(post.slug || '');
+
+          return [
+            '<a href="' + href + '" class="blog-article" style="text-decoration:none;color:inherit;">',
+            '  <article class="nua-blog">',
+            '    <div class="nua-blog__img">',
+            '      <img src="' + imgSrc + '" alt="' + imgAlt + '" loading="lazy">',
+            '    </div>',
+            '    <div class="nua-blog__text">',
+            '      <p class="nua-blog__date">' + date + '</p>',
+            '      <h3 class="nua-blog__title">' + esc(post.title) + '</h3>',
+            '      <p class="nua-blog__desc">' + esc(post.excerpt || '') + '</p>',
+            '    </div>',
+            '  </article>',
+            '</a>',
+          ].join('\n');
+        }).join('\n');
+      }
+
+      function loadBlogPosts() {
+        fetch(CMS_API + '/blog?limit=3', {
+          headers: { 'Accept': 'application/json' },
+          mode: 'cors'
+        })
+        .then(function(res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function(json) {
+          renderPosts(json.data || []);
+        })
+        .catch(function(err) {
+          // API unreachable — hide skeletons, show nothing (no broken UI)
+          console.warn('[Nua CMS] Blog fetch failed:', err.message);
+          var grid = document.getElementById('blogArticlesGrid');
+          grid.innerHTML = '';
+          grid.style.display = 'none';
+          document.getElementById('blogEmptyState').style.display = 'block';
+        });
+      }
+
+      // Lazy-load: only fetch when the section scrolls into view
+      var section = document.querySelector('.blog-section');
+      if ('IntersectionObserver' in window && section) {
+        var obs = new IntersectionObserver(function(entries) {
+          if (entries[0].isIntersecting) {
+            obs.disconnect();
+            loadBlogPosts();
+          }
+        }, { threshold: 0.1 });
+        obs.observe(section);
+      } else {
+        // Fallback for old browsers
+        loadBlogPosts();
+      }
+    })();
+  </script>
 
   <!-- Custom cursor element -->
   <div class="blog-cursor" id="blogCursor">

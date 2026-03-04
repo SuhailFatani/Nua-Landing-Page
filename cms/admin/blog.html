@@ -77,6 +77,113 @@
       font-size: 11px; font-weight: 600; color: #9ca3af;
       text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 14px;
     }
+
+    /* ── Cover image ─────────────────────────────────────────── */
+    .cover-preview-wrap {
+      position: relative;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f3f4f6;
+      aspect-ratio: 16/9;
+    }
+    .cover-preview-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .cover-preview-wrap .cover-remove-btn {
+      position: absolute;
+      top: 6px; right: 6px;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 4px 8px;
+      font-size: 11px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      backdrop-filter: blur(2px);
+      transition: background 0.15s;
+    }
+    .cover-preview-wrap .cover-remove-btn:hover { background: rgba(220,38,38,0.85); }
+
+    .cover-upload-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 9px 14px;
+      border: 1.5px dashed #d1d5db;
+      border-radius: 8px;
+      background: #f9fafb;
+      color: #6b7280;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+    }
+    .cover-upload-btn:hover { border-color: #2563eb; color: #2563eb; background: #eff6ff; }
+    .cover-upload-btn.uploading { opacity: 0.6; pointer-events: none; }
+
+    /* ── Image insert panel ──────────────────────────────────── */
+    .image-panel {
+      display: none;
+      padding: 10px 12px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+    }
+    .image-panel.open { display: block; }
+    .img-tabs { display: flex; gap: 4px; margin-bottom: 10px; }
+    .img-tab {
+      padding: 4px 10px;
+      border-radius: 5px;
+      border: 1px solid #e5e7eb;
+      background: none;
+      color: #6b7280;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.1s;
+    }
+    .img-tab.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+    .img-tab-content { display: none; }
+    .img-tab-content.active { display: block; }
+    .img-insert-row { display: flex; gap: 8px; align-items: center; }
+    .img-status { font-size: 12px; color: #9ca3af; }
+    .img-status.error { color: #dc2626; }
+    .img-status.success { color: #16a34a; }
+    .toolbar-btn-img {
+      padding: 5px 9px;
+      border-radius: 5px;
+      border: none;
+      background: none;
+      color: #6b7280;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      transition: all 0.1s;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .toolbar-btn-img:hover { background: #e5e7eb; color: #111827; }
+    .toolbar-btn-img.active { background: #eff6ff; color: #2563eb; }
+
+    /* ── Inline images inside editor ─────────────────────────── */
+    .editor-area img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      margin: 8px 0;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -166,7 +273,40 @@
                 <div class="toolbar-divider"></div>
                 <button class="toolbar-btn" onclick="insertLink()" title="Insert link">Link</button>
                 <button class="toolbar-btn" onclick="execCmd('formatBlock','blockquote')" title="Quote">"Quote"</button>
+                <div class="toolbar-divider"></div>
+                <button class="toolbar-btn-img" id="btnToggleImagePanel" onclick="toggleImagePanel()" title="Insert image">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  Image
+                </button>
               </div>
+
+              <!-- Image insert panel -->
+              <div class="image-panel" id="imagePanel">
+                <div class="img-tabs">
+                  <button class="img-tab active" id="imgTabUpload" onclick="showImageTab('upload')">Upload</button>
+                  <button class="img-tab" id="imgTabUrl" onclick="showImageTab('url')">From URL</button>
+                </div>
+                <!-- Upload tab -->
+                <div class="img-tab-content active" id="imgContentUpload">
+                  <div class="img-insert-row">
+                    <input type="file" id="inlineFileInput" accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml" style="display:none;">
+                    <button class="btn btn-secondary btn-sm" onclick="document.getElementById('inlineFileInput').click()">
+                      Choose image…
+                    </button>
+                    <span class="img-status" id="inlineUploadStatus">Select an image file to insert at cursor</span>
+                  </div>
+                </div>
+                <!-- URL tab -->
+                <div class="img-tab-content" id="imgContentUrl">
+                  <div class="img-insert-row">
+                    <input type="url" class="form-input" id="inlineImageUrl" placeholder="https://example.com/image.jpg"
+                      style="flex:1;" onkeydown="if(event.key==='Enter'){insertImageFromUrl();}">
+                    <button class="btn btn-primary btn-sm" onclick="insertImageFromUrl()">Insert</button>
+                  </div>
+                  <div class="img-status" id="inlineUrlStatus" style="margin-top:6px;"></div>
+                </div>
+              </div>
+
               <div class="editor-area-wrap">
                 <div class="editor-area" id="postContent" contenteditable="true" spellcheck="true"
                   placeholder="Write your post here..."></div>
@@ -205,6 +345,25 @@
               <div id="saveStatus" style="font-size:12px; color:#9ca3af; text-align:center; margin-top:10px;"></div>
             </div>
 
+            <!-- Cover Image -->
+            <div class="card" style="margin-bottom:16px;">
+              <div class="section-label">Cover Image</div>
+
+              <!-- Preview (hidden until image set) -->
+              <div class="cover-preview-wrap" id="coverPreviewWrap" style="display:none;">
+                <img id="coverPreviewImg" src="" alt="Cover image preview">
+                <button class="cover-remove-btn" onclick="removeCoverImage()">✕ Remove</button>
+              </div>
+
+              <!-- Upload button -->
+              <button class="cover-upload-btn" id="btnCoverUpload" onclick="document.getElementById('coverFileInput').click()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                Upload cover image
+              </button>
+              <input type="file" id="coverFileInput" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none;">
+              <div id="coverUploadStatus" style="font-size:12px; color:#9ca3af; text-align:center; margin-top:7px; min-height:16px;"></div>
+            </div>
+
             <div class="card" style="margin-bottom:16px;">
               <div class="section-label">Excerpt</div>
               <textarea class="form-textarea" id="postExcerpt" placeholder="Short description for blog listing..." style="min-height:90px;" maxlength="500"></textarea>
@@ -227,7 +386,7 @@
   </main>
 
   <script type="module">
-    import { requireAuth, renderSidebar, apiFetch, showToast, getUser } from './admin.js'
+    import { requireAuth, renderSidebar, apiFetch, apiUpload, showToast, getUser } from './admin.js'
 
     requireAuth()
     renderSidebar('blog')
@@ -236,6 +395,8 @@
     let currentPage = 1
     let currentPostId = null
     let totalPages = 1
+    let coverImageId = null        // tracks selected cover media ID
+    let savedEditorRange = null    // saves cursor position when editor loses focus
 
     // ── View switching ──────────────────────────────────────────
     function showList() {
@@ -271,6 +432,12 @@
       document.getElementById('saveStatus').textContent = ''
       document.getElementById('deleteSection').style.display = postId ? 'block' : 'none'
 
+      // Reset cover image state
+      setCoverImage(null, null)
+      // Close image panel
+      document.getElementById('imagePanel').classList.remove('open')
+      document.getElementById('btnToggleImagePanel').classList.remove('active')
+
       if (postId) loadPostForEdit(postId)
     }
 
@@ -278,13 +445,32 @@
     async function loadPosts() {
       const search = document.getElementById('searchInput').value
       const status = document.getElementById('statusFilter').value
+      const tbody = document.getElementById('postsTableBody')
 
-      const params = new URLSearchParams({ page: currentPage, limit: 15 })
-      if (search) params.set('search', search)
-      if (status) params.set('status', status)
+      // Show loading state
+      tbody.innerHTML = `<tr><td colspan="5"><div class="loading"><div class="spinner-sm"></div> Loading posts...</div></td></tr>`
 
-      const res = await apiFetch(`/blog/admin/all?${params}`)
-      if (!res.ok) return
+      const queryParams = new URLSearchParams({ page: currentPage, limit: 15 })
+      if (search) queryParams.set('search', search)
+      if (status) queryParams.set('status', status)
+
+      let res
+      try {
+        res = await apiFetch(`/blog/admin/all?${queryParams}`)
+      } catch (networkErr) {
+        tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state" style="color:#dc2626;">
+          <p>⚠️ Cannot reach server. Is the backend running on port 3001?</p>
+          <p style="font-size:12px;margin-top:6px;">Run: <code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;">npm run dev</code> in <code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;">cms/backend</code></p>
+        </div></td></tr>`
+        return
+      }
+
+      if (!res.ok) {
+        let errMsg = `Server error (${res.status})`
+        try { const e = await res.json(); errMsg = e.message || errMsg } catch {}
+        tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state" style="color:#dc2626;">⚠️ ${escHtml(errMsg)}</div></td></tr>`
+        return
+      }
 
       const { data, meta } = await res.json()
       totalPages = meta.totalPages
@@ -294,7 +480,7 @@
       document.getElementById('btnPrev').disabled = meta.page <= 1
       document.getElementById('btnNext').disabled = meta.page >= meta.totalPages
 
-      const tbody = document.getElementById('postsTableBody')
+      // tbody already declared at top of function
       if (data.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="empty-state-icon">✍</div><p>No posts found. <a href="#" onclick="editPost(null)" style="color:#2563eb;">Create your first post</a></p></div></td></tr>`
         return
@@ -334,6 +520,13 @@
       document.getElementById('postMetaDesc').value = post.metaDesc || ''
       document.getElementById('postStatus').value = post.status
       document.getElementById('saveStatus').textContent = `Last saved ${formatDate(post.updatedAt)}`
+
+      // Load cover image if present
+      if (post.coverImage && post.coverImageId) {
+        setCoverImage(post.coverImageId, post.coverImage.url)
+      } else {
+        setCoverImage(null, null)
+      }
     }
 
     // ── Save post ───────────────────────────────────────────────
@@ -348,7 +541,10 @@
       const metaTitle = document.getElementById('postMetaTitle').value.trim()
       const metaDesc = document.getElementById('postMetaDesc').value.trim()
 
-      const body = { title, content, excerpt, tags, metaTitle, metaDesc, status }
+      const body = {
+        title, content, excerpt, tags, metaTitle, metaDesc, status,
+        ...(coverImageId ? { coverImageId } : { coverImageId: null }),
+      }
       const saveStatus = document.getElementById('saveStatus')
       saveStatus.textContent = 'Saving...'
 
@@ -384,6 +580,184 @@
       } else {
         showToast('Delete failed.', 'error')
       }
+    }
+
+    // ── Cover image helpers ─────────────────────────────────────
+    function setCoverImage(id, url) {
+      coverImageId = id
+      const wrap = document.getElementById('coverPreviewWrap')
+      const img  = document.getElementById('coverPreviewImg')
+      const btn  = document.getElementById('btnCoverUpload')
+      const status = document.getElementById('coverUploadStatus')
+
+      if (id && url) {
+        img.src = url
+        wrap.style.display = 'block'
+        btn.style.display = 'none'
+      } else {
+        img.src = ''
+        wrap.style.display = 'none'
+        btn.style.display = 'flex'
+      }
+      status.textContent = ''
+      btn.classList.remove('uploading')
+    }
+
+    window.removeCoverImage = () => setCoverImage(null, null)
+
+    async function uploadMediaFile(file, statusEl) {
+      statusEl.textContent = 'Uploading…'
+      statusEl.className = 'img-status'
+
+      const formData = new FormData()
+      formData.append('file', file)
+
+      try {
+        const res = await apiUpload('/media/upload', formData)
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}))
+          throw new Error(err.message || `Upload failed (${res.status})`)
+        }
+        const media = await res.json()
+        statusEl.textContent = '✓ Uploaded'
+        statusEl.className = 'img-status success'
+        return media   // { id, url, ... }
+      } catch (e) {
+        statusEl.textContent = e.message
+        statusEl.className = 'img-status error'
+        return null
+      }
+    }
+
+    // Cover image file input handler
+    document.getElementById('coverFileInput').addEventListener('change', async (e) => {
+      const file = e.target.files[0]
+      if (!file) return
+      e.target.value = ''  // reset so same file can be re-selected
+
+      const btn = document.getElementById('btnCoverUpload')
+      const status = document.getElementById('coverUploadStatus')
+      btn.classList.add('uploading')
+      btn.textContent = 'Uploading…'
+
+      const fd = new FormData()
+      fd.append('file', file)
+      try {
+        const res = await apiUpload('/media/upload', fd)
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}))
+          throw new Error(err.message || `Upload failed (${res.status})`)
+        }
+        const media = await res.json()
+        setCoverImage(media.id, media.url)
+        showToast('Cover image uploaded.', 'success')
+      } catch (err) {
+        status.textContent = err.message
+        btn.classList.remove('uploading')
+        btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg> Upload cover image`
+        showToast(err.message, 'error')
+      }
+    })
+
+    // ── Inline image helpers ────────────────────────────────────
+
+    // Save cursor when editor loses focus (needed to restore before insert)
+    document.getElementById('postContent').addEventListener('blur', () => {
+      const sel = window.getSelection()
+      if (sel && sel.rangeCount > 0) {
+        savedEditorRange = sel.getRangeAt(0).cloneRange()
+      }
+    })
+
+    function restoreEditorSelection() {
+      const editor = document.getElementById('postContent')
+      editor.focus()
+      if (savedEditorRange) {
+        const sel = window.getSelection()
+        sel.removeAllRanges()
+        sel.addRange(savedEditorRange)
+      }
+    }
+
+    function insertInlineImage(url, alt = '') {
+      restoreEditorSelection()
+      const editor = document.getElementById('postContent')
+
+      const img = document.createElement('img')
+      img.src = url
+      img.alt = alt
+      img.style.maxWidth = '100%'
+      img.style.height = 'auto'
+      img.style.borderRadius = '6px'
+      img.style.margin = '8px 0'
+      img.style.display = 'block'
+
+      const sel = window.getSelection()
+      if (sel && sel.rangeCount > 0) {
+        const range = sel.getRangeAt(0)
+        range.deleteContents()
+        range.insertNode(img)
+        // Move cursor after the image
+        const after = document.createRange()
+        after.setStartAfter(img)
+        after.collapse(true)
+        sel.removeAllRanges()
+        sel.addRange(after)
+        savedEditorRange = after.cloneRange()
+      } else {
+        editor.appendChild(img)
+      }
+
+      // Close panel
+      document.getElementById('imagePanel').classList.remove('open')
+      document.getElementById('btnToggleImagePanel').classList.remove('active')
+    }
+
+    window.toggleImagePanel = () => {
+      const panel = document.getElementById('imagePanel')
+      const btn   = document.getElementById('btnToggleImagePanel')
+      const isOpen = panel.classList.toggle('open')
+      btn.classList.toggle('active', isOpen)
+      if (isOpen) {
+        // Save cursor before it's lost when user interacts with panel
+        const sel = window.getSelection()
+        if (sel && sel.rangeCount > 0) {
+          savedEditorRange = sel.getRangeAt(0).cloneRange()
+        }
+      }
+    }
+
+    window.showImageTab = (tab) => {
+      document.getElementById('imgTabUpload').classList.toggle('active', tab === 'upload')
+      document.getElementById('imgTabUrl').classList.toggle('active', tab === 'url')
+      document.getElementById('imgContentUpload').classList.toggle('active', tab === 'upload')
+      document.getElementById('imgContentUrl').classList.toggle('active', tab === 'url')
+    }
+
+    // Inline image from file upload
+    document.getElementById('inlineFileInput').addEventListener('change', async (e) => {
+      const file = e.target.files[0]
+      if (!file) return
+      e.target.value = ''
+
+      const status = document.getElementById('inlineUploadStatus')
+      const media = await uploadMediaFile(file, status)
+      if (media) {
+        insertInlineImage(media.url, file.name.replace(/\.[^.]+$/, ''))
+        status.textContent = 'Image inserted!'
+        status.className = 'img-status success'
+        setTimeout(() => { status.textContent = 'Select an image file to insert at cursor'; status.className = 'img-status' }, 2000)
+      }
+    })
+
+    window.insertImageFromUrl = () => {
+      const url = document.getElementById('inlineImageUrl').value.trim()
+      const status = document.getElementById('inlineUrlStatus')
+      if (!url) { status.textContent = 'Please enter a URL.'; status.className = 'img-status error'; return }
+      if (!/^https?:\/\//i.test(url)) { status.textContent = 'URL must start with http:// or https://'; status.className = 'img-status error'; return }
+      insertInlineImage(url)
+      document.getElementById('inlineImageUrl').value = ''
+      status.textContent = ''
     }
 
     // ── Rich text helpers ───────────────────────────────────────

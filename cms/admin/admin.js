@@ -111,6 +111,34 @@ export async function apiFetch(path, options = {}) {
   return res
 }
 
+// ─── File upload helper (multipart/form-data — no JSON Content-Type) ─────────
+export async function apiUpload(path, formData) {
+  const token = getAccessToken()
+
+  const doRequest = (authToken) => fetch(`${API}${path}`, {
+    method: 'POST',
+    body: formData,
+    credentials: 'include',
+    headers: {
+      // Do NOT set Content-Type — browser must set multipart boundary automatically
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    },
+  })
+
+  const res = await doRequest(token)
+
+  if (res.status === 401) {
+    try {
+      const newToken = await refreshAccessToken()
+      return doRequest(newToken)
+    } catch {
+      return res
+    }
+  }
+
+  return res
+}
+
 // ─── Toast notifications ──────────────────────────────────────
 let toastContainer = null
 

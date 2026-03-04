@@ -9,7 +9,7 @@ const createPostSchema = z.object({
   title: z.string().min(1).max(200),
   excerpt: z.string().max(500).optional(),
   content: z.string().min(1),   // Rich text HTML — sanitized on server
-  coverImageId: z.string().uuid().optional(),
+  coverImageId: z.string().uuid().nullable().optional(), // null = remove cover image
   tags: z.array(z.string()).optional(),
   metaTitle: z.string().max(160).optional(),
   metaDesc: z.string().max(320).optional(),
@@ -136,7 +136,7 @@ export async function blogRoutes(app: FastifyInstance) {
         include: {
           author: { select: { name: true, avatarUrl: true } },
           tags: { select: { tag: { select: { name: true } } } },
-          coverImage: { select: { url: true } },
+          coverImage: { select: { url: true, alt: true } },
         },
       }),
       prisma.blogPost.count({ where }),
