@@ -85,7 +85,7 @@ export async function usersRoutes(app: FastifyInstance) {
         action: 'user.create',
         resource: 'users',
         resourceId: user.id,
-        newValue: { email, name, role },
+        newValue: JSON.stringify({ email, name, role }),
         ipAddress: request.ip,
       },
     })
@@ -94,12 +94,9 @@ export async function usersRoutes(app: FastifyInstance) {
   })
 
   // ── PATCH /api/users/:id — admin only ─────────────────────────
-  app.patch('/:id', {
+  app.patch<{ Params: { id: string } }>('/:id', {
     preHandler: [authenticate, requireRole('ADMIN')],
-  }, async (
-    request: FastifyRequest<{ Params: { id: string } }>,
-    reply: FastifyReply
-  ) => {
+  }, async (request, reply) => {
     const { id } = request.params
     const parsed = updateUserSchema.safeParse(request.body)
     if (!parsed.success) {
@@ -116,8 +113,9 @@ export async function usersRoutes(app: FastifyInstance) {
     const user = await prisma.user.update({
       where: { id },
       data: {
-        ...parsed.data,
-        role: parsed.data.role | undefined,
+        name: parsed.data.name,
+        isActive: parsed.data.isActive,
+        ...(parsed.data.role ? { role: parsed.data.role } : {}),
       },
       select: { id: true, email: true, name: true, role: true, isActive: true },
     })
@@ -128,7 +126,7 @@ export async function usersRoutes(app: FastifyInstance) {
         action: 'user.update',
         resource: 'users',
         resourceId: id,
-        newValue: parsed.data,
+        newValue: JSON.stringify(parsed.data),
         ipAddress: request.ip,
       },
     })
@@ -137,12 +135,9 @@ export async function usersRoutes(app: FastifyInstance) {
   })
 
   // ── DELETE /api/users/:id — admin only ────────────────────────
-  app.delete('/:id', {
+  app.delete<{ Params: { id: string } }>('/:id', {
     preHandler: [authenticate, requireRole('ADMIN')],
-  }, async (
-    request: FastifyRequest<{ Params: { id: string } }>,
-    reply: FastifyReply
-  ) => {
+  }, async (request, reply) => {
     const { id } = request.params
     const actor = request.user as { sub: string }
 

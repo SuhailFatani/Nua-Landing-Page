@@ -1,7 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 import { v2 as cloudinary } from 'cloudinary'
 import { v4 as uuid } from 'uuid'
-import { fileTypeFromBuffer } from 'file-type'
 import { prisma } from '../plugins/db'
 import { authenticate, requireRole } from '../middleware/auth'
 
@@ -63,12 +62,21 @@ export async function mediaRoutes(app: FastifyInstance) {
     const buffer = await data.toBuffer()
 
     // ── Validate file type by magic bytes (not extension/header) ─
-    const detectedType = await fileTypeFromBuffer(buffer)
-
-    // SVGs won't be detected by file-type (they're XML text) — handle separately
-    const mimeType = detectedType?.mime ?? (
-      data.mimetype === 'image/svg+xml' ? 'image/svg+xml' : null
-    )
+    // Dynamic import for file-type (ESM-only package in CommonJS context)
+    let mimeType: string | null = null
+    try {
+      // file-type v16 (CommonJS compat) exports `fromBuffer`, not `fileTypeFromBuffer`
+      const fileTypeMod: any = await import('file-type')
+      const fromBuffer = fileTypeMod.fromBuffer ?? fileTypeMod.default?.fromBuffer
+      const detectedType = fromBuffer ? await fromBuffer(buffer) : null
+      // SVGs won't be detected by file-type (they're XML text) — handle separately
+      mimeType = detectedType?.mime ?? (
+        data.mimetype === 'image/svg+xml' ? 'image/svg+xml' : null
+      )
+    } catch {
+      // Fall back to Content-Type header if file-type module fails
+      mimeType = ALLOWED_MIME_TYPES.has(data.mimetype) ? data.mimetype : null
+    }
 
     if (!mimeType || !ALLOWED_MIME_TYPES.has(mimeType)) {
       return reply.status(400).send({
@@ -77,7 +85,7 @@ export async function mediaRoutes(app: FastifyInstance) {
     }
 
     // ── Generate safe filename — never use original ────────────
-    const extension = detectedType?.ext ?? 'bin'
+    const extension = mimeType.split('/')[1]?.replace('jpeg', 'jpg') ?? 'bin'
     const safeFilename = `${uuid()}.${extension}`
 
     // ── Upload to Cloudinary as a stream ──────────────────────
@@ -125,7 +133,7 @@ export async function mediaRoutes(app: FastifyInstance) {
         action: 'media.upload',
         resource: 'media',
         resourceId: media.id,
-        newValue: { filename: safeFilename, mimeType, size: buffer.length },
+        newValue: JSON.stringify({ filename: safeFilename, mimeType, size: buffer.length }),
         ipAddress: request.ip,
       },
     })
@@ -134,16 +142,12 @@ export async function mediaRoutes(app: FastifyInstance) {
   })
 
   // ── PATCH /api/media/:id — update alt text ─────────────────
-  app.patch('/:id', {
+  app.patch<{ Params: { id: string }; Body: { alt?: string } }>('/:id', {
     preHandler: [authenticate, requireRole('ADMIN', 'EDITOR')],
-  }, async (
-    request: FastifyRequest<{ Params: { id: string }; Body: { alt?: string } }>,
-    reply: FastifyReply
-  ) => {
+  }, async (request, reply) => {
     const { id } = request.params
-    const alt = typeof request.body?.alt === 'string'
-      ? request.body.alt.slice(0, 255)
-      : undefined
+    const body = request.body as { alt?: string } | undefined
+    const alt = typeof body?.alt === 'string' ? body.alt.slice(0, 255) : undefined
 
     const media = await prisma.media.update({
       where: { id },
@@ -154,12 +158,9 @@ export async function mediaRoutes(app: FastifyInstance) {
   })
 
   // ── DELETE /api/media/:id — admin only ───────────────────────
-  app.delete('/:id', {
+  app.delete<{ Params: { id: string } }>('/:id', {
     preHandler: [authenticate, requireRole('ADMIN')],
-  }, async (
-    request: FastifyRequest<{ Params: { id: string } }>,
-    reply: FastifyReply
-  ) => {
+  }, async (request, reply) => {
     const { id } = request.params
     const media = await prisma.media.findUnique({ where: { id } })
 
@@ -181,7 +182,7 @@ export async function mediaRoutes(app: FastifyInstance) {
         action: 'media.delete',
         resource: 'media',
         resourceId: id,
-        oldValue: { filename: media.filename, url: media.url },
+        oldValue: JSON.stringify({ filename: media.filename, url: media.url }),
         ipAddress: request.ip,
       },
     })

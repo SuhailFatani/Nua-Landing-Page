@@ -56,7 +56,8 @@ export async function analyticsRoutes(app: FastifyInstance) {
         type: parsed.data.type,
         page: parsed.data.page,
         label: parsed.data.label,
-        metadata: parsed.data.metadata ?? {},
+        // Store as JSON string — SQLite stores as TEXT
+        metadata: parsed.data.metadata ? JSON.stringify(parsed.data.metadata) : null,
         sessionId: parsed.data.sessionId,
         ipHash: hashIp(request.ip),
       },
@@ -74,6 +75,7 @@ export async function analyticsRoutes(app: FastifyInstance) {
     const days = Math.min(90, Math.max(1, Number(query.days) || 30))
     const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
 
+    // Run in parallel — not in a transaction (groupBy doesn't compose well in $transaction)
     const [
       totalVisitors,
       pageViewsRaw,
@@ -81,15 +83,15 @@ export async function analyticsRoutes(app: FastifyInstance) {
       topReferrers,
       eventCounts,
       demoBookings,
-      uniqueVisitorsPerDay,
       bookingsBySource,
-    ] = await prisma.$transaction([
+    ] = await Promise.all([
 
       // Total unique visitors (by ipHash) in period
       prisma.pageView.groupBy({
         by: ['ipHash'],
         where: { createdAt: { gte: since } },
-        _count: true,
+        orderBy: { ipHash: 'asc' },
+        _count: { id: true },
       }),
 
       // Total pageviews in period
@@ -99,8 +101,8 @@ export async function analyticsRoutes(app: FastifyInstance) {
       prisma.pageView.groupBy({
         by: ['page'],
         where: { createdAt: { gte: since } },
-        _count: { page: true },
-        orderBy: { _count: { page: 'desc' } },
+        _count: { id: true },
+        orderBy: { _count: { id: 'desc' } },
         take: 10,
       }),
 
@@ -108,8 +110,8 @@ export async function analyticsRoutes(app: FastifyInstance) {
       prisma.pageView.groupBy({
         by: ['referrer'],
         where: { createdAt: { gte: since }, referrer: { not: null } },
-        _count: { referrer: true },
-        orderBy: { _count: { referrer: 'desc' } },
+        _count: { id: true },
+        orderBy: { _count: { id: 'desc' } },
         take: 8,
       }),
 
@@ -117,8 +119,8 @@ export async function analyticsRoutes(app: FastifyInstance) {
       prisma.event.groupBy({
         by: ['type', 'label'],
         where: { createdAt: { gte: since } },
-        _count: { type: true },
-        orderBy: { _count: { type: 'desc' } },
+        _count: { id: true },
+        orderBy: { _count: { id: 'desc' } },
         take: 20,
       }),
 
@@ -133,25 +135,31 @@ export async function analyticsRoutes(app: FastifyInstance) {
         take: 50,
       }),
 
-      // Daily unique visitors for sparkline chart (last 30 days always)
-      prisma.$queryRaw<Array<{ date: string; visitors: number }>>`
-        SELECT
-          DATE(created_at)::text AS date,
-          COUNT(DISTINCT ip_hash)::int AS visitors
-        FROM page_views
-        WHERE created_at >= ${since}
-        GROUP BY DATE(created_at)
-        ORDER BY date ASC
-      `,
-
       // Demo bookings by source
       prisma.demoBooking.groupBy({
         by: ['source'],
         where: { createdAt: { gte: since } },
-        _count: { source: true },
-        orderBy: { _count: { source: 'desc' } },
+        _count: { id: true },
+        orderBy: { _count: { id: 'desc' } },
       }),
     ])
+
+    // Daily unique visitors — SQLite-compatible (strftime)
+    // For PostgreSQL, replace strftime('%Y-%m-%d', created_at) with DATE(created_at)
+    let dailyVisitors: Array<{ date: string; visitors: number }> = []
+    try {
+      dailyVisitors = await prisma.$queryRaw<Array<{ date: string; visitors: number }>>`
+        SELECT
+          strftime('%Y-%m-%d', created_at) AS date,
+          COUNT(DISTINCT ip_hash) AS visitors
+        FROM page_views
+        WHERE created_at >= ${since}
+        GROUP BY strftime('%Y-%m-%d', created_at)
+        ORDER BY date ASC
+      `
+    } catch {
+      // Gracefully degrade if raw query fails (e.g., different DB engine)
+    }
 
     return reply.send({
       period: { days, since },
@@ -163,21 +171,21 @@ export async function analyticsRoutes(app: FastifyInstance) {
           ? Math.round((pageViewsRaw / totalVisitors.length) * 10) / 10
           : 0,
       },
-      topPages: topPages.map(p => ({ page: p.page, views: p._count.page })),
+      topPages: topPages.map(p => ({ page: p.page, views: p._count.id })),
       topReferrers: topReferrers
         .filter(r => r.referrer)
-        .map(r => ({ referrer: r.referrer, visits: r._count.referrer })),
+        .map(r => ({ referrer: r.referrer, visits: r._count.id })),
       events: eventCounts.map(e => ({
         type: e.type,
         label: e.label,
-        count: e._count.type,
+        count: e._count.id,
       })),
       demoBookings,
       bookingsBySource: bookingsBySource.map(b => ({
         source: b.source || 'direct',
-        count: b._count.source,
+        count: b._count.id,
       })),
-      dailyVisitors: uniqueVisitorsPerDay,
+      dailyVisitors,
     })
   })
 
@@ -188,24 +196,25 @@ export async function analyticsRoutes(app: FastifyInstance) {
   }, async (_request: FastifyRequest, reply: FastifyReply) => {
     const since = new Date(Date.now() - 30 * 60 * 1000)
 
-    const [activeVisitors, recentPages] = await prisma.$transaction([
+    const [activeVisitors, recentPages] = await Promise.all([
       prisma.pageView.groupBy({
         by: ['ipHash'],
         where: { createdAt: { gte: since } },
-        _count: true,
+        orderBy: { ipHash: 'asc' },
+        _count: { id: true },
       }),
       prisma.pageView.groupBy({
         by: ['page'],
         where: { createdAt: { gte: since } },
-        _count: { page: true },
-        orderBy: { _count: { page: 'desc' } },
+        _count: { id: true },
+        orderBy: { _count: { id: 'desc' } },
         take: 5,
       }),
     ])
 
     return reply.send({
       activeVisitors: activeVisitors.length,
-      topPages: recentPages.map(p => ({ page: p.page, views: p._count.page })),
+      topPages: recentPages.map(p => ({ page: p.page, views: p._count.id })),
     })
   })
 }

@@ -12,6 +12,7 @@ import { pagesRoutes } from './routes/pages'
 import { blogRoutes } from './routes/blog'
 import { mediaRoutes } from './routes/media'
 import { usersRoutes } from './routes/users'
+import { analyticsRoutes } from './routes/analytics'
 import { prisma } from './plugins/db'
 
 const PORT = Number(process.env.PORT) || 3001
@@ -120,11 +121,12 @@ async function main() {
   // ─────────────────────────────────────────────────────────────
   // ROUTES
   // ─────────────────────────────────────────────────────────────
-  await app.register(authRoutes,  { prefix: '/api/auth' })
-  await app.register(pagesRoutes, { prefix: '/api/pages' })
-  await app.register(blogRoutes,  { prefix: '/api/blog' })
-  await app.register(mediaRoutes, { prefix: '/api/media' })
-  await app.register(usersRoutes, { prefix: '/api/users' })
+  await app.register(authRoutes,      { prefix: '/api/auth' })
+  await app.register(pagesRoutes,     { prefix: '/api/pages' })
+  await app.register(blogRoutes,      { prefix: '/api/blog' })
+  await app.register(mediaRoutes,     { prefix: '/api/media' })
+  await app.register(usersRoutes,     { prefix: '/api/users' })
+  await app.register(analyticsRoutes, { prefix: '/api/analytics' })
 
   // Health check
   app.get('/health', async () => ({ status: 'ok', timestamp: new Date().toISOString() }))

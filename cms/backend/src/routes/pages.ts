@@ -26,7 +26,7 @@ export async function pagesRoutes(app: FastifyInstance) {
   })
 
   // ── GET /api/pages/:slug — public ─────────────────────────────
-  app.get('/:slug', async (request: FastifyRequest<{ Params: { slug: string } }>, reply: FastifyReply) => {
+  app.get<{ Params: { slug: string } }>('/:slug', async (request, reply) => {
     const { slug } = request.params
 
     if (!(VALID_SLUGS as readonly string[]).includes(slug)) {
@@ -54,12 +54,9 @@ export async function pagesRoutes(app: FastifyInstance) {
   })
 
   // ── PUT /api/pages/:slug — update page content ────────────────
-  app.put('/:slug', {
+  app.put<{ Params: { slug: string } }>('/:slug', {
     preHandler: [authenticate, requireRole('ADMIN', 'EDITOR')],
-  }, async (
-    request: FastifyRequest<{ Params: { slug: string } }>,
-    reply: FastifyReply
-  ) => {
+  }, async (request, reply) => {
     const { slug } = request.params
     const parsed = updatePageSchema.safeParse(request.body)
     const user = request.user as { sub: string; role: string }
@@ -99,8 +96,9 @@ export async function pagesRoutes(app: FastifyInstance) {
         action: 'page.update',
         resource: 'pages',
         resourceId: updated.id,
-        oldValue: oldPage ? JSON.parse(JSON.stringify(oldPage)) : null,
-        newValue: JSON.parse(JSON.stringify(updated)),
+        // JSON.stringify because SQLite stores oldValue/newValue as TEXT
+        oldValue: oldPage ? JSON.stringify({ title: oldPage.title, isPublished: oldPage.isPublished }) : null,
+        newValue: JSON.stringify({ title: updated.title, isPublished: updated.isPublished }),
         ipAddress: request.ip,
       },
     })

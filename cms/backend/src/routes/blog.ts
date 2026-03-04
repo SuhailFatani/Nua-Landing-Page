@@ -80,10 +80,7 @@ export async function blogRoutes(app: FastifyInstance) {
   })
 
   // ── GET /api/blog/:slug — public ──────────────────────────────
-  app.get('/:slug', async (
-    request: FastifyRequest<{ Params: { slug: string } }>,
-    reply: FastifyReply
-  ) => {
+  app.get<{ Params: { slug: string } }>('/:slug', async (request, reply) => {
     const { slug } = request.params
 
     const post = await prisma.blogPost.findUnique({
@@ -210,7 +207,8 @@ export async function blogRoutes(app: FastifyInstance) {
         action: 'post.create',
         resource: 'blog_posts',
         resourceId: post.id,
-        newValue: { title, slug, status },
+        // JSON.stringify because SQLite stores as TEXT
+        newValue: JSON.stringify({ title, slug, status }),
         ipAddress: request.ip,
       },
     })
@@ -219,12 +217,9 @@ export async function blogRoutes(app: FastifyInstance) {
   })
 
   // ── PATCH /api/blog/:id — update post ────────────────────────
-  app.patch('/:id', {
+  app.patch<{ Params: { id: string } }>('/:id', {
     preHandler: [authenticate, requireRole('ADMIN', 'EDITOR')],
-  }, async (
-    request: FastifyRequest<{ Params: { id: string } }>,
-    reply: FastifyReply
-  ) => {
+  }, async (request, reply) => {
     const { id } = request.params
     const parsed = updatePostSchema.safeParse(request.body)
     if (!parsed.success) {
@@ -286,8 +281,8 @@ export async function blogRoutes(app: FastifyInstance) {
         action: 'post.update',
         resource: 'blog_posts',
         resourceId: id,
-        oldValue: { title: existing.title, status: existing.status },
-        newValue: { title: updated.title, status: updated.status },
+        oldValue: JSON.stringify({ title: existing.title, status: existing.status }),
+        newValue: JSON.stringify({ title: updated.title, status: updated.status }),
         ipAddress: request.ip,
       },
     })
@@ -296,12 +291,9 @@ export async function blogRoutes(app: FastifyInstance) {
   })
 
   // ── DELETE /api/blog/:id — admin only ────────────────────────
-  app.delete('/:id', {
+  app.delete<{ Params: { id: string } }>('/:id', {
     preHandler: [authenticate, requireRole('ADMIN')],
-  }, async (
-    request: FastifyRequest<{ Params: { id: string } }>,
-    reply: FastifyReply
-  ) => {
+  }, async (request, reply) => {
     const { id } = request.params
     const user = request.user as { sub: string }
 
@@ -316,7 +308,7 @@ export async function blogRoutes(app: FastifyInstance) {
         action: 'post.delete',
         resource: 'blog_posts',
         resourceId: id,
-        oldValue: { title: post.title, slug: post.slug },
+        oldValue: JSON.stringify({ title: post.title, slug: post.slug }),
         ipAddress: request.ip,
       },
     })

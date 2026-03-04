@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nua CMS — Audit Log</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css">
+  <style>
+    .audit-filters {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .audit-filters select,
+    .audit-filters input[type="text"] {
+      height: 36px;
+      padding: 0 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: #111827;
+      background: #ffffff;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .audit-filters select:focus,
+    .audit-filters input[type="text"]:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .audit-filters input[type="text"] {
+      width: 220px;
+    }
+
+    /* Action badges */
+    .action-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'DM Sans', monospace;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .action-auth    { background: #eff6ff; color: #1d4ed8; }
+    .action-blog    { background: #f0fdf4; color: #15803d; }
+    .action-page    { background: #faf5ff; color: #7e22ce; }
+    .action-media   { background: #fff7ed; color: #c2410c; }
+    .action-user    { background: #fef9c3; color: #a16207; }
+    .action-default { background: #f3f4f6; color: #374151; }
+
+    /* Log row */
+    .log-actor {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .log-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #2563eb;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .log-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #111827;
+    }
+    .log-email {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+    .log-resource {
+      font-size: 12px;
+      color: #6b7280;
+      font-family: monospace;
+    }
+    .log-ip {
+      font-size: 11px;
+      color: #9ca3af;
+      font-family: monospace;
+    }
+    .log-time {
+      font-size: 12px;
+      color: #6b7280;
+      white-space: nowrap;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-top: 1px solid #e5e7eb;
+    }
+    .pagination-info {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .pagination-controls {
+      display: flex;
+      gap: 6px;
+    }
+    .page-btn {
+      height: 30px;
+      min-width: 30px;
+      padding: 0 8px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      background: #ffffff;
+      font-size: 12px;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.12s, border-color 0.12s;
+    }
+    .page-btn:hover:not(:disabled) { background: #f5f6f8; border-color: #d1d5db; }
+    .page-btn.active { background: #2563eb; border-color: #2563eb; color: #fff; }
+    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Empty state */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 20px;
+      gap: 10px;
+      color: #9ca3af;
+    }
+    .empty-state svg { opacity: 0.35; }
+    .empty-state p { font-size: 14px; }
+
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite;
+      border-radius: 4px;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .skeleton-row td { padding: 14px 16px; }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <main class="main">
+    <div class="topbar">
+      <span class="topbar-title">Audit Log</span>
+      <div class="topbar-actions">
+        <button class="btn btn-secondary" id="btnRefresh" onclick="loadLogs(currentPage)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+          Refresh
+        </button>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <div class="card">
+        <div class="card-header">
+          <h2 style="font-size:15px;font-weight:600;color:#111827;">Security & Activity Audit Trail</h2>
+          <div class="audit-filters">
+            <input type="text" id="searchInput" placeholder="Search action or resource…" oninput="handleSearch()">
+            <select id="filterAction" onchange="handleFilter()">
+              <option value="">All actions</option>
+              <option value="auth">Auth</option>
+              <option value="blog">Blog</option>
+              <option value="page">Page</option>
+              <option value="media">Media</option>
+              <option value="user">User</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table id="auditTable">
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>Actor</th>
+                <th>Resource</th>
+                <th>IP Address</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody id="auditBody">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination" id="paginationBar" style="display:none;">
+          <span class="pagination-info" id="pageInfo"></span>
+          <div class="pagination-controls" id="pageControls"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireAuth, requireRole, renderSidebar, apiFetch, showToast } from './admin.js'
+
+    // ── Auth guard (admin only) ───────────────────────────────
+    if (!requireAuth()) throw new Error('unauthenticated')
+    if (!requireRole('ADMIN')) throw new Error('forbidden')
+    renderSidebar('audit')
+
+    // ── State ─────────────────────────────────────────────────
+    window.currentPage = 1
+    let allLogs = []
+    let filteredLogs = []
+    const PAGE_SIZE = 50
+
+    // ── Load logs ─────────────────────────────────────────────
+    window.loadLogs = async function(page = 1) {
+      showSkeleton()
+      try {
+        const res = await apiFetch(`/users/audit-log?page=${page}`)
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        allLogs = await res.json()
+        applyFilter()
+      } catch (err) {
+        console.error(err)
+        showToast('Failed to load audit log', 'error')
+        showEmpty()
+      }
+    }
+
+    function applyFilter() {
+      const search = document.getElementById('searchInput').value.toLowerCase()
+      const category = document.getElementById('filterAction').value
+
+      filteredLogs = allLogs.filter(log => {
+        const action = (log.action || '').toLowerCase()
+        const resource = (log.resource || '').toLowerCase()
+        const matchSearch = !search || action.includes(search) || resource.includes(search)
+        const matchCategory = !category || action.startsWith(category)
+        return matchSearch && matchCategory
+      })
+
+      renderTable()
+    }
+
+    window.handleSearch = applyFilter
+    window.handleFilter = applyFilter
+
+    // ── Render ─────────────────────────────────────────────────
+    function renderTable() {
+      const tbody = document.getElementById('auditBody')
+      const paginationBar = document.getElementById('paginationBar')
+
+      if (!filteredLogs.length) {
+        showEmpty()
+        paginationBar.style.display = 'none'
+        return
+      }
+
+      tbody.innerHTML = filteredLogs.map(log => {
+        const actor = log.user || {}
+        const initials = actor.name
+          ? actor.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
+          : '?'
+
+        const actionClass = getActionClass(log.action)
+        const timeStr = formatTime(log.createdAt)
+        const resourceId = log.resourceId ? log.resourceId.slice(0, 8) + '…' : '—'
+
+        return `
+          <tr>
+            <td>
+              <span class="action-badge ${actionClass}">${escapeHtml(log.action || '—')}</span>
+            </td>
+            <td>
+              <div class="log-actor">
+                <div class="log-avatar">${initials}</div>
+                <div>
+                  <div class="log-name">${escapeHtml(actor.name || 'Unknown')}</div>
+                  <div class="log-email">${escapeHtml(actor.email || '')}</div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="log-resource">${escapeHtml(log.resource || '—')}</div>
+              <div class="log-ip" style="font-size:11px;color:#9ca3af;margin-top:2px;">${resourceId}</div>
+            </td>
+            <td>
+              <span class="log-ip">${escapeHtml(log.ipAddress || '—')}</span>
+            </td>
+            <td>
+              <span class="log-time" title="${log.createdAt}">${timeStr}</span>
+            </td>
+          </tr>
+        `
+      }).join('')
+
+      // Pagination (server paginates at 50, we show all filtered locally)
+      paginationBar.style.display = 'flex'
+      document.getElementById('pageInfo').textContent =
+        `Showing ${filteredLogs.length} of ${allLogs.length} entries`
+      renderPagination()
+    }
+
+    function renderPagination() {
+      const controls = document.getElementById('pageControls')
+      // Since filtering is local and server returns 50 per page,
+      // show Prev/Next for server pages
+      controls.innerHTML = `
+        <button class="page-btn" onclick="prevPage()" ${currentPage <= 1 ? 'disabled' : ''}>
+          ← Prev
+        </button>
+        <button class="page-btn active">${currentPage}</button>
+        <button class="page-btn" onclick="nextPage()" ${allLogs.length < PAGE_SIZE ? 'disabled' : ''}>
+          Next →
+        </button>
+      `
+    }
+
+    window.prevPage = function() {
+      if (currentPage > 1) { currentPage--; loadLogs(currentPage) }
+    }
+    window.nextPage = function() {
+      if (allLogs.length >= PAGE_SIZE) { currentPage++; loadLogs(currentPage) }
+    }
+
+    // ── Helpers ───────────────────────────────────────────────
+    function getActionClass(action = '') {
+      if (action.startsWith('auth'))  return 'action-auth'
+      if (action.startsWith('blog'))  return 'action-blog'
+      if (action.startsWith('page'))  return 'action-page'
+      if (action.startsWith('media')) return 'action-media'
+      if (action.startsWith('user'))  return 'action-user'
+      return 'action-default'
+    }
+
+    function formatTime(iso) {
+      if (!iso) return '—'
+      const d = new Date(iso)
+      const now = new Date()
+      const diff = now - d
+      if (diff < 60_000)        return 'Just now'
+      if (diff < 3_600_000)     return `${Math.floor(diff / 60_000)}m ago`
+      if (diff < 86_400_000)    return `${Math.floor(diff / 3_600_000)}h ago`
+      if (diff < 7 * 86_400_000) return `${Math.floor(diff / 86_400_000)}d ago`
+      return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+    }
+
+    function showSkeleton() {
+      const tbody = document.getElementById('auditBody')
+      tbody.innerHTML = Array(8).fill(0).map(() => `
+        <tr class="skeleton-row">
+          <td><div class="skeleton" style="width:120px;height:20px;"></div></td>
+          <td><div class="skeleton" style="width:160px;height:20px;"></div></td>
+          <td><div class="skeleton" style="width:100px;height:20px;"></div></td>
+          <td><div class="skeleton" style="width:100px;height:20px;"></div></td>
+          <td><div class="skeleton" style="width:80px;height:20px;"></div></td>
+        </tr>
+      `).join('')
+      document.getElementById('paginationBar').style.display = 'none'
+    }
+
+    function showEmpty() {
+      const tbody = document.getElementById('auditBody')
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5">
+            <div class="empty-state">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+              <p>No audit log entries found</p>
+            </div>
+          </td>
+        </tr>
+      `
+    }
+
+    // ── Init ──────────────────────────────────────────────────
+    loadLogs(1)
+  </script>
+
+</body>
+</html>
