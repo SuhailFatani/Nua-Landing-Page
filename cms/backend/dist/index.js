@@ -67,6 +67,8 @@ async function main() {
             if (!origin ||
                 origin === 'null' ||
                 /^file:\/\//.test(origin) ||
+                /^https?:\/\/localhost(:\d+)?$/.test(origin) || // any localhost port (dev)
+                /^https?:\/\/127\.0\.0\.1(:\d+)?$/.test(origin) || // 127.0.0.1 variants
                 allowedOrigins.includes(origin)) {
                 cb(null, true);
             }

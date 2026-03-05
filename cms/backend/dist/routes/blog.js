@@ -10,7 +10,7 @@ const createPostSchema = zod_1.z.object({
     title: zod_1.z.string().min(1).max(200),
     excerpt: zod_1.z.string().max(500).optional(),
     content: zod_1.z.string().min(1), // Rich text HTML — sanitized on server
-    coverImageId: zod_1.z.string().uuid().optional(),
+    coverImageId: zod_1.z.string().uuid().nullable().optional(), // null = remove cover image
     tags: zod_1.z.array(zod_1.z.string()).optional(),
     metaTitle: zod_1.z.string().max(160).optional(),
     metaDesc: zod_1.z.string().max(320).optional(),
@@ -120,7 +120,7 @@ async function blogRoutes(app) {
                 include: {
                     author: { select: { name: true, avatarUrl: true } },
                     tags: { select: { tag: { select: { name: true } } } },
-                    coverImage: { select: { url: true } },
+                    coverImage: { select: { url: true, alt: true } },
                 },
             }),
             db_1.prisma.blogPost.count({ where }),
