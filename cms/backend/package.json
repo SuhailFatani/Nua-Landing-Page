@@ -13,6 +13,9 @@
     "db:studio": "prisma studio",
     "lint": "eslint src --ext .ts"
   },
+  "prisma": {
+  "seed": "ts-node prisma/seed.ts"
+},
   "dependencies": {
     "@fastify/cookie": "^9.3.1",
     "@fastify/cors": "^9.0.1",
