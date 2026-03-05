@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NUA - Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../Design system/Foundations/colors.css">
+  <link rel="stylesheet" href="../Design system/Foundations/spacing.css">
+  <link rel="stylesheet" href="../Design system/Foundations/typography.css">
+  <link rel="stylesheet" href="../Design system/Foundations/blog/blog.css">
+  <style>
+    /* ===== RESET ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ==========================================================
+       DESIGN TOKENS — mirroring Figma token structure
+       ========================================================== */
+    :root {
+      /* ── Colors: color.primary ── */
+      --color-primary-50: #E8F7FF;
+      --color-primary-600: #0C4EFF;
+      --color-primary-800: #063DCD;
+      --color-primary-900: #103B9F;
+
+      /* ── Colors: color.secondary ── */
+      --color-secondary-500: #FF7B0A;
+
+      /* ── Colors: color.natural ── */
+      --color-natural-50: #FFFFFF;
+      --color-natural-50-85pct: #FFFFFFD9;
+      --color-natural-50-50pct: rgba(255, 255, 255, 0.5);
+      --color-natural-100: #FAFAFA;
+      --color-natural-800: #464646;
+
+      /* ── Colors: typography ── */
+      --color-display: #1E1E1E;
+      --color-body: #656565;
+
+      /* ── Colors: stroke ── */
+      --general-stroke: #E8E8E8;
+
+      /* ── Font ── */
+      --font-family-primary: 'DM Sans', sans-serif;
+
+      /* ── Font sizes ── */
+      --font-size-12: 12px;
+      --font-size-14: 14px;
+      --font-size-16: 16px;
+      --font-size-18: 18px;
+      --font-size-20: 20px;
+      --font-size-24: 24px;
+      --font-size-28: 28px;
+      --font-size-32: 32px;
+      --font-size-48: 48px;
+      --font-size-56: 56px;
+      --font-size-64: 64px;
+
+      /* ── Line heights ── */
+      --font-line-height-for12: 14.4px;
+      --font-line-height-for14: 16.8px;
+      --font-line-height-for16: 19.2px;
+      --font-line-height-for18: 21.6px;
+      --font-line-height-for20: 24px;
+      --font-line-height-for24: 28.8px;
+      --font-line-height-for28: 33.6px;
+      --font-line-height-for32: 38.4px;
+      --font-line-height-for48: 57.6px;
+      --font-line-height-for56: 67.2px;
+      --font-line-height-for64: 76.8px;
+
+      /* ── Font weights ── */
+      --font-weight-light: 300;
+      --font-weight-regular: 400;
+      --font-weight-medium: 500;
+      --font-weight-semibold: 600;
+      --font-weight-bold: 700;
+
+      /* ── Spacing ── */
+      --space-4: 4px;
+      --space-8: 8px;
+      --space-10: 10px;
+      --space-12: 12px;
+      --space-14: 14px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-28: 28px;
+      --space-30: 30px;
+      --space-34: 34px;
+      --space-40: 40px;
+      --space-52: 52px;
+      --space-58: 58px;
+      --space-72: 72px;
+
+      /* ── Border Radius ── */
+      --border-radius-2xsm: 4px;
+      --border-radius-xsm: 8px;
+      --border-radius-sm: 12px;
+      --border-radius-md: 16px;
+      --border-radius-lg: 20px;
+      --border-radius-3xlg: 32px;
+
+      /* ── Shadows ── */
+      --shadow-xs: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
+    }
+
+    /* ===== LENIS SMOOTH SCROLL ===== */
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+
+    /* ===== BASE ===== */
+    body {
+      font-family: var(--font-family-primary);
+      background-color: var(--color-natural-50);
+      color: var(--color-display);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ===== SCROLL REVEAL ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== NAV BAR ===== */
+    .svc-navbar-section {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: var(--space-16);
+    }
+
+    .svc-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 16px !important;
+      border-radius: var(--border-radius-xsm);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    /* Navbar — Light theme */
+    .navbar-light .svc-navbar {
+      background: rgba(255, 255, 255, 0.65);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .navbar-light .svc-nav-logo svg path {
+      fill: #1E1E1E;
+    }
+
+    .navbar-light .svc-nav-link {
+      color: var(--color-display);
+    }
+
+    /* Navbar — Dark theme */
+    .navbar-dark .svc-navbar {
+      background: rgba(6, 13, 23, 0.55);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-dark .svc-nav-logo svg path {
+      fill: #FFFFFF;
+    }
+
+    .navbar-dark .svc-nav-link {
+      color: #FFFFFF;
+    }
+
+    .svc-nav-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-52);
+    }
+
+    .svc-nav-logo {
+      width: 68.17px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .svc-nav-logo svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .svc-nav-logo svg path {
+      transition: fill 0.4s ease;
+    }
+
+    .svc-nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+    }
+
+    .svc-nav-link {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for14);
+      color: var(--color-display);
+      text-decoration: none;
+      padding: var(--space-8) var(--space-14);
+      border-radius: var(--border-radius-sm);
+      cursor: pointer;
+      transition: color 0.4s ease, opacity 0.2s;
+    }
+
+    .svc-nav-link:hover {
+      opacity: 0.6;
+    }
+
+    .svc-nav-link.active {
+      font-weight: var(--font-weight-medium);
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-8);
+      padding: var(--space-12) var(--space-20);
+      background-color: #0D4CF4;
+      color: var(--color-natural-50);
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-16);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--font-line-height-for16);
+      border: 1px solid #0D4CF4;
+      border-radius: var(--border-radius-2xsm);
+      box-shadow: var(--shadow-xs);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover {
+      background-color: #063DCD;
+    }
+
+    /* ===== BLOG SECTION ===== */
+    .blog-page-section {
+      width: 100%;
+      background: var(--color-natural-50);
+      padding: var(--space-16);
+      padding-top: 140px; /* offset for fixed navbar */
+    }
+
+    .blog-page-container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-40);
+    }
+
+    .blog-page-title {
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-48);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--font-line-height-for48);
+      color: var(--color-display);
+      text-transform: capitalize;
+      letter-spacing: -1.44px;
+    }
+
+    /* ===== FEATURED ARTICLE ===== */
+    .blog-featured {
+      display: flex;
+      gap: var(--space-20);
+      align-items: center;
+      cursor: pointer;
+      border-radius: var(--border-radius-xsm);
+      transition: transform 0.3s ease;
+    }
+
+    .blog-featured:hover {
+      transform: translateY(-2px);
+    }
+
+    .blog-featured-img {
+      width: 546px;
+      height: 370px;
+      flex-shrink: 0;
+      border-radius: var(--border-radius-2xsm);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .blog-featured-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .blog-featured:hover .blog-featured-img img {
+      transform: scale(1.03);
+    }
+
+    .blog-featured-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+    }
+
+    .blog-featured-date {
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-24);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for24);
+      color: var(--color-body);
+      font-variation-settings: 'opsz' 9;
+    }
+
+    .blog-featured-title {
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-32);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--font-line-height-for32);
+      color: var(--color-display);
+      text-transform: capitalize;
+    }
+
+    .blog-featured-desc {
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-24);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for24);
+      color: var(--color-body);
+      font-variation-settings: 'opsz' 9;
+    }
+
+    /* ===== BLOG GRID ===== */
+    .blog-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-40);
+    }
+
+    .blog-grid-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-20);
+    }
+
+    /* ===== BLOG CARD ===== */
+    .blog-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-20);
+      cursor: pointer;
+      border-radius: var(--border-radius-xsm);
+    }
+
+    .blog-card-img {
+      width: 100%;
+      aspect-ratio: 1280 / 720;
+      border-radius: var(--border-radius-2xsm);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .blog-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .blog-card:hover .nua-blog__img img {
+      transform: scale(1.02);
+    }
+
+    .nua-blog__img img {
+      transition: transform 0.4s ease;
+    }
+
+    .blog-card-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+    }
+
+    .blog-card-date {
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-18);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for18);
+      color: var(--color-body);
+      font-variation-settings: 'opsz' 9;
+    }
+
+    .blog-card-title {
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-24);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--font-line-height-for24);
+      color: var(--color-display);
+      text-transform: capitalize;
+      transition: color 0.2s ease;
+    }
+
+    .blog-card-desc {
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-18);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for18);
+      color: var(--color-body);
+      font-variation-settings: 'opsz' 9;
+    }
+
+    /* ===== BLOG TAGS ===== */
+    .blog-card-tags {
+      display: flex;
+      gap: var(--space-8);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .blog-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4) var(--space-8);
+      background: var(--color-natural-100);
+      border: 1px solid var(--general-stroke);
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for14);
+      color: var(--color-display);
+      text-transform: capitalize;
+      font-variation-settings: 'opsz' 9;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .blog-tag:hover {
+      background: var(--color-primary-50);
+      border-color: var(--color-primary-600);
+    }
+
+    /* ===== LOAD MORE ===== */
+    .blog-load-more {
+      display: flex;
+      justify-content: center;
+      padding-top: var(--space-20);
+    }
+
+    .btn-load-more {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-8);
+      padding: var(--space-12) var(--space-40);
+      background-color: transparent;
+      color: var(--color-display);
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-16);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--font-line-height-for16);
+      border: 1px solid var(--general-stroke);
+      border-radius: var(--border-radius-2xsm);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-load-more:hover {
+      background-color: var(--color-natural-100);
+      border-color: var(--color-body);
+    }
+
+    /* ===== CTA + FOOTER SECTION ===== */
+    .cta-footer-section {
+      width: 100%;
+      background-color: var(--color-natural-50);
+      padding: 0 var(--space-16);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-16);
+      padding-bottom: var(--space-16);
+    }
+
+    .cta-card {
+      width: 100%;
+      background: #060D17;
+      border-radius: 9px;
+      padding: var(--space-20);
+      overflow: hidden;
+    }
+
+    .cta-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-10);
+    }
+
+    .cta-text-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-40);
+      padding: var(--space-52) var(--space-20) 0;
+      max-width: 906px;
+      text-align: center;
+    }
+
+    .cta-heading {
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-56);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--font-line-height-for56);
+      color: var(--color-natural-50);
+      text-transform: capitalize;
+      letter-spacing: -1.68px;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-12) var(--space-20);
+      background-color: #0D4CF4;
+      color: var(--color-natural-50);
+      font-family: var(--font-family-primary);
+      font-size: var(--font-size-16);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--font-line-height-for16);
+      border: 1px solid #0D4CF4;
+      border-radius: var(--border-radius-2xsm);
+      text-decoration: none;
+      box-shadow: 0px 0px 50px 0px rgba(37, 97, 227, 0.5);
+      transition: background-color 0.2s;
+    }
+
+    .cta-btn:hover { background-color: #063DCD; }
+
+    .cta-shax-lottie {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: -20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-shax-lottie iframe {
+      width: 100%;
+      height: 599px;
+      border: none;
+      pointer-events: auto;
+    }
+
+    /* — Footer Card — */
+    .footer-card {
+      width: 100%;
+      background: #060D17;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .footer-inner {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-28);
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--space-20);
+    }
+
+    /* Footer links row */
+    .footer-links-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-40);
+    }
+
+    .footer-logo {
+      display: block;
+      width: 68.17px;
+      height: 20px;
+    }
+
+    .footer-logo svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .footer-logo svg path {
+      fill: rgba(255, 255, 255, 0.5);
+      transition: fill 0.3s ease;
+    }
+
+    .footer-logo:hover svg path {
+      fill: var(--color-secondary-500);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 12px;
+    }
+
+    .footer-social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: #0a1526;
+      border-radius: var(--border-radius-xsm);
+      transition: background 0.2s;
+    }
+
+    .footer-social-icon:hover { background: #142240; }
+    .footer-social-icon svg { width: 20px; height: 20px; }
+    .footer-social-icon svg path { transition: fill 0.3s ease; }
+    .footer-social-icon:hover svg path { fill: var(--color-secondary-500); }
+
+    .footer-right {
+      display: flex;
+      gap: var(--space-72);
+    }
+
+    .footer-link-col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    .footer-link-label {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-regular);
+      line-height: var(--font-line-height-for14);
+      color: #BDBDBD;
+      padding: var(--space-8) var(--space-14);
+    }
+
+    .footer-link {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--font-line-height-for14);
+      color: #FFFFFF;
+      padding: var(--space-8) var(--space-14);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover {
+      color: var(--color-secondary-500);
+    }
+
+    /* Footer bottom row */
+    .footer-bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .footer-badges {
+      display: flex;
+      align-items: center;
+      gap: var(--space-40);
+    }
+
+    .footer-iso {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 68px;
+      height: 68px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-radius: 50%;
+    }
+
+    .footer-iso-top {
+      font-size: 19px;
+      font-weight: var(--font-weight-medium);
+      color: white;
+      line-height: 1.1;
+    }
+
+    .footer-iso-btm {
+      font-size: 13px;
+      font-weight: var(--font-weight-medium);
+      color: white;
+      line-height: 1.1;
+    }
+
+    .footer-gartner { display: flex; flex-direction: column; gap: 4px; }
+
+    .footer-gartner-top {
+      font-family: var(--font-family-primary);
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      line-height: 1.2;
+    }
+
+    .footer-gartner-btm { display: flex; align-items: baseline; gap: 4px; }
+
+    .footer-gartner-peer {
+      font-family: var(--font-family-primary);
+      font-size: 22px;
+      font-weight: 300;
+      color: white;
+    }
+
+    .footer-gartner-insights {
+      font-family: var(--font-family-primary);
+      font-size: 22px;
+      font-weight: 300;
+      color: #4db8b8;
+    }
+
+    .footer-gartner-tm {
+      font-size: 10px;
+      color: #4db8b8;
+      vertical-align: super;
+    }
+
+    .footer-contact {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .footer-contact-text {
+      font-size: 18px;
+      color: white;
+    }
+
+    /* Footer watermark */
+    .footer-watermark {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .footer-watermark svg {
+      width: 100%;
+      max-width: 1280px;
+      height: auto;
+      margin-top: 146px;
+    }
+
+    .footer-watermark svg path {
+      fill: #0a1526;
+      transition: fill 0.4s ease;
+    }
+
+    .footer-watermark:hover svg path {
+      fill: var(--color-secondary-500);
+    }
+
+    .footer-fade {
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2048px;
+      height: 318px;
+      background: linear-gradient(to bottom, rgba(6, 13, 23, 0), #060d17);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1279px) {
+      .blog-featured {
+        flex-direction: column;
+      }
+
+      .blog-featured-img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+      }
+
+      .blog-featured-text {
+        gap: var(--space-12);
+      }
+    }
+
+    @media (max-width: 991px) {
+      .blog-page-section {
+        padding-top: 120px;
+      }
+
+      .blog-page-title {
+        font-size: 36px;
+        line-height: 43.2px;
+      }
+
+      .blog-featured-title {
+        font-size: var(--font-size-28);
+        line-height: var(--font-line-height-for28);
+      }
+
+      .blog-featured-date,
+      .blog-featured-desc {
+        font-size: var(--font-size-18);
+        line-height: var(--font-line-height-for18);
+      }
+
+      .blog-grid-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cta-heading {
+        font-size: 36px;
+        line-height: 43.2px;
+        letter-spacing: -1px;
+      }
+
+      .cta-shax-lottie iframe { width: 320px; height: 320px; }
+
+      .footer-links-row {
+        flex-direction: column;
+        gap: var(--space-28);
+      }
+
+      .footer-bottom-row {
+        flex-direction: column;
+        gap: var(--space-20);
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .svc-nav-links { display: none; }
+
+      .btn-primary {
+        padding: 10px 16px;
+        font-size: 14px;
+        line-height: 16.8px;
+      }
+
+      .blog-page-section {
+        padding-top: 100px;
+      }
+
+      .blog-page-title {
+        font-size: 28px;
+        line-height: 33.6px;
+      }
+
+      .blog-featured-title {
+        font-size: var(--font-size-24);
+        line-height: var(--font-line-height-for24);
+      }
+
+      .blog-featured-date,
+      .blog-featured-desc {
+        font-size: var(--font-size-16);
+        line-height: var(--font-line-height-for16);
+      }
+
+      .blog-grid-row {
+        grid-template-columns: 1fr;
+      }
+
+      .blog-card-title {
+        font-size: var(--font-size-20);
+        line-height: var(--font-line-height-for20);
+      }
+
+      .blog-card-date,
+      .blog-card-desc {
+        font-size: var(--font-size-16);
+        line-height: var(--font-line-height-for16);
+      }
+
+      .cta-heading {
+        font-size: 28px;
+        line-height: 33.6px;
+        letter-spacing: -0.5px;
+      }
+
+      .cta-shax-lottie iframe { width: 260px; height: 260px; }
+
+      .footer-right {
+        gap: var(--space-40);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cta-shax-lottie iframe { width: 200px; height: 200px; }
+    }
+
+    /* ===== MOBILE NAV OVERLAY ===== */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+      color: white;
+      width: 32px;
+      height: 32px;
+    }
+    .hamburger-line {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: currentColor;
+      border-radius: 2px;
+      transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+      transform-origin: center;
+    }
+    .nav-hamburger.is-open .hamburger-line:nth-child(1) {
+      transform: translateY(3.75px) rotate(45deg);
+    }
+    .nav-hamburger.is-open .hamburger-line:nth-child(2) {
+      transform: translateY(-3.75px) rotate(-45deg);
+    }
+    .mobile-nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: #060D17;
+      flex-direction: column;
+      padding: 16px;
+      overflow-y: auto;
+    }
+    .mobile-nav-overlay.is-open { display: flex; }
+    .mobile-nav-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      background: rgba(6, 13, 23, 0.55);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+    .mobile-nav-logo-link {
+      width: 68px;
+      height: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+    .mobile-nav-logo-link svg { width: 100%; height: 100%; }
+    .mobile-nav-close {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: white;
+    }
+    .mobile-nav-links {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 0 4px;
+      margin-top: 8px;
+    }
+    .mobile-nav-link {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.2;
+      padding: 28px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: var(--font-family-primary, sans-serif);
+      display: block;
+    }
+    .mobile-nav-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-primary-600, #1A56FF);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.4;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #0D4CF4;
+      margin-top: 24px;
+      font-family: var(--font-family-primary, sans-serif);
+    }
+    @media (max-width: 767px) {
+      .nav-hamburger { display: flex; }
+      .svc-navbar .btn-primary { display: none; }
+      .navbar-light .nav-hamburger { color: #1E1E1E; }
+      .navbar-dark .nav-hamburger { color: #ffffff; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAV BAR ===== -->
+  <header class="svc-navbar-section navbar-light">
+    <nav class="svc-navbar">
+      <div class="svc-nav-left">
+        <a href="index.html" class="svc-nav-logo">
+          <svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <g>
+                <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z" fill="#1E1E1E"/>
+                <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z" fill="#1E1E1E"/>
+              </g>
+              <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z" fill="#1E1E1E"/>
+              <g>
+                <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z" fill="#1E1E1E"/>
+                <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z" fill="#1E1E1E"/>
+              </g>
+            </g>
+          </svg>
+        </a>
+        <div class="svc-nav-links">
+          <a href="company.html" class="svc-nav-link">Company</a>
+          <a href="services.html" class="svc-nav-link">Services</a>
+          <a href="pricing.html" class="svc-nav-link">Pricing</a>
+          <a href="blog.html" class="svc-nav-link active">Resources</a>
+        </div>
+      </div>
+      <a href="book-a-demo.html" class="btn-primary">Book a demo</a>
+      <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Open menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ===== MOBILE NAV OVERLAY ===== -->
+  <div class="mobile-nav-overlay" id="mobileNav">
+    <div class="mobile-nav-top">
+      <a href="index.html" class="mobile-nav-logo-link" aria-label="Home">
+        <svg preserveAspectRatio="none" width="68" height="20" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g><g>
+            <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z" fill="white"/>
+            <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z" fill="white"/>
+          </g>
+          <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z" fill="white"/>
+          <g>
+            <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z" fill="white"/>
+            <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z" fill="white"/>
+          </g></g>
+        </svg>
+      </a>
+      <button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round">
+          <line x1="6" y1="6" x2="18" y2="18"/>
+          <line x1="18" y1="6" x2="6" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="company.html" class="mobile-nav-link">Company</a>
+      <a href="services.html" class="mobile-nav-link">Services</a>
+      <a href="pricing.html" class="mobile-nav-link">Pricing</a>
+      <a href="blog.html" class="mobile-nav-link">Resources</a>
+    </nav>
+    <a href="book-a-demo.html" class="mobile-nav-cta">Book a demo</a>
+  </div>
+
+  <!-- ===== BLOG PAGE ===== -->
+  <section class="blog-page-section reveal">
+    <div class="blog-page-container">
+
+      <!-- Page Title -->
+      <h1 class="blog-page-title">Blogs</h1>
+
+      <!-- Featured Article -->
+      <a href="blog-post.html" class="blog-featured">
+        <div class="blog-featured-img">
+          <img src="../Design system/Assets/146ce381899b9dce8a1669a9f25ca5119ba92069.png" alt="A New Chapter: Introducing Nua">
+        </div>
+        <div class="blog-featured-text">
+          <p class="blog-featured-date">April 29, 2025</p>
+          <h2 class="blog-featured-title">A New Chapter: Introducing Nua</h2>
+          <p class="blog-featured-desc">Today, I'm honored and excited to share a major milestone in our journey.</p>
+        </div>
+      </a>
+
+      <!-- Blog Grid -->
+      <div class="blog-grid">
+
+        <!-- Row 1 -->
+        <div class="blog-grid-row">
+          <a href="#" class="blog-card">
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/5a060a639f4b4614e53778c560c4f2bcf9b638e0.png" alt="Meet Us At RSA 2025">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 29, 2025</p>
+                <h3 class="nua-blog__title">Meet Us At RSA 2025</h3>
+                <p class="nua-blog__desc">We're thrilled to announce that Nua will be exhibiting at RSA Conference 2025, one of the world's leading cybersecurity events.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Conference</span>
+                <span class="nua-blog__tag">Events</span>
+              </div>
+            </article>
+          </a>
+          <a href="#" class="blog-card">
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/c05e62af7403a0af392ad5b8e2d82fc1fec78374.png" alt="Threat Intelligence Sharing Networks">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 28, 2025</p>
+                <h3 class="nua-blog__title">Threat Intelligence Sharing Networks: Collaborate To Enhance Collective Security Posture.</h3>
+                <p class="nua-blog__desc">Join forces with industry peers to share insights and bolster defenses against emerging threats.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Collaborative</span>
+                <span class="nua-blog__tag">Proactive</span>
+              </div>
+            </article>
+          </a>
+          <a href="#" class="blog-card">
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/e6cfed6b423c2947e0a943e5de9143925f9edf36.png" alt="AI-Driven Vulnerability Management">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 28, 2025</p>
+                <h3 class="nua-blog__title">AI-Driven Vulnerability Management: From Detection To Remediation</h3>
+                <p class="nua-blog__desc">Explore how artificial intelligence is revolutionizing the way organizations detect, prioritize, and fix security vulnerabilities.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">AI</span>
+                <span class="nua-blog__tag">Intelligence</span>
+              </div>
+            </article>
+          </a>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="blog-grid-row">
+          <a href="#" class="blog-card">
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/3f3296de4406e2af35edfd92ac1665d3418dd227.png" alt="Zero Trust Architecture">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 25, 2025</p>
+                <h3 class="nua-blog__title">Zero Trust Architecture: A Practical Guide For Modern Enterprises</h3>
+                <p class="nua-blog__desc">Learn the core principles and implementation strategies for zero trust security in today's distributed environment.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Architecture</span>
+                <span class="nua-blog__tag">Enterprise</span>
+              </div>
+            </article>
+          </a>
+          <a href="#" class="blog-card">
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/420ba4d1d0702517e83b6c683281d751667fcba1.png" alt="Cloud Security Posture Management">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 22, 2025</p>
+                <h3 class="nua-blog__title">Cloud Security Posture Management: Why It Matters More Than Ever</h3>
+                <p class="nua-blog__desc">As organizations accelerate cloud adoption, CSPM becomes critical for maintaining visibility and compliance across multi-cloud environments.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Cloud</span>
+                <span class="nua-blog__tag">Compliance</span>
+              </div>
+            </article>
+          </a>
+          <a href="#" class="blog-card">
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/7ff63ec425136fb2b0338e2b875eb77626dedfba.png" alt="The Rise of Digital Security Employees">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 20, 2025</p>
+                <h3 class="nua-blog__title">The Rise Of Digital Security Employees: Automating The SOC</h3>
+                <p class="nua-blog__desc">Discover how AI-powered digital employees are transforming security operations centers and reducing response times.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Automation</span>
+                <span class="nua-blog__tag">SOC</span>
+              </div>
+            </article>
+          </a>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="blog-grid-row">
+          <a href="#" class="blog-card">
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/2ced93aa26ba03f6786e739abfbac2654ba8d116.png" alt="Red Team Operations">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 18, 2025</p>
+                <h3 class="nua-blog__title">Red Team Operations: How Offensive Security Strengthens Your Defenses</h3>
+                <p class="nua-blog__desc">Learn how simulated attacks help organizations identify blind spots and improve their overall security posture.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Red Team</span>
+                <span class="nua-blog__tag">Offensive</span>
+              </div>
+            </article>
+          </a>
+          <a href="#" class="blog-card">
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/c05e62af7403a0af392ad5b8e2d82fc1fec78374.png" alt="Penetration Testing Best Practices">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 15, 2025</p>
+                <h3 class="nua-blog__title">Penetration Testing Best Practices For Cloud-Native Applications</h3>
+                <p class="nua-blog__desc">A comprehensive guide to testing the security of containerized and serverless applications in modern cloud environments.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Pentesting</span>
+                <span class="nua-blog__tag">Cloud Native</span>
+              </div>
+            </article>
+          </a>
+          <a href="#" class="blog-card">
+            <article class="nua-blog">
+              <div class="nua-blog__img">
+                <img src="../Design system/Assets/3f3296de4406e2af35edfd92ac1665d3418dd227.png" alt="Supply Chain Security">
+              </div>
+              <div class="nua-blog__text">
+                <p class="nua-blog__date">April 12, 2025</p>
+                <h3 class="nua-blog__title">Supply Chain Security: Protecting Your Software Pipeline End To End</h3>
+                <p class="nua-blog__desc">Understand the growing threat landscape around software supply chains and strategies to secure every link in the chain.</p>
+              </div>
+              <div class="nua-blog__tags">
+                <span class="nua-blog__tag">Supply Chain</span>
+                <span class="nua-blog__tag">DevSecOps</span>
+              </div>
+            </article>
+          </a>
+        </div>
+      </div>
+
+      <!-- Load More -->
+      <div class="blog-load-more">
+        <button class="btn-load-more">Load more articles</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA + FOOTER ===== -->
+  <section class="cta-footer-section reveal">
+
+    <!-- CTA Card -->
+    <div class="cta-card">
+      <div class="cta-inner">
+        <div class="cta-text-block">
+          <h2 class="cta-heading">Be Among The First To Use Nua Cybersecurity Digital Employees</h2>
+          <a href="book-a-demo.html" class="cta-btn">Book a demo</a>
+        </div>
+        <!-- Centered Shax Lottie animation -->
+        <div class="cta-shax-lottie">
+          <iframe src="https://cdn.lottielab.com/l/59mGokKhxq8TV5.html" allowtransparency="true" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Card -->
+    <footer class="footer-card">
+      <div class="footer-inner">
+        <div class="footer-content">
+          <!-- Links row -->
+          <div class="footer-links-row">
+            <div class="footer-left">
+              <!-- NUA Logo -->
+              <a href="index.html" class="footer-logo" aria-label="NUA Home">
+                <svg preserveAspectRatio="none" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g>
+                    <g>
+                      <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z"/>
+                      <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z"/>
+                    </g>
+                    <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z"/>
+                    <g>
+                      <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z"/>
+                      <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z"/>
+                    </g>
+                  </g>
+                </svg>
+              </a>
+              <!-- Social icons -->
+              <div class="footer-social">
+                <a href="https://x.com/Nuasecurity" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="X (Twitter)">
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.27 1.59h2.97l-6.49 7.42 7.63 10.09h-5.98l-4.68-6.13-5.36 6.13H.39l6.94-7.93L0 1.59h6.13l4.23 5.6 4.91-5.6Zm-1.04 15.72h1.64L5.88 3.27H4.12l10.11 14.04Z" fill="white"/>
+                  </svg>
+                </a>
+                <a href="https://www.linkedin.com/company/nuasecurity/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="LinkedIn">
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.52 0H1.48C.66 0 0 .645 0 1.44v17.12C0 19.355.66 20 1.48 20h17.04c.82 0 1.48-.645 1.48-1.44V1.44C20 .645 19.34 0 18.52 0ZM5.93 17.04H2.96V7.5h2.97v9.54ZM4.45 6.2a1.72 1.72 0 110-3.44 1.72 1.72 0 010 3.44Zm12.59 10.84h-2.97v-4.64c0-1.11-.02-2.53-1.54-2.53-1.54 0-1.78 1.2-1.78 2.45v4.72H7.78V7.5h2.85v1.3h.04c.4-.75 1.37-1.54 2.81-1.54 3.01 0 3.56 1.98 3.56 4.55v5.23Z" fill="white"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <!-- Link columns -->
+            <div class="footer-right">
+              <div class="footer-link-col">
+                <span class="footer-link-label">Links</span>
+                <a href="company.html" class="footer-link">Company</a>
+                <a href="services.html" class="footer-link">Services</a>
+                <a href="pricing.html" class="footer-link">Pricing</a>
+                <a href="#" class="footer-link">Career</a>
+              </div>
+              <div class="footer-link-col">
+                <span class="footer-link-label">Resources</span>
+                <a href="blog.html" class="footer-link">Blogs</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom row: badges + contact -->
+          <div class="footer-bottom-row">
+            <div class="footer-badges">
+              <div class="footer-iso">
+                <span class="footer-iso-top">ISO</span>
+                <span class="footer-iso-btm">27001</span>
+              </div>
+              <div class="footer-gartner">
+                <span class="footer-gartner-top">Gartner<span style="font-size:8px;vertical-align:super;">&#174;</span></span>
+                <div class="footer-gartner-btm">
+                  <span class="footer-gartner-peer">Peer</span>
+                  <span class="footer-gartner-insights">Insights<span class="footer-gartner-tm">&#8482;</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="footer-contact">
+              <span class="footer-contact-text">info@nuasecurity.com</span>
+              <span class="footer-contact-text">&copy; 2026 NUA USA.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Big NUA logo watermark at bottom -->
+        <div class="footer-watermark">
+          <svg preserveAspectRatio="none" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <g>
+                <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z"/>
+                <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z"/>
+              </g>
+              <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z"/>
+              <g>
+                <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z"/>
+                <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="footer-fade"></div>
+      </div>
+    </footer>
+
+  </section>
+
+  <!-- ===== LENIS SMOOTH SCROLL ===== -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    const lenis = new Lenis({
+      duration: 1.8,
+      easing: function (t) {
+        return 1 - Math.pow(1 - t, 5);
+      },
+      smoothWheel: true,
+      wheelMultiplier: 0.8,
+      touchMultiplier: 1.5,
+      infinite: false,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+  </script>
+
+  <!-- ===== SCROLL REVEAL OBSERVER ===== -->
+  <script>
+    (function () {
+      const reveals = document.querySelectorAll('.reveal');
+      if (!reveals.length) return;
+
+      const observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -60px 0px' }
+      );
+
+      reveals.forEach(function (el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+
+  <!-- ===== NAVBAR THEME SWITCHING — auto-detects background color + images ===== -->
+  <script>
+    (function () {
+      var navbar = document.querySelector('.svc-navbar-section');
+      if (!navbar) return;
+
+      function parseColor(str) {
+        if (!str || str === 'transparent' || str === 'rgba(0, 0, 0, 0)') {
+          return { r: 0, g: 0, b: 0, a: 0 };
+        }
+        var m = str.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+        if (m) return { r: +m[1], g: +m[2], b: +m[3], a: m[4] !== undefined ? +m[4] : 1 };
+        var tmp = document.createElement('div');
+        tmp.style.color = str;
+        document.body.appendChild(tmp);
+        var c = getComputedStyle(tmp).color;
+        document.body.removeChild(tmp);
+        return parseColor(c);
+      }
+
+      function getEffectiveBgColor(el) {
+        while (el && el !== document.documentElement) {
+          var bg = getComputedStyle(el).backgroundColor;
+          var c = parseColor(bg);
+          if (c.a > 0.05) return c;
+          el = el.parentElement;
+        }
+        return { r: 255, g: 255, b: 255, a: 1 };
+      }
+
+      function luminance(r, g, b) {
+        var s = [r / 255, g / 255, b / 255];
+        for (var i = 0; i < 3; i++) s[i] = s[i] <= 0.03928 ? s[i] / 12.92 : Math.pow((s[i] + 0.055) / 1.055, 2.4);
+        return 0.2126 * s[0] + 0.7152 * s[1] + 0.0722 * s[2];
+      }
+
+      var sampleCanvas = document.createElement('canvas');
+      sampleCanvas.width = 1; sampleCanvas.height = 1;
+      var sampleCtx = sampleCanvas.getContext('2d', { willReadFrequently: true });
+
+      function samplePixelColor(mediaEl, px, py) {
+        try {
+          var rect = mediaEl.getBoundingClientRect();
+          if (rect.width === 0 || rect.height === 0) return null;
+          var localX = px - rect.left, localY = py - rect.top;
+          var srcX, srcY;
+          if (mediaEl.tagName === 'IMG' && mediaEl.naturalWidth) {
+            var nw = mediaEl.naturalWidth, nh = mediaEl.naturalHeight;
+            var scale = Math.max(rect.width / nw, rect.height / nh);
+            var srcW = rect.width / scale, srcH = rect.height / scale;
+            srcX = (nw - srcW) / 2 + (localX / rect.width) * srcW;
+            srcY = (nh - srcH) / 2 + (localY / rect.height) * srcH;
+          } else {
+            var ew = mediaEl.videoWidth || mediaEl.width || rect.width;
+            var eh = mediaEl.videoHeight || mediaEl.height || rect.height;
+            srcX = (localX / rect.width) * ew;
+            srcY = (localY / rect.height) * eh;
+          }
+          sampleCtx.clearRect(0, 0, 1, 1);
+          sampleCtx.drawImage(mediaEl, srcX, srcY, 1, 1, 0, 0, 1, 1);
+          var d = sampleCtx.getImageData(0, 0, 1, 1).data;
+          return { r: d[0], g: d[1], b: d[2], a: d[3] / 255 };
+        } catch (e) { return null; }
+      }
+
+      function getColorAtPoint(el, px, py) {
+        var node = el;
+        for (var depth = 0; node && depth < 3; depth++, node = node.parentElement) {
+          var tag = node.tagName;
+          if (tag === 'IMG' || tag === 'VIDEO' || tag === 'CANVAS') {
+            var pixel = samplePixelColor(node, px, py);
+            if (pixel && pixel.a > 0.1) return pixel;
+          }
+        }
+        if (el.querySelector) {
+          var media = el.querySelector('img, video, canvas');
+          if (media) {
+            var mRect = media.getBoundingClientRect();
+            if (px >= mRect.left && px <= mRect.right && py >= mRect.top && py <= mRect.bottom) {
+              var pixel = samplePixelColor(media, px, py);
+              if (pixel && pixel.a > 0.1) return pixel;
+            }
+          }
+        }
+        return getEffectiveBgColor(el);
+      }
+
+      function updateNavbarTheme() {
+        var navRect = navbar.getBoundingClientRect();
+        var sampleY = navRect.top + navRect.height / 2;
+        navbar.style.pointerEvents = 'none';
+        navbar.style.visibility = 'hidden';
+        var sampleXs = [
+          navRect.left + navRect.width * 0.15, navRect.left + navRect.width * 0.35,
+          navRect.left + navRect.width * 0.50, navRect.left + navRect.width * 0.65,
+          navRect.left + navRect.width * 0.85
+        ];
+        var totalLum = 0, samples = 0;
+        for (var i = 0; i < sampleXs.length; i++) {
+          var el = document.elementFromPoint(sampleXs[i], sampleY);
+          if (el) {
+            var color = getColorAtPoint(el, sampleXs[i], sampleY);
+            totalLum += luminance(color.r, color.g, color.b);
+            samples++;
+          }
+        }
+        navbar.style.pointerEvents = '';
+        navbar.style.visibility = '';
+        if (samples === 0) return;
+        var isDark = (totalLum / samples) < 0.45;
+        if (isDark) { navbar.classList.remove('navbar-light'); navbar.classList.add('navbar-dark'); }
+        else { navbar.classList.remove('navbar-dark'); navbar.classList.add('navbar-light'); }
+      }
+
+      window.addEventListener('load', updateNavbarTheme);
+      updateNavbarTheme();
+
+      var ticking = false;
+      window.addEventListener('scroll', function () {
+        if (!ticking) { requestAnimationFrame(function () { updateNavbarTheme(); ticking = false; }); ticking = true; }
+      });
+      window.addEventListener('resize', function () {
+        if (!ticking) { requestAnimationFrame(function () { updateNavbarTheme(); ticking = false; }); ticking = true; }
+      });
+    })();
+  </script>
+
+  <script>
+    function toggleMobileNav() {
+      var overlay = document.getElementById('mobileNav');
+      var btn = document.getElementById('navHamburger');
+      var isOpen = overlay.classList.contains('is-open');
+      overlay.classList.toggle('is-open');
+      if (btn) btn.classList.toggle('is-open');
+      document.body.style.overflow = isOpen ? '' : 'hidden';
+    }
+    function closeMobileNav() {
+      var overlay = document.getElementById('mobileNav');
+      var btn = document.getElementById('navHamburger');
+      overlay.classList.remove('is-open');
+      if (btn) btn.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+  </script>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       NUA CMS INTEGRATION — Fetches live blog posts from API
+       API: http://https://nua-landing-page-production.up.railway.app/api/blog
+       Falls back to static content if API is unavailable
+  ══════════════════════════════════════════════════════════════ -->
+  <script>
+  (function () {
+    'use strict';
+
+    var CMS_API = 'http://https://nua-landing-page-production.up.railway.app/api';
+
+    // ── Format date ─────────────────────────────────────────────
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      var d = new Date(dateStr);
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    // ── Build a blog card HTML string ────────────────────────────
+    function buildBlogCard(post) {
+      var tags = (post.tags || [])
+        .map(function (t) { return '<span class="nua-blog__tag">' + (t.tag ? t.tag.name : t.name || '') + '</span>'; })
+        .join('');
+
+      var imgHtml = post.coverImage
+        ? '<img src="' + post.coverImage.url + '" alt="' + (post.coverImage.alt || post.title) + '" loading="lazy">'
+        : '<img src="../Design system/Assets/5a060a639f4b4614e53778c560c4f2bcf9b638e0.png" alt="' + post.title + '">';
+
+      var slug = post.slug || '';
+      return (
+        '<a href="blog-post.html?slug=' + slug + '" class="blog-card">' +
+          '<article class="nua-blog">' +
+            '<div class="nua-blog__img">' + imgHtml + '</div>' +
+            '<div class="nua-blog__text">' +
+              '<p class="nua-blog__date">' + formatDate(post.publishedAt) + '</p>' +
+              '<h3 class="nua-blog__title">' + post.title + '</h3>' +
+              '<p class="nua-blog__desc">' + (post.excerpt || '') + '</p>' +
+            '</div>' +
+            '<div class="nua-blog__tags">' + tags + '</div>' +
+          '</article>' +
+        '</a>'
+      );
+    }
+
+    // ── Render posts into grid rows (3 per row) ──────────────────
+    function renderGrid(posts, gridEl) {
+      gridEl.innerHTML = '';
+      for (var i = 0; i < posts.length; i += 3) {
+        var row = document.createElement('div');
+        row.className = 'blog-grid-row';
+        for (var j = i; j < Math.min(i + 3, posts.length); j++) {
+          row.innerHTML += buildBlogCard(posts[j]);
+        }
+        gridEl.appendChild(row);
+      }
+    }
+
+    // ── Update featured post (first/latest) ──────────────────────
+    function updateFeatured(post) {
+      var featuredEl = document.querySelector('.blog-featured');
+      if (!featuredEl || !post) return;
+
+      // Update href
+      featuredEl.setAttribute('href', 'blog-post.html?slug=' + (post.slug || ''));
+
+      // Update image
+      var imgEl = featuredEl.querySelector('.blog-featured-img img');
+      if (imgEl && post.coverImage) {
+        imgEl.src = post.coverImage.url;
+        imgEl.alt = post.coverImage.alt || post.title;
+      }
+
+      // Update text
+      var dateEl = featuredEl.querySelector('.blog-featured-date');
+      var titleEl = featuredEl.querySelector('.blog-featured-title');
+      var descEl = featuredEl.querySelector('.blog-featured-desc');
+
+      if (dateEl) dateEl.textContent = formatDate(post.publishedAt);
+      if (titleEl) titleEl.textContent = post.title;
+      if (descEl) descEl.textContent = post.excerpt || '';
+    }
+
+    // ── Fetch and render blog posts ──────────────────────────────
+    function loadBlogPosts() {
+      fetch(CMS_API + '/blog?limit=9', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error('API responded with ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          var posts = data.data || [];
+          if (!posts.length) return; // Keep static content if no posts
+
+          var gridEl = document.querySelector('.blog-grid');
+
+          // Update featured post (latest)
+          updateFeatured(posts[0]);
+
+          // Render remaining posts in grid (skip first — it's featured)
+          if (gridEl && posts.length > 1) {
+            renderGrid(posts.slice(1), gridEl);
+          } else if (gridEl) {
+            renderGrid(posts, gridEl);
+          }
+
+          console.log('[Nua CMS] Loaded ' + posts.length + ' blog posts from API');
+        })
+        .catch(function (err) {
+          // Silently fall back to static content — no error shown to visitors
+          console.warn('[Nua CMS] Blog API unavailable, using static content.', err.message);
+        });
+    }
+
+    // ── Run on DOM ready ─────────────────────────────────────────
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadBlogPosts);
+    } else {
+      loadBlogPosts();
+    }
+
+  })();
+  </script>
+
+</body>
+</html>
