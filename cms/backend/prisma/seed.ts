@@ -198,7 +198,7 @@ async function main() {
   console.log(`🔑 Admin Login:`)
   console.log(`   Email:    ${adminEmail}`)
   console.log(`   Password: ${adminPassword}`)
-  console.log(`   URL:      http://localhost:3001`)
+  console.log(`   URL:      http://https://nua-landing-page-production.up.railway.app`)
   console.log('─────────────────────────────────────────\n')
 }
 

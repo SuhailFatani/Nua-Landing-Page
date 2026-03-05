@@ -3,7 +3,7 @@
    Handles: auth guard, token refresh, API wrapper, UI helpers
    ============================================================ */
 
-const API = 'http://localhost:3001/api'
+const API = 'https://nua-landing-page-production.up.railway.app/api'
 
 // ─── Auth ────────────────────────────────────────────────────
 export function getAccessToken() {

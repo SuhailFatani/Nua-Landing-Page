@@ -24,7 +24,7 @@ chmod +x setup.sh
 ```bash
 cd cms/backend
 npm run dev
-# API متاح على: http://localhost:3001
+# API متاح على: http://https://nua-landing-page-production.up.railway.app
 ```
 
 ---
@@ -34,7 +34,7 @@ npm run dev
 ```
 Email:    admin@nuasecurity.com
 Password: NuaAdmin2026!
-URL:      http://localhost:3001
+URL:      http://https://nua-landing-page-production.up.railway.app
 ```
 
 > ⚠️ غيّر الباسوورد فوراً بعد أول تسجيل دخول

@@ -225,7 +225,7 @@
         formData.append('file', file)
 
         const token = sessionStorage.getItem('access_token')
-        const res = await fetch('http://localhost:3001/api/media/upload', {
+        const res = await fetch('http://https://nua-landing-page-production.up.railway.app/api/media/upload', {
           method: 'POST',
           credentials: 'include',
           headers: { Authorization: `Bearer ${token}` },
