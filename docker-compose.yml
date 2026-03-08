@@ -1,0 +1,81 @@
+version: '3.9'
+
+services:
+
+  # ── Neo4j Graph Database ──────────────────────────────────────────────────
+  neo4j:
+    image: neo4j:5.18-community
+    container_name: nua_neo4j
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:-nuadev2026}
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_memory_heap_max__size: 1G
+      NEO4J_dbms_memory_pagecache_size: 512M
+    ports:
+      - "7474:7474"   # Neo4j Browser UI
+      - "7687:7687"   # Bolt protocol
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:7474"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nua_net
+
+  # ── Django Backend ────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nua_backend
+    env_file: .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.development
+      - NEO4J_BOLT_URL=bolt://neo4j:${NEO4J_PASSWORD:-nuadev2026}@neo4j:7687
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - media_uploads:/app/uploads
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py seed_db &&
+             python manage.py runserver 0.0.0.0:8000"
+    networks:
+      - nua_net
+
+  # ── Next.js Frontend ──────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    container_name: nua_frontend
+    env_file: .env
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_SITE_URL=http://localhost:3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+    networks:
+      - nua_net
+
+volumes:
+  neo4j_data:
+  neo4j_logs:
+  media_uploads:
+
+networks:
+  nua_net:
+    driver: bridge

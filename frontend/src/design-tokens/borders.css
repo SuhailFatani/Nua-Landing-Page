@@ -1,0 +1,33 @@
+/* =============================================================
+   NUA DESIGN SYSTEM — BORDERS FOUNDATION
+   Source: Figma / Nua-Design-System-2.0 / Borders
+   Tokens: borders.radius.* → --border-radius-*
+           borders.stroke.* → --border-stroke-*
+   ============================================================= */
+
+:root {
+
+  /* ── Border Radius ─────────────────────────────────────────
+     Usage: border-radius: var(--border-radius-xsm);
+     ─────────────────────────────────────────────────────── */
+
+  --border-radius-zero:  0px;
+  --border-radius-2xsm: 4px;
+  --border-radius-xsm:  8px;
+  --border-radius-sm:   12px;
+  --border-radius-md:   16px;
+  --border-radius-lg:   20px;
+  --border-radius-xlg:  24px;
+  --border-radius-2xlg: 28px;
+  --border-radius-3xlg: 32px;
+  --border-radius-full: 9999px;
+
+  /* ── Border Stroke ─────────────────────────────────────────
+     Usage: border-width: var(--border-stroke-xsm);
+     ─────────────────────────────────────────────────────── */
+
+  --border-stroke-xsm: 1px;
+  --border-stroke-sm:  2px;
+  --border-stroke-md:  3px;
+
+}

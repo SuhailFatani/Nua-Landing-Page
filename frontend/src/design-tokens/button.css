@@ -1,0 +1,337 @@
+/* =============================================================
+   NUA DESIGN SYSTEM — BUTTON FOUNDATION
+   Source: Figma / Nua-Design-System-2.0 / node 11988-26588
+
+   Styles (7):
+     .nua-btn--primary
+     .nua-btn--secondary-color
+     .nua-btn--secondary-gray
+     .nua-btn--tertiary-color
+     .nua-btn--tertiary-gray
+     .nua-btn--link-color
+     .nua-btn--link-gray
+
+   Sizes (4):
+     .nua-btn--sm | --md (default) | --lg | --xl
+
+   Icon modes:
+     .nua-btn--leading     — icon before text
+     .nua-btn--trailing    — icon after text
+     .nua-btn--icon-only   — icon only, no text (square)
+
+   Dot indicator:
+     <span class="nua-btn__dot"></span> inside button
+
+   States:
+     :hover  :focus-visible  :disabled / .nua-btn--disabled
+
+   Destructive:
+     .nua-btn--destructive  (pairs with any style)
+   ============================================================= */
+
+/* ── Base ────────────────────────────────────────────────── */
+.nua-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8, 8px);
+  font-family: var(--font-family-primary, 'DM Sans', sans-serif);
+  font-size: var(--font-size-14, 14px);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1.2;
+  font-variation-settings: 'opsz' 14;
+  border-radius: var(--border-radius-2xsm, 4px);
+  border: 1px solid transparent;
+  padding: var(--space-8, 8px) var(--space-16, 16px);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* ── Disabled ────────────────────────────────────────────── */
+.nua-btn:disabled,
+.nua-btn--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Icon sizing ─────────────────────────────────────────── */
+.nua-btn iconify-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.nua-btn--lg iconify-icon,
+.nua-btn--xl iconify-icon {
+  font-size: 20px;
+}
+
+/* ── Sizes ───────────────────────────────────────────────── */
+.nua-btn--sm {
+  padding: var(--space-6, 6px) var(--space-12, 12px);
+  gap: var(--space-6, 6px);
+  font-size: var(--font-size-14, 14px);
+}
+
+.nua-btn--md {
+  padding: var(--space-8, 8px) var(--space-16, 16px);
+  gap: var(--space-8, 8px);
+  font-size: var(--font-size-14, 14px);
+}
+
+.nua-btn--lg {
+  padding: var(--space-10, 10px) var(--space-18, 18px);
+  gap: var(--space-8, 8px);
+  font-size: var(--font-size-16, 16px);
+}
+
+.nua-btn--xl {
+  padding: var(--space-12, 12px) var(--space-20, 20px);
+  gap: var(--space-8, 8px);
+  font-size: var(--font-size-16, 16px);
+}
+
+/* ── Icon-only (square) ──────────────────────────────────── */
+.nua-btn--icon-only {
+  padding: var(--space-8, 8px);
+}
+
+.nua-btn--sm.nua-btn--icon-only {
+  padding: var(--space-6, 6px);
+}
+
+.nua-btn--lg.nua-btn--icon-only {
+  padding: var(--space-10, 10px);
+}
+
+.nua-btn--xl.nua-btn--icon-only {
+  padding: var(--space-12, 12px);
+}
+
+/* ── Dot indicator ───────────────────────────────────────── */
+.nua-btn__dot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--border-radius-full, 9999px);
+  background-color: var(--colors-blue-600, #0C4EFF);
+  border: 1.5px solid #fff;
+}
+
+.nua-btn--destructive .nua-btn__dot {
+  background-color: var(--colors-red-600, #DE2424);
+}
+
+/* ════════════════════════════════════════════════════════════
+   STYLE VARIANTS
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Primary ─────────────────────────────────────────────── */
+.nua-btn--primary {
+  background-color: var(--colors-blue-600, #0C4EFF);
+  border-color: var(--colors-blue-600, #0C4EFF);
+  color: var(--colors-natural-50, #ffffff);
+  box-shadow: var(--shadow-xs, 0 1px 2px rgba(16,24,40,0.05));
+}
+
+.nua-btn--primary:hover:not(:disabled):not(.nua-btn--disabled) {
+  background-color: var(--colors-blue-800, #063DCD);
+  border-color: var(--colors-blue-800, #063DCD);
+}
+
+.nua-btn--primary:focus-visible {
+  outline: 2px solid var(--colors-blue-300, #85C8FF);
+  outline-offset: 2px;
+}
+
+/* Primary — Destructive */
+.nua-btn--primary.nua-btn--destructive {
+  background-color: var(--colors-red-600, #DE2424);
+  border-color: var(--colors-red-600, #DE2424);
+}
+
+.nua-btn--primary.nua-btn--destructive:hover:not(:disabled):not(.nua-btn--disabled) {
+  background-color: var(--colors-red-700, #BB1A1A);
+  border-color: var(--colors-red-700, #BB1A1A);
+}
+
+.nua-btn--primary.nua-btn--destructive:focus-visible {
+  outline-color: var(--colors-red-300, #FDA4A4);
+}
+
+/* ── Secondary color ─────────────────────────────────────── */
+.nua-btn--secondary-color {
+  background-color: var(--colors-natural-50, #ffffff);
+  border-color: var(--colors-blue-600, #0C4EFF);
+  color: var(--colors-blue-600, #0C4EFF);
+}
+
+.nua-btn--secondary-color:hover:not(:disabled):not(.nua-btn--disabled) {
+  background-color: var(--colors-blue-50, #E8F7FF);
+}
+
+.nua-btn--secondary-color:focus-visible {
+  outline: 2px solid var(--colors-blue-300, #85C8FF);
+  outline-offset: 2px;
+}
+
+/* Secondary color — Destructive */
+.nua-btn--secondary-color.nua-btn--destructive {
+  border-color: var(--colors-red-600, #DE2424);
+  color: var(--colors-red-600, #DE2424);
+}
+
+.nua-btn--secondary-color.nua-btn--destructive:hover:not(:disabled):not(.nua-btn--disabled) {
+  background-color: var(--colors-red-50, #FEF2F2);
+}
+
+/* ── Secondary gray ──────────────────────────────────────── */
+.nua-btn--secondary-gray {
+  background-color: var(--colors-natural-50, #ffffff);
+  border-color: var(--colors-natural-200, #dcdcdc);
+  color: var(--colors-natural-700, #525252);
+}
+
+.nua-btn--secondary-gray:hover:not(:disabled):not(.nua-btn--disabled) {
+  background-color: var(--colors-natural-150, #f6f6f6);
+}
+
+.nua-btn--secondary-gray:focus-visible {
+  outline: 2px solid var(--colors-natural-400, #989898);
+  outline-offset: 2px;
+}
+
+/* Secondary gray — Destructive */
+.nua-btn--secondary-gray.nua-btn--destructive {
+  border-color: var(--colors-red-200, #FFC9C9);
+  color: var(--colors-red-600, #DE2424);
+}
+
+.nua-btn--secondary-gray.nua-btn--destructive:hover:not(:disabled):not(.nua-btn--disabled) {
+  background-color: var(--colors-red-50, #FEF2F2);
+  border-color: var(--colors-red-300, #FDA4A4);
+}
+
+/* ── Tertiary color ──────────────────────────────────────── */
+.nua-btn--tertiary-color {
+  background-color: var(--colors-blue-50, #E8F7FF);
+  border-color: transparent;
+  color: var(--colors-blue-600, #0C4EFF);
+}
+
+.nua-btn--tertiary-color:hover:not(:disabled):not(.nua-btn--disabled) {
+  background-color: var(--colors-blue-100, #D5EFFF);
+}
+
+.nua-btn--tertiary-color:focus-visible {
+  outline: 2px solid var(--colors-blue-300, #85C8FF);
+  outline-offset: 2px;
+}
+
+/* Tertiary color — Destructive */
+.nua-btn--tertiary-color.nua-btn--destructive {
+  background-color: var(--colors-red-50, #FEF2F2);
+  color: var(--colors-red-600, #DE2424);
+}
+
+.nua-btn--tertiary-color.nua-btn--destructive:hover:not(:disabled):not(.nua-btn--disabled) {
+  background-color: var(--colors-red-100, #FEE2E2);
+}
+
+/* ── Tertiary gray ───────────────────────────────────────── */
+.nua-btn--tertiary-gray {
+  background-color: var(--colors-natural-150, #f6f6f6);
+  border-color: transparent;
+  color: var(--colors-natural-700, #525252);
+}
+
+.nua-btn--tertiary-gray:hover:not(:disabled):not(.nua-btn--disabled) {
+  background-color: var(--colors-natural-200, #dcdcdc);
+}
+
+.nua-btn--tertiary-gray:focus-visible {
+  outline: 2px solid var(--colors-natural-300, #bdbdbd);
+  outline-offset: 2px;
+}
+
+/* Tertiary gray — Destructive */
+.nua-btn--tertiary-gray.nua-btn--destructive {
+  background-color: var(--colors-red-50, #FEF2F2);
+  color: var(--colors-red-600, #DE2424);
+}
+
+.nua-btn--tertiary-gray.nua-btn--destructive:hover:not(:disabled):not(.nua-btn--disabled) {
+  background-color: var(--colors-red-100, #FEE2E2);
+}
+
+/* ── Link color ──────────────────────────────────────────── */
+.nua-btn--link-color {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--colors-blue-600, #0C4EFF);
+  padding-left: 0;
+  padding-right: 0;
+  box-shadow: none;
+}
+
+.nua-btn--link-color:hover:not(:disabled):not(.nua-btn--disabled) {
+  color: var(--colors-blue-800, #063DCD);
+  text-decoration: underline;
+}
+
+.nua-btn--link-color:focus-visible {
+  outline: 2px solid var(--colors-blue-300, #85C8FF);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Link color — Destructive */
+.nua-btn--link-color.nua-btn--destructive {
+  color: var(--colors-red-600, #DE2424);
+}
+
+.nua-btn--link-color.nua-btn--destructive:hover:not(:disabled):not(.nua-btn--disabled) {
+  color: var(--colors-red-700, #BB1A1A);
+}
+
+/* ── Link gray ───────────────────────────────────────────── */
+.nua-btn--link-gray {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--colors-natural-700, #525252);
+  padding-left: 0;
+  padding-right: 0;
+  box-shadow: none;
+}
+
+.nua-btn--link-gray:hover:not(:disabled):not(.nua-btn--disabled) {
+  color: var(--colors-natural-950, #1e1e1e);
+  text-decoration: underline;
+}
+
+.nua-btn--link-gray:focus-visible {
+  outline: 2px solid var(--colors-natural-400, #989898);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Link gray — Destructive */
+.nua-btn--link-gray.nua-btn--destructive {
+  color: var(--colors-red-600, #DE2424);
+}
+
+.nua-btn--link-gray.nua-btn--destructive:hover:not(:disabled):not(.nua-btn--disabled) {
+  color: var(--colors-red-700, #BB1A1A);
+}

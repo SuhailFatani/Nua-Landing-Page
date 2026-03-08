@@ -1,0 +1,107 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Nua Security — Global Styles
+   1. Import all design token foundations
+   2. Map tokens to Tailwind v4 @theme
+   3. shadcn/ui CSS variable overrides
+   4. Base styles
+   ────────────────────────────────────────────────────────────────────────── */
+
+@import "../design-tokens/colors.css";
+@import "../design-tokens/spacing.css";
+@import "../design-tokens/typography.css";
+@import "../design-tokens/borders.css";
+@import "../design-tokens/effects.css";
+@import "../design-tokens/button.css";
+
+@import "tailwindcss";
+
+/* ── Tailwind v4 Theme Mapping ───────────────────────────────────────────── */
+@theme {
+  /* Primary palette */
+  --color-primary:           var(--colors-blue-600);
+  --color-primary-hover:     var(--colors-blue-800);
+  --color-primary-light:     var(--colors-blue-50);
+
+  /* Accent (orange) */
+  --color-accent:            #F97316;
+  --color-accent-hover:      #EA6C00;
+
+  /* Backgrounds (dark theme) */
+  --color-bg:                var(--colors-vulcan-1000);
+  --color-bg-card:           var(--colors-vulcan-900);
+  --color-bg-card-hover:     var(--colors-vulcan-800);
+  --color-bg-surface:        var(--colors-vulcan-950);
+
+  /* Text */
+  --color-text:              var(--colors-natural-100);
+  --color-text-body:         var(--colors-natural-400);
+  --color-text-caption:      var(--colors-natural-500);
+
+  /* Borders */
+  --color-border:            var(--colors-vulcan-700);
+  --color-border-subtle:     var(--colors-vulcan-800);
+
+  /* Status */
+  --color-error:             #EF4444;
+  --color-success:           #22C55E;
+
+  /* Typography */
+  --font-sans:               "DM Sans", system-ui, sans-serif;
+
+  /* Border Radius */
+  --radius-xs:               4px;
+  --radius-sm:               6px;
+  --radius-md:               8px;
+  --radius-lg:               12px;
+  --radius-xl:               16px;
+  --radius-2xl:              20px;
+  --radius-full:             9999px;
+}
+
+/* ── shadcn/ui Token Overrides ───────────────────────────────────────────── */
+:root {
+  --background: var(--colors-vulcan-1000);
+  --foreground: var(--colors-natural-100);
+  --card: var(--colors-vulcan-900);
+  --card-foreground: var(--colors-natural-100);
+  --primary: var(--colors-blue-600);
+  --primary-foreground: var(--colors-natural-50);
+  --secondary: var(--colors-vulcan-800);
+  --secondary-foreground: var(--colors-natural-100);
+  --muted: var(--colors-vulcan-800);
+  --muted-foreground: var(--colors-natural-400);
+  --border: var(--colors-vulcan-700);
+  --input: var(--colors-vulcan-700);
+  --ring: var(--colors-blue-400);
+  --radius: 8px;
+}
+
+/* ── Base Styles ─────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--colors-vulcan-1000);
+  color: var(--colors-natural-100);
+  font-family: "DM Sans", system-ui, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--colors-blue-400);
+  outline-offset: 2px;
+}
+
+::selection {
+  background-color: var(--colors-blue-200);
+  color: var(--colors-vulcan-1000);
+}
