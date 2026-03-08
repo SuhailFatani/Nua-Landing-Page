@@ -14,6 +14,23 @@
      </footer>
    ============================================================= */
 
+/* ── Mount point: always full-width regardless of parent flex ── */
+#nua-site-footer {
+  width: 100%;
+  align-self: stretch;
+  margin-top: 72px;
+}
+
+/* ── Outer wrapper: 16px padding on all sides (Figma spec) ──── */
+.nua-ctaf-wrap {
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  /* Inherit page background so the gap between page edge and the dark card
+     matches the page colour (usually dark on Nua pages). */
+  background: transparent;
+}
+
 /* ── Root: dark background ───────────────────────────────── */
 .nua-footer {
   width: 100%;
@@ -251,7 +268,10 @@
   width: 100%;
   max-width: 1280px;
   height: auto;
-  margin-top: 146px;
+  /* Enforce correct aspect ratio (viewBox: 68.1635 × 19.96) */
+  aspect-ratio: 68.1635 / 19.96;
+  margin-top: 100px;
+  display: block;
 }
 
 .nua-footer__watermark svg path {
@@ -269,8 +289,9 @@
   bottom: -4px;
   left: 50%;
   transform: translateX(-50%);
-  width: 2048px;
-  height: 318px;
+  width: 200%;
+  height: 50%;
+  min-height: 120px;
   background: linear-gradient(to bottom, rgba(6, 13, 23, 0), #060d17);
   pointer-events: none;
   z-index: 3;
@@ -278,37 +299,58 @@
 
 /* ── Responsive: Tablet (≤1024px) ────────────────────────── */
 @media (max-width: 1024px) {
+  #nua-site-footer {
+    margin-top: 56px;
+  }
+
   .nua-footer__nav {
     gap: var(--space-48, 48px);
   }
 
   .nua-footer__inner {
-    gap: 80px;
+    gap: 60px;
+  }
+
+  .nua-footer__watermark svg {
+    margin-top: 60px;
   }
 
   .nua-footer__contact-text {
     font-size: var(--font-size-16, 16px);
   }
+
+  .nua-footer__gartner-peer,
+  .nua-footer__gartner-insights {
+    font-size: var(--font-size-20, 20px);
+  }
 }
 
 /* ── Responsive: Mobile (≤767px) ─────────────────────────── */
 @media (max-width: 767px) {
+  #nua-site-footer {
+    margin-top: 40px;
+  }
+
   .nua-footer__inner {
-    gap: 50px;
+    gap: 40px;
     padding: 16px 16px 0;
   }
 
+  .nua-footer__watermark svg {
+    margin-top: 32px;
+  }
+
   .nua-footer__content {
-    gap: var(--space-40, 40px);
+    gap: var(--space-32, 32px);
   }
 
   .nua-footer__links-row {
     flex-direction: column;
-    gap: var(--space-40, 40px);
+    gap: var(--space-32, 32px);
   }
 
   .nua-footer__brand {
-    gap: var(--space-28, 28px);
+    gap: var(--space-24, 24px);
   }
 
   .nua-footer__nav {
@@ -318,12 +360,12 @@
 
   .nua-footer__bottom {
     flex-direction: column;
-    gap: var(--space-32, 32px);
+    gap: var(--space-24, 24px);
     align-items: flex-start;
   }
 
   .nua-footer__badges {
-    gap: var(--space-28, 28px);
+    gap: var(--space-24, 24px);
   }
 
   .nua-footer__iso {
@@ -349,21 +391,27 @@
   }
 
   .nua-footer__contact {
-    gap: var(--space-16, 16px);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-8, 8px);
   }
 
   .nua-footer__contact-text {
-    font-size: var(--font-size-12, 12px);
-  }
-
-  .nua-footer__fade {
-    height: 200px;
-    width: 1200px;
+    font-size: var(--font-size-14, 14px);
   }
 }
 
 /* ── Responsive: Small mobile (≤480px) ───────────────────── */
 @media (max-width: 480px) {
+  .nua-footer__inner {
+    padding: 16px 12px 0;
+    gap: 32px;
+  }
+
+  .nua-footer__watermark svg {
+    margin-top: 20px;
+  }
+
   .nua-footer__logo {
     width: 60px;
     height: 18px;
@@ -379,15 +427,23 @@
     height: 16px;
   }
 
+  .nua-footer__nav {
+    gap: var(--space-28, 28px);
+  }
+
   .nua-footer__nav-label,
   .nua-footer__nav-link {
     font-size: var(--font-size-13, 13px);
     padding: 6px 10px;
   }
 
-  .nua-footer__fade {
-    height: 120px;
-    width: 800px;
+  .nua-footer__contact-text {
+    font-size: var(--font-size-12, 12px);
+  }
+
+  .nua-footer__gartner-peer,
+  .nua-footer__gartner-insights {
+    font-size: var(--font-size-16, 16px);
   }
 }
 
@@ -415,8 +471,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-10, 10px);
-  padding: 52px var(--space-20, 20px);
+  gap: 40px;
+  padding: 52px var(--space-20, 20px) 0;
   position: relative;
   overflow: visible;
 }
@@ -460,137 +516,26 @@
   font-variation-settings: 'opsz' 9;
 }
 
-/* ── CTA button ──────────────────────────────────────────  */
-.nua-ctaf__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-12, 12px) var(--space-20, 20px);
-  background: var(--colors-blue-600, #2f7bff);
-  border: 1px solid var(--colors-blue-600, #2f7bff);
-  border-radius: var(--border-radius-sm, 12px);
-  font-family: var(--font-family-primary, 'DM Sans', sans-serif);
-  font-size: var(--font-size-16, 16px);
-  font-weight: var(--font-weight-semibold, 600);
-  color: #fff;
-  text-decoration: none;
-  line-height: 1.2;
-  font-variation-settings: 'opsz' 14;
-  box-shadow: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
-  transition: opacity 0.2s;
-  white-space: nowrap;
-}
 
-.nua-ctaf__btn:hover {
-  opacity: 0.85;
-}
-
-/* ── Orb wrapper (350 × 350, CSS grid center) ────────────  */
-.nua-ctaf__orb-wrap {
-  position: relative;
-  width: 350px;
-  height: 350px;
-  display: grid;
-  place-items: center;
+/* ── Lottie animation wrapper ────────────────────────────  */
+/* Fluid: fills the CTA column width, caps at 700px, 1:1     */
+.nua-ctaf__lottie-wrap {
+  width: 100%;
+  max-width: 830px;
+  aspect-ratio: 830 / 600;
   flex-shrink: 0;
-}
-
-/* ── Outer glow (Ellipse 2421, inset −48.08 %) ───────────  */
-.nua-ctaf__orb-glow {
-  position: absolute;
-  inset: -48.08%;
-  border-radius: 50%;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(37, 97, 227, 0.60) 0%,
-    rgba(30, 80, 200, 0.35) 30%,
-    rgba(10, 20, 80, 0.10) 60%,
-    transparent 75%
-  );
-  filter: blur(20px);
-  animation: ctafOrbPulse 3s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ── Inner glow (Ellipse 2422, ~140 × 147 px) ───────────  */
-.nua-ctaf__orb-glow--inner {
-  position: absolute;
-  inset: auto;
-  width: 139.663px;
-  height: 147.236px;
-  left: calc(50% - 69.83px);
-  top: calc(50% - 73.62px);
-  border-radius: 50%;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(120, 170, 255, 0.90) 0%,
-    rgba(60, 120, 255, 0.50) 40%,
-    transparent 70%
-  );
-  filter: blur(18px);
-  animation-delay: 0.5s;
-}
-
-/* ── Frosted glass card ──────────────────────────────────  */
-.nua-ctaf__orb-card {
   position: relative;
-  z-index: 2;
-  transform: rotate(3.75deg) skewX(7.54deg) scaleY(0.99);
-  width: 154.78px;
-  height: 154.78px;
-  border-radius: 38.117px;
-  background: rgba(138, 170, 255, 0.3);
-  border: 0.421px solid rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(1.683px);
-  -webkit-backdrop-filter: blur(1.683px);
-  box-shadow:
-    0px 3.365px 59.315px 0px rgba(255, 255, 255, 0.25),
-    inset 1.683px -1.683px 0px 0px rgba(160, 227, 255, 0.49);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
 }
 
-/* ── SHAX icon inside card ───────────────────────────────  */
-.nua-ctaf__orb-shax {
-  width: 63.528px;
-  height: 63.528px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nua-ctaf__orb-shax img {
+/* ── Lottie iframe: fills wrapper, transparent bg ────────  */
+.nua-ctaf__lottie-frame {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  border: none;
+  background: transparent;
   display: block;
-}
-
-/* ── Cursor arrow decoration ─────────────────────────────  */
-/* Figma: absolute within hero at left:calc(50%+64px), top:637px */
-.nua-ctaf__cursor {
-  position: absolute;
-  width: 32.211px;
-  height: 34px;
-  left: calc(50% + 64px);
-  top: 637px;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.nua-ctaf__cursor img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* ── Orb pulse keyframe ──────────────────────────────────  */
-@keyframes ctafOrbPulse {
-  0%, 100% { opacity: 1;   transform: scale(1);    }
-  50%       { opacity: 0.7; transform: scale(1.05); }
 }
 
 /* ── Footer zone: wraps nua-footer__inner ────────────────  */
@@ -616,6 +561,7 @@
     font-size: 40px;
     letter-spacing: -1.2px;
   }
+
 }
 
 /* ── Responsive: Mobile (≤767px) ────────────────────────── */
@@ -642,40 +588,6 @@
   .nua-ctaf__desc {
     font-size: var(--font-size-12, 12px);
     line-height: 1.28;
-  }
-
-  .nua-ctaf__btn {
-    font-size: var(--font-size-14, 14px);
-    padding: var(--space-8, 8px) 14px;
-  }
-
-  /* Orb shrinks: 350px → 196px */
-  .nua-ctaf__orb-wrap {
-    width: 196.058px;
-    height: 196.058px;
-  }
-
-  .nua-ctaf__orb-glow--inner {
-    width: 78.235px;
-    height: 82.476px;
-    left: calc(50% - 39.12px);
-    top: calc(50% - 41.24px);
-  }
-
-  .nua-ctaf__orb-card {
-    width: 86.702px;
-    height: 86.702px;
-    border-radius: 21.352px;
-    backdrop-filter: blur(0.943px);
-    -webkit-backdrop-filter: blur(0.943px);
-    box-shadow:
-      0px 1.885px 33.226px 0px rgba(255, 255, 255, 0.25),
-      inset 0.943px -0.943px 0px 0px rgba(160, 227, 255, 0.49);
-  }
-
-  .nua-ctaf__orb-shax {
-    width: 35.586px;
-    height: 35.586px;
   }
 
   .nua-ctaf__footer-zone {
