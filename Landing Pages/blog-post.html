@@ -1315,9 +1315,13 @@
 
           // ── Update hero image ────────────────────────────────
           var heroImg = document.querySelector('.article-hero-img img');
-          if (heroImg && post.coverImage) {
-            heroImg.src = post.coverImage.url;
-            heroImg.alt = post.coverImage.alt || post.title;
+          if (heroImg) {
+            var HERO_FALLBACK = '../assets/3f3296de4406e2af35edfd92ac1665d3418dd227.png';
+            if (post.coverImage && post.coverImage.url) {
+              heroImg.src = post.coverImage.url;
+              heroImg.alt = post.coverImage.alt || post.title;
+              heroImg.onerror = function() { this.onerror = null; this.src = HERO_FALLBACK; };
+            }
           }
 
           // ── Replace article content with CMS content ────────

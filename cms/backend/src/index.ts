@@ -130,8 +130,22 @@ async function main() {
   await app.register(usersRoutes,     { prefix: '/api/users' })
   await app.register(analyticsRoutes, { prefix: '/api/analytics' })
 
-  // Health check
-  app.get('/health', async () => ({ status: 'ok', timestamp: new Date().toISOString() }))
+  // Health check — also reports which storage backend is active
+  app.get('/health', async () => {
+    const cloudinaryConfigured = !!(
+      process.env.CLOUDINARY_CLOUD_NAME &&
+      process.env.CLOUDINARY_API_KEY &&
+      process.env.CLOUDINARY_API_SECRET &&
+      process.env.CLOUDINARY_CLOUD_NAME !== 'your_cloud_name' &&
+      process.env.CLOUDINARY_API_KEY !== 'your_api_key' &&
+      process.env.CLOUDINARY_API_SECRET !== 'your_api_secret'
+    )
+    return {
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      storage: cloudinaryConfigured ? 'cloudinary' : 'local',
+    }
+  })
 
   // ─────────────────────────────────────────────────────────────
   // GLOBAL ERROR HANDLER

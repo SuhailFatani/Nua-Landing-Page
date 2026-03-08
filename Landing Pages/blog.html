@@ -1650,9 +1650,10 @@
         .map(function (t) { return '<span class="nua-blog__tag">' + (t.tag ? t.tag.name : t.name || '') + '</span>'; })
         .join('');
 
-      var imgHtml = post.coverImage
-        ? '<img src="' + post.coverImage.url + '" alt="' + (post.coverImage.alt || post.title) + '" loading="lazy">'
-        : '<img src="../Design system/Assets/5a060a639f4b4614e53778c560c4f2bcf9b638e0.png" alt="' + post.title + '">';
+      var FALLBACK_IMG = '../Design system/Assets/5a060a639f4b4614e53778c560c4f2bcf9b638e0.png';
+      var imgSrc = (post.coverImage && post.coverImage.url) ? post.coverImage.url : FALLBACK_IMG;
+      var imgAlt = (post.coverImage && post.coverImage.alt) ? post.coverImage.alt : post.title;
+      var imgHtml = '<img src="' + imgSrc + '" alt="' + imgAlt + '" loading="lazy" onerror="this.onerror=null;this.src=\'' + FALLBACK_IMG + '\'">';
 
       var slug = post.slug || '';
       return (
@@ -1693,9 +1694,11 @@
 
       // Update image
       var imgEl = featuredEl.querySelector('.blog-featured-img img');
-      if (imgEl && post.coverImage) {
-        imgEl.src = post.coverImage.url;
-        imgEl.alt = post.coverImage.alt || post.title;
+      if (imgEl) {
+        var FALLBACK = '../Design system/Assets/146ce381899b9dce8a1669a9f25ca5119ba92069.png';
+        imgEl.src = (post.coverImage && post.coverImage.url) ? post.coverImage.url : FALLBACK;
+        imgEl.alt = (post.coverImage && post.coverImage.alt) ? post.coverImage.alt : post.title;
+        imgEl.onerror = function() { this.onerror = null; this.src = FALLBACK; };
       }
 
       // Update text

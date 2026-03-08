@@ -3,7 +3,7 @@
    Handles: auth guard, token refresh, API wrapper, UI helpers
    ============================================================ */
 
-const API = 'https://nua-landing-page-production.up.railway.app/api'
+export const API = 'https://nua-landing-page-production.up.railway.app/api'
 
 // ─── Auth ────────────────────────────────────────────────────
 export function getAccessToken() {

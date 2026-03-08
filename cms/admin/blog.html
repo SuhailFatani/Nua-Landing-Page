@@ -385,6 +385,18 @@
               <div id="saveStatus" style="font-size:12px; color:#9ca3af; text-align:center; margin-top:10px;"></div>
             </div>
 
+            <!-- Storage warning (shown when Cloudinary not configured) -->
+            <div id="storageWarning" style="display:none; margin-bottom:12px; padding:10px 12px; background:#fffbeb; border:1px solid #fcd34d; border-radius:8px; font-size:12px; color:#92400e; line-height:1.5;">
+              <strong>⚠️ Local storage mode</strong><br>
+              Images are saved on the server disk — they will be <strong>lost after a redeploy</strong>.<br>
+              To use permanent image storage, add your
+              <a href="https://cloudinary.com/users/register_free" target="_blank" style="color:#b45309; text-decoration:underline;">Cloudinary credentials</a>
+              to the backend <code style="background:#fef3c7; padding:1px 4px; border-radius:3px;">.env</code> file:
+              <pre style="margin:6px 0 0; padding:7px 9px; background:#fef3c7; border-radius:5px; font-size:11px; overflow-x:auto; white-space:pre-wrap;">CLOUDINARY_CLOUD_NAME=your_name
+CLOUDINARY_API_KEY=your_key
+CLOUDINARY_API_SECRET=your_secret</pre>
+            </div>
+
             <!-- Cover Image -->
             <div class="card" style="margin-bottom:16px;">
               <div class="section-label">Cover Image</div>
@@ -438,10 +450,24 @@
   </main>
 
   <script type="module">
-    import { requireAuth, renderSidebar, apiFetch, apiUpload, showToast, getUser } from './admin.js'
+    import { API, requireAuth, renderSidebar, apiFetch, apiUpload, showToast, getUser } from './admin.js'
 
     requireAuth()
     renderSidebar('blog')
+
+    // ── Check storage mode — warn if Cloudinary not configured ──
+    ;(async () => {
+      try {
+        const healthUrl = API.replace(/\/api$/, '/health')
+        const r = await fetch(healthUrl)
+        if (r.ok) {
+          const data = await r.json()
+          if (data.storage === 'local') {
+            document.getElementById('storageWarning').style.display = 'block'
+          }
+        }
+      } catch { /* backend not reachable — skip warning */ }
+    })()
 
     const user = getUser()
     let currentPage = 1
@@ -644,10 +670,21 @@
 
       if (id && url) {
         img.src = url
+        img.onerror = function() {
+          // Image failed to load (e.g. local URL not accessible from this browser)
+          this.onerror = null
+          this.src = ''
+          wrap.style.display = 'none'
+          btn.style.display = 'flex'
+          const s = document.getElementById('coverUploadStatus')
+          s.textContent = '⚠️ Image saved but preview unavailable (URL not accessible from this browser)'
+          s.style.color = '#d97706'
+        }
         wrap.style.display = 'block'
         btn.style.display = 'none'
       } else {
         img.src = ''
+        img.onerror = null
         wrap.style.display = 'none'
         btn.style.display = 'flex'
       }
