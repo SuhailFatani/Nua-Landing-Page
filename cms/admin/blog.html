@@ -130,6 +130,36 @@
     .cover-upload-btn:hover { border-color: #2563eb; color: #2563eb; background: #eff6ff; }
     .cover-upload-btn.uploading { opacity: 0.6; pointer-events: none; }
 
+    /* Upload hints */
+    .upload-hints {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .upload-hint-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      color: #475569;
+      letter-spacing: 0.02em;
+    }
+    .upload-hint-sep {
+      color: #cbd5e1;
+      font-size: 11px;
+    }
+    .upload-hint-text {
+      font-size: 11px;
+      color: #64748b;
+    }
+    /* Status text helpers */
+    .img-status.error { color: #dc2626 !important; }
+    .img-status.success { color: #16a34a !important; }
+    .img-status.loading { color: #2563eb !important; }
+
     /* ── Image insert panel ──────────────────────────────────── */
     .image-panel {
       display: none;
@@ -293,7 +323,17 @@
                     <button class="btn btn-secondary btn-sm" onclick="document.getElementById('inlineFileInput').click()">
                       Choose image…
                     </button>
-                    <span class="img-status" id="inlineUploadStatus">Select an image file to insert at cursor</span>
+                    <span class="img-status" id="inlineUploadStatus">Select a file to insert at cursor position</span>
+                  </div>
+                  <!-- Upload instructions -->
+                  <div class="upload-hints">
+                    <span class="upload-hint-badge">JPG</span>
+                    <span class="upload-hint-badge">PNG</span>
+                    <span class="upload-hint-badge">WebP</span>
+                    <span class="upload-hint-badge">GIF</span>
+                    <span class="upload-hint-badge">SVG</span>
+                    <span class="upload-hint-sep">•</span>
+                    <span class="upload-hint-text">Max 10 MB</span>
                   </div>
                 </div>
                 <!-- URL tab -->
@@ -361,7 +401,19 @@
                 Upload cover image
               </button>
               <input type="file" id="coverFileInput" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none;">
-              <div id="coverUploadStatus" style="font-size:12px; color:#9ca3af; text-align:center; margin-top:7px; min-height:16px;"></div>
+              <div id="coverUploadStatus" style="font-size:12px; text-align:center; margin-top:7px; min-height:16px;"></div>
+              <!-- Cover upload instructions -->
+              <div class="upload-hints" style="margin-top:8px;">
+                <span class="upload-hint-badge">JPG</span>
+                <span class="upload-hint-badge">PNG</span>
+                <span class="upload-hint-badge">WebP</span>
+                <span class="upload-hint-badge">GIF</span>
+                <span class="upload-hint-sep">•</span>
+                <span class="upload-hint-text">Max 10 MB</span>
+              </div>
+              <div class="upload-hints" style="margin-top:4px;">
+                <span class="upload-hint-text" style="color:#9ca3af;">Recommended: 1200×630 px (16:9)</span>
+              </div>
             </div>
 
             <div class="card" style="margin-bottom:16px;">
@@ -605,9 +657,26 @@
 
     window.removeCoverImage = () => setCoverImage(null, null)
 
+    const ALLOWED_TYPES = ['image/jpeg','image/png','image/webp','image/gif','image/svg+xml']
+    const MAX_BYTES = 10 * 1024 * 1024  // 10 MB
+
     async function uploadMediaFile(file, statusEl) {
+      // ── Client-side validation first ──
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        const ext = file.name.split('.').pop()?.toUpperCase() || file.type
+        statusEl.textContent = `❌ "${ext}" is not supported. Use JPG, PNG, WebP, GIF, or SVG.`
+        statusEl.className = 'img-status error'
+        return null
+      }
+      if (file.size > MAX_BYTES) {
+        const mb = (file.size / 1024 / 1024).toFixed(1)
+        statusEl.textContent = `❌ File is ${mb} MB — max allowed is 10 MB.`
+        statusEl.className = 'img-status error'
+        return null
+      }
+
       statusEl.textContent = 'Uploading…'
-      statusEl.className = 'img-status'
+      statusEl.className = 'img-status loading'
 
       const formData = new FormData()
       formData.append('file', file)
@@ -619,11 +688,11 @@
           throw new Error(err.message || `Upload failed (${res.status})`)
         }
         const media = await res.json()
-        statusEl.textContent = '✓ Uploaded'
+        statusEl.textContent = '✓ Uploaded successfully'
         statusEl.className = 'img-status success'
         return media   // { id, url, ... }
       } catch (e) {
-        statusEl.textContent = e.message
+        statusEl.textContent = `❌ ${e.message}`
         statusEl.className = 'img-status error'
         return null
       }
@@ -635,10 +704,29 @@
       if (!file) return
       e.target.value = ''  // reset so same file can be re-selected
 
-      const btn = document.getElementById('btnCoverUpload')
+      const btn    = document.getElementById('btnCoverUpload')
       const status = document.getElementById('coverUploadStatus')
+
+      // ── Client-side validation ──
+      const COVER_TYPES = ['image/jpeg','image/png','image/webp','image/gif']
+      if (!COVER_TYPES.includes(file.type)) {
+        status.textContent = '❌ Use JPG, PNG, WebP, or GIF for cover images.'
+        status.style.color = '#dc2626'
+        showToast('File type not supported for cover images.', 'error')
+        return
+      }
+      if (file.size > MAX_BYTES) {
+        const mb = (file.size / 1024 / 1024).toFixed(1)
+        status.textContent = `❌ File is ${mb} MB — max allowed is 10 MB.`
+        status.style.color = '#dc2626'
+        showToast(`File too large (${mb} MB). Max is 10 MB.`, 'error')
+        return
+      }
+
       btn.classList.add('uploading')
       btn.textContent = 'Uploading…'
+      status.textContent = 'Uploading…'
+      status.style.color = '#2563eb'
 
       const fd = new FormData()
       fd.append('file', file)
@@ -650,9 +738,12 @@
         }
         const media = await res.json()
         setCoverImage(media.id, media.url)
+        status.textContent = '✓ Cover image uploaded'
+        status.style.color = '#16a34a'
         showToast('Cover image uploaded.', 'success')
       } catch (err) {
-        status.textContent = err.message
+        status.textContent = `❌ ${err.message}`
+        status.style.color = '#dc2626'
         btn.classList.remove('uploading')
         btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg> Upload cover image`
         showToast(err.message, 'error')
@@ -744,9 +835,9 @@
       const media = await uploadMediaFile(file, status)
       if (media) {
         insertInlineImage(media.url, file.name.replace(/\.[^.]+$/, ''))
-        status.textContent = 'Image inserted!'
+        status.textContent = '✓ Image inserted at cursor!'
         status.className = 'img-status success'
-        setTimeout(() => { status.textContent = 'Select an image file to insert at cursor'; status.className = 'img-status' }, 2000)
+        setTimeout(() => { status.textContent = 'Select a file to insert at cursor position'; status.className = 'img-status' }, 2500)
       }
     })
 
