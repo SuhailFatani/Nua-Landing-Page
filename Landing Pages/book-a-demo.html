@@ -1309,29 +1309,29 @@
           </div>
 
           <!-- Form -->
-          <form class="demo-form" onsubmit="event.preventDefault();">
+          <form class="demo-form" id="demoForm" onsubmit="handleDemoSubmit(event);">
             <div class="demo-form-fields">
               <!-- Full name -->
               <div class="demo-field">
-                <label class="demo-field-label">Full name<span class="required">*</span></label>
-                <input type="text" class="demo-field-input" placeholder="Kevin Polo" required>
+                <label class="demo-field-label" for="fullName">Full name<span class="required">*</span></label>
+                <input type="text" id="fullName" name="fullName" class="demo-field-input" placeholder="Kevin Polo" required>
               </div>
 
               <!-- Work email -->
               <div class="demo-field">
-                <label class="demo-field-label">Work email<span class="required">*</span></label>
-                <input type="email" class="demo-field-input" placeholder="Kevin@acme.com" required>
+                <label class="demo-field-label" for="email">Work email<span class="required">*</span></label>
+                <input type="email" id="email" name="email" class="demo-field-input" placeholder="Kevin@acme.com" required>
               </div>
 
               <!-- Company name -->
               <div class="demo-field">
-                <label class="demo-field-label">Company name<span class="required">*</span></label>
-                <input type="text" class="demo-field-input" placeholder="Acme" required>
+                <label class="demo-field-label" for="company">Company name<span class="required">*</span></label>
+                <input type="text" id="company" name="company" class="demo-field-input" placeholder="Acme" required>
               </div>
 
               <!-- Phone number -->
               <div class="demo-field">
-                <label class="demo-field-label">Phone number</label>
+                <label class="demo-field-label" for="phone">Phone number</label>
                 <div class="demo-phone-input">
                   <div class="demo-phone-addon">
                     <!-- Saudi Arabia flag -->
@@ -1348,12 +1348,14 @@
                       </svg>
                     </div>
                   </div>
-                  <input type="tel" class="demo-phone-field" placeholder="+966">
+                  <input type="tel" id="phone" name="phone" class="demo-phone-field" placeholder="+966">
                 </div>
               </div>
             </div>
 
-            <button type="submit" class="demo-submit-btn">Submit</button>
+            <button type="submit" class="demo-submit-btn" id="demoSubmitBtn">Submit</button>
+            <p id="demoSuccessMsg" style="display:none;color:#22c55e;margin-top:1rem;font-weight:600;">Thank you! We'll be in touch soon.</p>
+            <p id="demoErrorMsg" style="display:none;color:#ef4444;margin-top:1rem;">Something went wrong. Please try again or email us directly.</p>
           </form>
         </div>
       </div>
@@ -1366,32 +1368,32 @@
         <div class="logos-marquee-wrapper">
           <div class="logos-track">
             <!-- First set -->
-            <div class="logo-item"><img src="../assets/Zid.svg" alt="Zid"></div>
-            <div class="logo-item"><img src="../assets/IOT.svg" alt="IOT"></div>
-            <div class="logo-item"><img src="../assets/Jahez.svg" alt="Jahez"></div>
-            <div class="logo-item"><img src="../assets/Zakat.svg" alt="Zakat, Tax and Customs Authority"></div>
-            <div class="logo-item"><img src="../assets/STC.svg" alt="stc"></div>
-            <div class="logo-item"><img src="../assets/Qiddiya.svg" alt="Qiddiya"></div>
-            <div class="logo-item"><img src="../assets/Tamara.svg" alt="Tamara"></div>
-            <div class="logo-item"><img src="../assets/Ministry of sport.svg" alt="Ministry of Sport"></div>
-            <div class="logo-item"><img src="../assets/Elm.svg" alt="Elm"></div>
-            <div class="logo-item"><img src="../assets/AlibabaCloud.svg" alt="Alibaba Cloud"></div>
-            <div class="logo-item"><img src="../assets/MoEnergy.svg" alt="Ministry of Energy"></div>
-            <div class="logo-item"><img src="../assets/FGS.svg" alt="FGS Global"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Zid.svg" alt="Zid"></div>
+            <div class="logo-item"><img src="../Design system/Assets/IOT.svg" alt="IOT"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Jahez.svg" alt="Jahez"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Zakat.svg" alt="Zakat, Tax and Customs Authority"></div>
+            <div class="logo-item"><img src="../Design system/Assets/STC.svg" alt="stc"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Qiddiya.svg" alt="Qiddiya"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Tamara.svg" alt="Tamara"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Ministry of sport.svg" alt="Ministry of Sport"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Elm.svg" alt="Elm"></div>
+            <div class="logo-item"><img src="../Design system/Assets/AlibabaCloud.svg" alt="Alibaba Cloud"></div>
+            <div class="logo-item"><img src="../Design system/Assets/MoEnergy.svg" alt="Ministry of Energy"></div>
+            <div class="logo-item"><img src="../Design system/Assets/FGS.svg" alt="FGS Global"></div>
 
             <!-- Duplicate set -->
-            <div class="logo-item"><img src="../assets/Zid.svg" alt="Zid"></div>
-            <div class="logo-item"><img src="../assets/IOT.svg" alt="IOT"></div>
-            <div class="logo-item"><img src="../assets/Jahez.svg" alt="Jahez"></div>
-            <div class="logo-item"><img src="../assets/Zakat.svg" alt="Zakat, Tax and Customs Authority"></div>
-            <div class="logo-item"><img src="../assets/STC.svg" alt="stc"></div>
-            <div class="logo-item"><img src="../assets/Qiddiya.svg" alt="Qiddiya"></div>
-            <div class="logo-item"><img src="../assets/Tamara.svg" alt="Tamara"></div>
-            <div class="logo-item"><img src="../assets/Ministry of sport.svg" alt="Ministry of Sport"></div>
-            <div class="logo-item"><img src="../assets/Elm.svg" alt="Elm"></div>
-            <div class="logo-item"><img src="../assets/AlibabaCloud.svg" alt="Alibaba Cloud"></div>
-            <div class="logo-item"><img src="../assets/MoEnergy.svg" alt="Ministry of Energy"></div>
-            <div class="logo-item"><img src="../assets/FGS.svg" alt="FGS Global"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Zid.svg" alt="Zid"></div>
+            <div class="logo-item"><img src="../Design system/Assets/IOT.svg" alt="IOT"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Jahez.svg" alt="Jahez"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Zakat.svg" alt="Zakat, Tax and Customs Authority"></div>
+            <div class="logo-item"><img src="../Design system/Assets/STC.svg" alt="stc"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Qiddiya.svg" alt="Qiddiya"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Tamara.svg" alt="Tamara"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Ministry of sport.svg" alt="Ministry of Sport"></div>
+            <div class="logo-item"><img src="../Design system/Assets/Elm.svg" alt="Elm"></div>
+            <div class="logo-item"><img src="../Design system/Assets/AlibabaCloud.svg" alt="Alibaba Cloud"></div>
+            <div class="logo-item"><img src="../Design system/Assets/MoEnergy.svg" alt="Ministry of Energy"></div>
+            <div class="logo-item"><img src="../Design system/Assets/FGS.svg" alt="FGS Global"></div>
           </div>
         </div>
       </div>
@@ -1439,6 +1441,63 @@
       if (btn) btn.classList.remove('is-open');
       document.body.style.overflow = '';
     }
+  </script>
+
+  <!-- ===== BOOK-A-DEMO FORM SUBMISSION ===== -->
+  <script>
+    (function () {
+      var DEMO_API = 'https://nua-landing-page-production.up.railway.app/api';
+
+      window.handleDemoSubmit = function (event) {
+        event.preventDefault();
+
+        var btn = document.getElementById('demoSubmitBtn');
+        var successMsg = document.getElementById('demoSuccessMsg');
+        var errorMsg = document.getElementById('demoErrorMsg');
+
+        var name = (document.getElementById('fullName').value || '').trim();
+        var email = (document.getElementById('email').value || '').trim();
+        var company = (document.getElementById('company').value || '').trim();
+        var phone = (document.getElementById('phone').value || '').trim();
+
+        if (!name || !email || !company) return;
+
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+        btn.disabled = true;
+        btn.textContent = 'Submitting…';
+
+        var payload = { name: name, email: email, company: company, phone: phone, source: '/book-a-demo' };
+
+        fetch(DEMO_API + '/analytics/booking', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('API error ' + res.status);
+            return res.json();
+          })
+          .then(function () {
+            // Track the event (fire-and-forget)
+            fetch(DEMO_API + '/analytics/event', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ type: 'demo_booking_submitted', page: '/book-a-demo', label: company })
+            }).catch(function () {});
+
+            document.getElementById('demoForm').reset();
+            successMsg.style.display = 'block';
+            btn.textContent = 'Submit';
+            btn.disabled = false;
+          })
+          .catch(function () {
+            errorMsg.style.display = 'block';
+            btn.textContent = 'Submit';
+            btn.disabled = false;
+          });
+      };
+    })();
   </script>
 
   <script src="../Design system/Components/Footer/footer.js"></script>

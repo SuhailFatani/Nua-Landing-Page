@@ -2906,7 +2906,7 @@
       </div>
 
       <!-- ===== LOGOS SECTION ===== -->
-      <div id="logo-marquee"></div>
+      <div id="logo-marquee" data-assets-path="../Design system/Assets/"></div>
 
     </div>
   </section>
@@ -3431,7 +3431,7 @@
       </div>
 
       <!-- Articles — dynamically loaded from CMS API -->
-      <div id="blogArticlesGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+      <div id="blogArticlesGrid" class="blog-articles">
         <!-- Skeleton placeholders shown while loading -->
         <div class="blog-skeleton"></div>
         <div class="blog-skeleton"></div>
@@ -3490,7 +3490,7 @@
   <!-- ===== BLOG SECTION — CMS fetch script ===== -->
   <script>
     (function () {
-      var CMS_API = 'http://https://nua-landing-page-production.up.railway.app/api';
+      var CMS_API = 'https://nua-landing-page-production.up.railway.app/api';
       var BLOG_PAGE_PATH = 'blog-post.html'; // relative path from Landing Pages/
 
       function formatDate(iso) {
@@ -3516,7 +3516,7 @@
           return;
         }
 
-        grid.innerHTML = posts.map(function(post) {
+        grid.innerHTML = posts.map(function(post, i) {
           var imgSrc = post.coverImage && post.coverImage.url
             ? esc(post.coverImage.url)
             : '../Design system/Assets/2ced93aa26ba03f6786e739abfbac2654ba8d116.png';
@@ -3529,20 +3529,22 @@
           var href = BLOG_PAGE_PATH + '?slug=' + encodeURIComponent(post.slug || '');
 
           return [
-            '<a href="' + href + '" class="blog-article" style="text-decoration:none;color:inherit;">',
-            '  <article class="nua-blog">',
-            '    <div class="nua-blog__img">',
-            '      <img src="' + imgSrc + '" alt="' + imgAlt + '" loading="lazy">',
-            '    </div>',
-            '    <div class="nua-blog__text">',
-            '      <p class="nua-blog__date">' + date + '</p>',
-            '      <h3 class="nua-blog__title">' + esc(post.title) + '</h3>',
-            '      <p class="nua-blog__desc">' + esc(post.excerpt || '') + '</p>',
-            '    </div>',
-            '  </article>',
+            '<hr class="blog-divider">',
+            '<a href="' + href + '" class="blog-article">',
+            '  <div class="blog-article-image">',
+            '    <img src="' + imgSrc + '" alt="' + imgAlt + '" loading="lazy">',
+            '  </div>',
+            '  <div class="blog-article-text">',
+            '    <p class="blog-article-date">' + date + '</p>',
+            '    <h3 class="blog-article-title">' + esc(post.title) + '</h3>',
+            '    <p class="blog-article-desc">' + esc(post.excerpt || '') + '</p>',
+            '  </div>',
             '</a>',
           ].join('\n');
         }).join('\n');
+
+        // Initialize the "Read More" hover cursor after articles are in the DOM
+        if (typeof initBlogCursor === 'function') initBlogCursor();
       }
 
       function loadBlogPosts() {
@@ -3694,16 +3696,16 @@
 
   <!-- ===== BLOG — Custom Cursor Script ===== -->
   <script>
-    (function () {
-      const cursor = document.getElementById('blogCursor');
-      const articles = document.querySelectorAll('.blog-article');
+    function initBlogCursor() {
+      var cursor = document.getElementById('blogCursor');
+      var articles = document.querySelectorAll('.blog-article');
 
       if (!cursor || !articles.length) return;
 
-      let mouseX = 0;
-      let mouseY = 0;
-      const offsetX = 16;
-      const offsetY = 16;
+      var mouseX = 0;
+      var mouseY = 0;
+      var offsetX = 16;
+      var offsetY = 16;
 
       function updateCursorPosition() {
         cursor.style.transform = 'translate(' + (mouseX + offsetX) + 'px, ' + (mouseY + offsetY) + 'px)';
@@ -3731,7 +3733,7 @@
         article.addEventListener('mouseleave', onMouseLeave);
         article.addEventListener('mousemove', onMouseMove);
       });
-    })();
+    }
   </script>
 
 
@@ -3904,7 +3906,7 @@
     }
   </script>
 
-  <script src="../Components/Logos/Company logos loop.js"></script>
+  <script src="../Design system/Components/Foundations/Logos/Company logos loop.js"></script>
   <script src="../Design system/Components/Footer/footer.js"></script>
 </body>
 </html>

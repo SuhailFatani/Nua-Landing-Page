@@ -1000,7 +1000,7 @@
         </div>
 
         <div class="article-hero-img">
-          <img src="../assets/3f3296de4406e2af35edfd92ac1665d3418dd227.png" alt="A New Chapter: Introducing Nua">
+          <img src="assets/3f3296de4406e2af35edfd92ac1665d3418dd227.png" alt="A New Chapter: Introducing Nua">
         </div>
 
         <div class="article-content">
@@ -1012,7 +1012,7 @@
 
           <!-- Inline image -->
           <figure class="content-image">
-            <img src="../assets/5a060a639f4b4614e53778c560c4f2bcf9b638e0.png" alt="Overall Risk Severity Matrix">
+            <img src="assets/5a060a639f4b4614e53778c560c4f2bcf9b638e0.png" alt="Overall Risk Severity Matrix">
             <figcaption>NUA's AI-driven risk severity assessment matrix</figcaption>
           </figure>
 
@@ -1274,7 +1274,7 @@
   (function () {
     'use strict';
 
-    var CMS_API = 'http://https://nua-landing-page-production.up.railway.app/api';
+    var CMS_API = 'https://nua-landing-page-production.up.railway.app/api';
 
     function formatDate(dateStr) {
       if (!dateStr) return '';
@@ -1313,7 +1313,7 @@
           // ── Update hero image ────────────────────────────────
           var heroImg = document.querySelector('.article-hero-img img');
           if (heroImg) {
-            var HERO_FALLBACK = '../assets/3f3296de4406e2af35edfd92ac1665d3418dd227.png';
+            var HERO_FALLBACK = '../Design system/Assets/Thinks like an expert.svg';
             if (post.coverImage && post.coverImage.url) {
               heroImg.src = post.coverImage.url;
               heroImg.alt = post.coverImage.alt || post.title;
