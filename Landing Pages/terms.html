@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <script>
+    // Reveal all hidden elements for Figma capture
+    if (location.hash.includes('figmacapture')) {
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.reveal').forEach(function(el) {
+          el.classList.add('visible');
+        });
+      });
+    }
+  </script>
+  <title>NUA - Terms & Conditions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../Design system/Components/Foundations/colors.css">
+  <link rel="stylesheet" href="../Design system/Components/Foundations/spacing.css">
+  <link rel="stylesheet" href="../Design system/Components/Foundations/typography.css">
+  <link rel="stylesheet" href="../Design system/Components/Foundations/borders.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      /* not in imported foundation files */
+      --shadow-xs: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
+      --font-size-56: 56px;
+      --line-height-56: 67.2px;
+    }
+
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+
+    body {
+      font-family: var(--font-family-primary);
+      background-color: var(--colors-natural-50);
+      color: var(--color-text-display1);
+      display: flex; flex-direction: column; min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    a { text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Navbar ── */
+    .svc-navbar-section {
+      width: 100%; position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100; padding: var(--space-16);
+    }
+    .svc-navbar {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; max-width: 1280px; margin: 0 auto;
+      padding: 16px !important;
+      border-radius: var(--border-radius-xsm);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+    .navbar-light .svc-navbar { background: rgba(255,255,255,0.65); box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .navbar-light .svc-nav-logo svg path { fill: #1E1E1E; }
+    .navbar-light .svc-nav-link { color: var(--color-text-display1); }
+    .navbar-dark .svc-navbar { background: rgba(6,13,23,0.55); box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+    .navbar-dark .svc-nav-logo svg path { fill: #FFFFFF; }
+    .navbar-dark .svc-nav-link { color: #FFFFFF; }
+    .svc-nav-left { display: flex; align-items: center; gap: 52px; }
+    .svc-nav-logo { width: 68.17px; height: 20px; flex-shrink: 0; }
+    .svc-nav-logo svg { width: 100%; height: 100%; }
+    .svc-nav-logo svg path { transition: fill 0.4s ease; }
+    .svc-nav-links { display: flex; align-items: center; gap: var(--space-12); }
+    .svc-nav-link {
+      font-size: var(--font-size-14); font-weight: var(--font-weight-regular);
+      line-height: var(--line-height-14); color: var(--color-text-display1);
+      padding: var(--space-8) 14px; border-radius: var(--border-radius-sm);
+      cursor: pointer; transition: color 0.4s ease, opacity 0.2s;
+    }
+    .svc-nav-link:hover { opacity: 0.6; }
+    .svc-nav-link.active { font-weight: var(--font-weight-medium); }
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: var(--space-8); padding: var(--space-12) var(--space-20);
+      background-color: var(--colors-blue-600); color: var(--colors-natural-50);
+      font-family: var(--font-family-primary); font-size: var(--font-size-16);
+      font-weight: var(--font-weight-medium); line-height: var(--line-height-16);
+      border: 1px solid var(--colors-blue-600); border-radius: var(--border-radius-2xsm);
+      box-shadow: var(--shadow-xs); cursor: pointer; white-space: nowrap;
+      transition: background-color 0.4s ease;
+    }
+    .btn-primary:hover { background-color: var(--colors-blue-800); }
+
+    /* ── Mobile nav ── */
+    .nav-hamburger {
+      display: none; flex-direction: column; align-items: center; justify-content: center;
+      gap: 6px; background: none; border: none; padding: 4px; cursor: pointer;
+      flex-shrink: 0; color: white; width: 32px; height: 32px;
+    }
+    .hamburger-line {
+      display: block; width: 22px; height: 1.5px; background: currentColor;
+      border-radius: 2px; transition: transform 0.35s cubic-bezier(0.23,1,0.32,1); transform-origin: center;
+    }
+    .nav-hamburger.is-open .hamburger-line:nth-child(1) { transform: translateY(3.75px) rotate(45deg); }
+    .nav-hamburger.is-open .hamburger-line:nth-child(2) { transform: translateY(-3.75px) rotate(-45deg); }
+    .mobile-nav-overlay {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: #060D17; flex-direction: column; padding: 16px; overflow-y: auto;
+    }
+    .mobile-nav-overlay.is-open { display: flex; }
+    .mobile-nav-top {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px; background: rgba(6,13,23,0.55);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-radius: 12px; flex-shrink: 0;
+    }
+    .mobile-nav-logo-link { width: 68px; height: 20px; flex-shrink: 0; display: flex; align-items: center; }
+    .mobile-nav-logo-link svg { width: 100%; height: 100%; }
+    .mobile-nav-close {
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer; padding: 4px; color: white;
+    }
+    .mobile-nav-links { display: flex; flex-direction: column; flex: 1; padding: 0 4px; margin-top: 8px; }
+    .mobile-nav-link {
+      color: #ffffff; font-size: 24px; font-weight: 400; line-height: 1.2;
+      padding: 28px 12px; border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-family: var(--font-family-primary); display: block;
+    }
+    .mobile-nav-cta {
+      display: flex; align-items: center; justify-content: center;
+      background: var(--colors-blue-600); color: #ffffff;
+      font-size: 16px; font-weight: 500; padding: 16px;
+      border-radius: 8px; border: 1px solid var(--colors-blue-600); margin-top: 24px;
+      font-family: var(--font-family-primary);
+    }
+
+    /* ── Terms page layout ── */
+    .terms-page-section {
+      width: 100%; background: var(--colors-natural-50);
+      padding: var(--space-16); padding-top: 140px;
+    }
+    .terms-page-container {
+      width: 100%; max-width: 1280px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: var(--space-40);
+    }
+
+    /* ── Hero header ── */
+    .terms-page-header { display: flex; flex-direction: column; gap: var(--space-20); }
+    .terms-page-label {
+      font-size: var(--font-size-20); font-weight: var(--font-weight-regular);
+      line-height: var(--line-height-20); color: var(--colors-blue-600);
+      font-variation-settings: 'opsz' 9;
+    }
+    .terms-page-title {
+      font-size: var(--font-size-48); font-weight: var(--font-weight-medium);
+      line-height: var(--line-height-48); color: var(--color-text-display1);
+      text-transform: capitalize; letter-spacing: -1.44px;
+      font-variation-settings: 'opsz' 14;
+    }
+    .terms-page-subtitle {
+      font-size: var(--font-size-20); font-weight: var(--font-weight-regular);
+      line-height: var(--line-height-20); color: var(--color-text-body1);
+      font-variation-settings: 'opsz' 9;
+    }
+
+    /* ── Content Layout: Two Column on Desktop ── */
+    .terms-content-wrapper {
+      display: grid; grid-template-columns: 260px 1fr; gap: var(--space-40);
+      align-items: start;
+    }
+
+    /* ── Left Sidebar: Table of Contents ── */
+    .terms-toc {
+      position: sticky; top: 120px;
+      display: flex; flex-direction: column; gap: var(--space-12);
+    }
+    .terms-toc-item {
+      font-size: var(--font-size-14); font-weight: var(--font-weight-regular);
+      line-height: var(--line-height-14); color: var(--color-text-body1);
+      padding: var(--space-8) 0; cursor: pointer;
+      transition: color 0.3s ease, font-weight 0.3s ease;
+      font-variation-settings: 'opsz' 9;
+    }
+    .terms-toc-item:hover { color: var(--colors-blue-600); }
+    .terms-toc-item.active {
+      color: var(--colors-blue-600);
+      font-weight: var(--font-weight-semibold);
+    }
+    .terms-toc-item a {
+      color: inherit;
+      text-decoration: none;
+      display: block;
+    }
+
+    /* ── Right Main Content ── */
+    .terms-content-main {
+      display: flex; flex-direction: column; gap: var(--space-40);
+    }
+    .terms-section {
+      display: flex; flex-direction: column; gap: var(--space-16);
+      padding-bottom: var(--space-20);
+      border-bottom: 1px solid var(--colors-natural-170);
+    }
+    .terms-section:last-child { border-bottom: none; }
+
+    .terms-section-title {
+      font-size: var(--font-size-24); font-weight: var(--font-weight-medium);
+      line-height: var(--line-height-24); color: var(--color-text-display1);
+      letter-spacing: -0.5px;
+      font-variation-settings: 'opsz' 14;
+    }
+
+    .terms-section-text {
+      font-size: var(--font-size-16); font-weight: var(--font-weight-regular);
+      line-height: var(--line-height-16); color: var(--color-text-body1);
+      font-variation-settings: 'opsz' 9;
+    }
+
+    .terms-section-list {
+      display: flex; flex-direction: column; gap: var(--space-12);
+      margin: var(--space-8) 0 0 0;
+    }
+
+    .terms-list-item {
+      display: flex; align-items: flex-start; gap: var(--space-12);
+      font-size: var(--font-size-16); font-weight: var(--font-weight-regular);
+      line-height: var(--line-height-16); color: var(--color-text-body1);
+      font-variation-settings: 'opsz' 9;
+    }
+
+    .terms-list-bullet {
+      min-width: 6px; width: 6px; height: 6px; margin-top: 8px; flex-shrink: 0;
+      background-color: var(--color-text-body1); border-radius: 50%;
+    }
+
+    .terms-highlight-box {
+      padding: var(--space-20);
+      border: 1px solid var(--colors-natural-170);
+      border-radius: var(--border-radius-sm);
+      background-color: rgba(37, 97, 227, 0.03);
+      margin: var(--space-8) 0 0 0;
+    }
+
+    .terms-highlight-box p {
+      font-size: var(--font-size-16); font-weight: var(--font-weight-regular);
+      line-height: var(--line-height-16); color: var(--color-text-body1);
+      font-variation-settings: 'opsz' 9;
+    }
+
+    /* ═══════════════════════════════════════════════
+       CTA + FOOTER
+    ════════════════════════════════════════════════ */
+    .cta-footer-section {
+      width: 100%; background-color: var(--colors-natural-50);
+      padding: 0 var(--space-16); display: flex; flex-direction: column;
+      gap: var(--space-16); padding-bottom: var(--space-16);
+    }
+    .cta-card { width: 100%; background: #060D17; border-radius: 9px; padding: var(--space-20); overflow: hidden; }
+    .cta-inner { display: flex; flex-direction: column; align-items: center; gap: var(--space-10); }
+    .cta-text-block {
+      display: flex; flex-direction: column; align-items: center; gap: var(--space-40);
+      padding: 52px var(--space-20) 0; max-width: 906px; text-align: center;
+    }
+    .cta-heading {
+      font-size: var(--font-size-56); font-weight: var(--font-weight-medium);
+      line-height: var(--line-height-56); color: var(--colors-natural-50);
+      text-transform: capitalize; letter-spacing: -1.68px;
+    }
+    .cta-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: var(--space-12) var(--space-20); background-color: var(--colors-blue-600);
+      color: var(--colors-natural-50); font-family: var(--font-family-primary);
+      font-size: var(--font-size-16); font-weight: var(--font-weight-medium);
+      border: 1px solid var(--colors-blue-600); border-radius: var(--border-radius-2xsm);
+      box-shadow: 0px 0px 50px 0px rgba(37,97,227,0.5); transition: background-color 0.2s;
+    }
+    .cta-btn:hover { background-color: var(--colors-blue-800); }
+    .cta-shax-lottie { width: 100%; display: flex; justify-content: center; margin-top: -20px; position: relative; z-index: 1; }
+    .cta-shax-lottie iframe { width: 100%; height: 599px; border: none; pointer-events: auto; }
+
+    .footer-card { width: 100%; background: #060D17; border-radius: 8px; overflow: hidden; position: relative; }
+    .footer-inner { position: relative; overflow: hidden; }
+    .footer-content { position: relative; z-index: 2; display: flex; flex-direction: column; gap: var(--space-28); max-width: 1280px; margin: 0 auto; padding: var(--space-20); }
+    .footer-links-row { display: flex; justify-content: space-between; align-items: flex-start; }
+    .footer-left { display: flex; flex-direction: column; gap: var(--space-40); }
+    .footer-logo { display: block; width: 68.17px; height: 20px; }
+    .footer-logo svg { width: 100%; height: 100%; }
+    .footer-logo svg path { fill: rgba(255,255,255,0.5); transition: fill 0.3s ease; }
+    .footer-logo:hover svg path { fill: var(--colors-orange-500); }
+    .footer-social { display: flex; gap: 12px; }
+    .footer-social-icon { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: #0a1526; border-radius: var(--border-radius-xsm); transition: background 0.2s; }
+    .footer-social-icon:hover { background: #142240; }
+    .footer-social-icon svg { width: 20px; height: 20px; }
+    .footer-social-icon svg path { transition: fill 0.3s ease; }
+    .footer-social-icon:hover svg path { fill: var(--colors-orange-500); }
+    .footer-right { display: flex; gap: var(--space-72); }
+    .footer-link-col { display: flex; flex-direction: column; gap: var(--space-8); }
+    .footer-link-label { font-size: var(--font-size-14); font-weight: var(--font-weight-regular); line-height: var(--line-height-14); color: #BDBDBD; padding: var(--space-8) 14px; }
+    .footer-link { font-size: var(--font-size-14); font-weight: var(--font-weight-semibold); line-height: var(--line-height-14); color: #FFFFFF; padding: var(--space-8) 14px; transition: color 0.2s; }
+    .footer-link:hover { color: var(--colors-orange-500); }
+    .footer-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; }
+    .footer-badges { display: flex; align-items: center; gap: var(--space-40); }
+    .footer-iso { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 68px; height: 68px; border: 2px solid rgba(255,255,255,0.4); border-radius: 50%; }
+    .footer-iso-top { font-size: 19px; font-weight: var(--font-weight-medium); color: white; line-height: 1.1; }
+    .footer-iso-btm { font-size: 13px; font-weight: var(--font-weight-medium); color: white; line-height: 1.1; }
+    .footer-gartner { display: flex; flex-direction: column; gap: 4px; }
+    .footer-gartner-top { font-size: 20px; font-weight: 700; color: white; line-height: 1.2; }
+    .footer-gartner-btm { display: flex; align-items: baseline; gap: 4px; }
+    .footer-gartner-peer { font-size: 22px; font-weight: 300; color: white; }
+    .footer-gartner-insights { font-size: 22px; font-weight: 300; color: #4db8b8; }
+    .footer-gartner-tm { font-size: 10px; color: #4db8b8; vertical-align: super; }
+    .footer-contact { display: flex; gap: 24px; align-items: center; }
+    .footer-contact-text { font-size: 18px; color: white; }
+    .footer-watermark { position: relative; z-index: 1; width: 100%; display: flex; justify-content: center; overflow: hidden; cursor: pointer; }
+    .footer-watermark svg { width: 100%; max-width: 1280px; height: auto; margin-top: 146px; }
+    .footer-watermark svg path { fill: #0a1526; transition: fill 0.4s ease; }
+    .footer-watermark:hover svg path { fill: var(--colors-orange-500); }
+    .footer-fade { position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); width: 2048px; height: 318px; background: linear-gradient(to bottom, rgba(6,13,23,0), #060d17); pointer-events: none; z-index: 3; }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════════════════════ */
+    @media (max-width: 991px) {
+      .terms-page-section { padding-top: 120px; }
+      .terms-page-title { font-size: 36px; line-height: 43.2px; }
+      .cta-heading { font-size: 36px; line-height: 43.2px; letter-spacing: -1px; }
+      .cta-shax-lottie iframe { width: 320px; height: 320px; }
+      .footer-links-row { flex-direction: column; gap: var(--space-28); }
+      .footer-bottom-row { flex-direction: column; gap: var(--space-20); align-items: flex-start; }
+      .terms-content-wrapper { grid-template-columns: 1fr; gap: var(--space-28); }
+      .terms-toc { position: static; }
+    }
+    @media (max-width: 767px) {
+      .svc-nav-links { display: none; }
+      .btn-primary { padding: 10px 16px; font-size: 14px; }
+      .terms-page-section { padding-top: 100px; }
+      .terms-page-title { font-size: 28px; line-height: 33.6px; }
+      .cta-heading { font-size: 28px; line-height: 33.6px; }
+      .cta-shax-lottie iframe { width: 260px; height: 260px; }
+      .footer-right { gap: var(--space-40); }
+      .nav-hamburger { display: flex; }
+      .svc-navbar .btn-primary { display: none; }
+      .navbar-light .nav-hamburger { color: #1E1E1E; }
+      .navbar-dark .nav-hamburger { color: #ffffff; }
+    }
+    @media (max-width: 480px) {
+      .cta-shax-lottie iframe { width: 200px; height: 200px; }
+      .terms-page-label { font-size: var(--font-size-16); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAV BAR ===== -->
+  <header class="svc-navbar-section navbar-light">
+    <nav class="svc-navbar">
+      <div class="svc-nav-left">
+        <a href="index.html" class="svc-nav-logo">
+          <svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g><g>
+              <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z" fill="#1E1E1E"/>
+              <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z" fill="#1E1E1E"/>
+            </g>
+            <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z" fill="#1E1E1E"/>
+            <g>
+              <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z" fill="#1E1E1E"/>
+              <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z" fill="#1E1E1E"/>
+            </g></g>
+          </svg>
+        </a>
+        <div class="svc-nav-links">
+          <a href="company.html" class="svc-nav-link">Company</a>
+          <a href="services.html" class="svc-nav-link">Services</a>
+          <a href="pricing.html" class="svc-nav-link">Pricing</a>
+          <a href="blog.html" class="svc-nav-link">Resources</a>
+        </div>
+      </div>
+      <a href="book-a-demo.html" class="btn-primary">Book a demo</a>
+      <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Open menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ===== MOBILE NAV OVERLAY ===== -->
+  <div class="mobile-nav-overlay" id="mobileNav">
+    <div class="mobile-nav-top">
+      <a href="index.html" class="mobile-nav-logo-link" aria-label="Home">
+        <svg preserveAspectRatio="none" width="68" height="20" viewBox="0 0 68.1635 19.96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g><g>
+            <path d="M9.53674e-05 5.06259H5.02596V19.96H9.53674e-05V5.12801C9.53674e-05 5.10598 9.53674e-05 5.08462 9.53674e-05 5.06259Z" fill="white"/>
+            <path d="M23.2637 19.96H17.6177L10.0238 5.09799C10.0125 5.07596 9.98976 5.06261 9.96507 5.06261H5.02665V0.00069738C5.04867 2.98458e-05 5.0707 2.98464e-05 5.09273 2.98464e-05H9.96507C11.8869 2.98464e-05 13.6245 1.09812 14.4996 2.80968L23.2637 19.96Z" fill="white"/>
+          </g>
+          <path d="M59.4134 2.80967C58.5383 1.09811 56.8007 1.33682e-05 54.8788 1.33682e-05H50.0072C49.9851 1.33682e-05 49.9624 1.33676e-05 49.9404 0.000680902L49.9404 5.0626H54.8788C54.9035 5.0626 54.9262 5.07595 54.9376 5.09798L57.6157 10.3341L49.9404 13.9949V5.0626H44.9145C44.9139 5.08463 44.9139 5.10665 44.9139 5.12868L44.9052 19.96H49.9317L59.9301 14.8593L62.5174 19.96H68.1634L59.4134 2.80967Z" fill="white"/>
+          <g>
+            <path d="M30.9149 14.9735H35.8527L35.8467 19.96C35.8246 19.96 35.8019 19.96 35.7799 19.96H30.9089C30.6339 19.96 30.3642 19.9386 30.0985 19.8959C28.5078 19.6429 27.13 18.693 26.3797 17.2264L17.5709 0.000699361H23.2162L30.8555 14.9381C30.8668 14.9601 30.8895 14.9735 30.9149 14.9735Z" fill="white"/>
+            <path d="M40.8801 0.000686646V14.9081C40.8801 14.9301 40.8801 14.9521 40.8794 14.9735H35.8529V0.000686646H40.8801Z" fill="white"/>
+          </g></g>
+        </svg>
+      </a>
+      <button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round">
+          <line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="company.html" class="mobile-nav-link">Company</a>
+      <a href="services.html" class="mobile-nav-link">Services</a>
+      <a href="pricing.html" class="mobile-nav-link">Pricing</a>
+      <a href="blog.html" class="mobile-nav-link">Resources</a>
+    </nav>
+    <a href="book-a-demo.html" class="mobile-nav-cta">Book a demo</a>
+  </div>
+
+  <!-- ===== TERMS PAGE ===== -->
+  <section class="terms-page-section reveal">
+    <div class="terms-page-container">
+
+      <!-- Page Header -->
+      <div class="terms-page-header">
+        <p class="terms-page-label">Legal</p>
+        <h1 class="terms-page-title">Terms & Conditions</h1>
+        <p class="terms-page-subtitle">Effective Date: November 8, 2025</p>
+      </div>
+
+      <!-- Content Layout -->
+      <div class="terms-content-wrapper">
+        <!-- Left: Table of Contents (Sticky) -->
+        <aside class="terms-toc">
+          <div class="terms-toc-item active"><a href="#section-1">1. Introduction</a></div>
+          <div class="terms-toc-item"><a href="#section-2">2. Eligibility</a></div>
+          <div class="terms-toc-item"><a href="#section-3">3. Acceptable Use</a></div>
+          <div class="terms-toc-item"><a href="#section-4">4. Labs & AI Agent</a></div>
+          <div class="terms-toc-item"><a href="#section-5">5. Accounts & Security</a></div>
+          <div class="terms-toc-item"><a href="#section-6">6. Intellectual Property</a></div>
+          <div class="terms-toc-item"><a href="#section-7">7. User Content & Data</a></div>
+          <div class="terms-toc-item"><a href="#section-8">8. Third-Party Services</a></div>
+          <div class="terms-toc-item"><a href="#section-9">9. Warranty Disclaimer</a></div>
+          <div class="terms-toc-item"><a href="#section-10">10. Limitation of Liability</a></div>
+          <div class="terms-toc-item"><a href="#section-11">11. Termination</a></div>
+          <div class="terms-toc-item"><a href="#section-12">12. Governing Law</a></div>
+          <div class="terms-toc-item"><a href="#section-13">13. Updates to Terms</a></div>
+          <div class="terms-toc-item"><a href="#section-14">14. Contact Us</a></div>
+        </aside>
+
+        <!-- Right: Main Content -->
+        <div class="terms-content-main">
+
+          <!-- Preamble -->
+          <div class="terms-section">
+            <p class="terms-section-text">
+              Welcome to Nua Security ("Nua," "we," "our," or "us"). We're excited to have you here. These Terms of Use ("Terms") explain how you can use the Nua Platform and services safely and responsibly. By accessing or using Nua, you agree to these Terms and our Privacy Policy. If you do not agree, please do not use the platform.
+            </p>
+          </div>
+
+          <!-- Section 1: Introduction -->
+          <div class="terms-section" id="section-1">
+            <h2 class="terms-section-title">1. Introduction</h2>
+            <p class="terms-section-text">
+              These Terms of Use form a legally binding agreement between you and Nua Security. They apply to your access and use of our website, platform, infrastructure, and AI-driven cybersecurity solutions. Our mission is to make advanced security solutions accessible, ethical, and intelligent and these Terms help ensure a safe experience for everyone.
+            </p>
+          </div>
+
+          <!-- Section 2: Eligibility -->
+          <div class="terms-section" id="section-2">
+            <h2 class="terms-section-title">2. Eligibility</h2>
+            <p class="terms-section-text">
+              You must be at least 18 years old and have the legal authority to enter into these Terms. If you are using the Platform on behalf of an organization, you confirm that you are authorized to bind that organization to these Terms.
+            </p>
+          </div>
+
+          <!-- Section 3: Acceptable Use -->
+          <div class="terms-section" id="section-3">
+            <h2 class="terms-section-title">3. Acceptable Use</h2>
+            <p class="terms-section-text">
+              You agree to use Nua responsibly and comply with all applicable laws and ethical guidelines. You must not:
+            </p>
+            <div class="terms-section-list">
+              <div class="terms-list-item">
+                <span class="terms-list-bullet"></span>
+                <span>Run tests against assets you do not own or have explicit authorization to test.</span>
+              </div>
+              <div class="terms-list-item">
+                <span class="terms-list-bullet"></span>
+                <span>Attempt to access data, accounts, or systems that you're not permitted to access.</span>
+              </div>
+              <div class="terms-list-item">
+                <span class="terms-list-bullet"></span>
+                <span>Reverse engineer, decompile, or copy parts of the Platform.</span>
+              </div>
+              <div class="terms-list-item">
+                <span class="terms-list-bullet"></span>
+                <span>Introduce malware or disruptive scripts.</span>
+              </div>
+              <div class="terms-list-item">
+                <span class="terms-list-bullet"></span>
+                <span>Use automated bots, crawlers, or scrapers without permission.</span>
+              </div>
+              <div class="terms-list-item">
+                <span class="terms-list-bullet"></span>
+                <span>Attempt to interfere with the Platform's performance or availability.</span>
+              </div>
+            </div>
+            <p class="terms-section-text" style="margin-top: var(--space-16);">
+              Violations of these rules may result in immediate suspension or termination of your account.
+            </p>
+          </div>
+
+          <!-- Section 4: Labs & AI Agent Disclaimer -->
+          <div class="terms-section" id="section-4">
+            <h2 class="terms-section-title">4. Labs & AI Agent Disclaimer</h2>
+            <p class="terms-section-text">
+              The Nua Platform includes sandboxed labs and an AI penetration testing agent. These are intended for authorized testing, educational use, and safe experimentation only.
+            </p>
+            <div class="terms-highlight-box">
+              <p>
+                <strong>You acknowledge and agree that:</strong> Nua's AI agent may generate findings that are incomplete, inaccurate, or experimental. Labs are controlled, non-production environments; results may not reflect real-world systems. Nua is not responsible for any direct or indirect impact of how findings are interpreted or used outside the Platform. Use of these features is entirely at your own risk.
+              </p>
+            </div>
+          </div>
+
+          <!-- Section 5: Accounts and Security -->
+          <div class="terms-section" id="section-5">
+            <h2 class="terms-section-title">5. Accounts and Security</h2>
+            <p class="terms-section-text">
+              You are responsible for maintaining the confidentiality of your login credentials and any activity that occurs under your account. If you suspect unauthorized access, contact us immediately at support@nuasecurity.com. We reserve the right to suspend or terminate any account that violates these Terms or poses a security risk.
+            </p>
+          </div>
+
+          <!-- Section 6: Intellectual Property -->
+          <div class="terms-section" id="section-6">
+            <h2 class="terms-section-title">6. Intellectual Property</h2>
+            <p class="terms-section-text">
+              All materials, models, code, design elements, and trademarks on the Platform belong to Nua Security or our licensors. You are granted a limited, non-exclusive, non-transferable license to access and use the Platform for authorized purposes only. You may not copy, modify, distribute, or create derivative works based on Nua's software or content without written consent.
+            </p>
+          </div>
+
+          <!-- Section 7: User Content & Data -->
+          <div class="terms-section" id="section-7">
+            <h2 class="terms-section-title">7. User Content & Data</h2>
+            <p class="terms-section-text">
+              By submitting data (for example, targets, test configurations, or feedback), you grant Nua a limited, revocable license to process that data to operate, improve, or troubleshoot the Platform. You retain ownership of your content, and Nua will never sell or publicly disclose your data without consent, except as required by law.
+            </p>
+          </div>
+
+          <!-- Section 8: Third-Party Services -->
+          <div class="terms-section" id="section-8">
+            <h2 class="terms-section-title">8. Third-Party Services</h2>
+            <p class="terms-section-text">
+              The Platform may include integrations or links to third-party tools and websites. Nua is not responsible for the availability, content, or policies of those third-party services. We encourage you to review their terms and privacy policies before using them.
+            </p>
+          </div>
+
+          <!-- Section 9: Warranty Disclaimer -->
+          <div class="terms-section" id="section-9">
+            <h2 class="terms-section-title">9. Warranty Disclaimer</h2>
+            <p class="terms-section-text">
+              The Platform and all related services are provided "as is" and "as available." Nua makes no warranties, either express or implied, regarding:
+            </p>
+            <div class="terms-section-list">
+              <div class="terms-list-item">
+                <span class="terms-list-bullet"></span>
+                <span>The accuracy or completeness of results;</span>
+              </div>
+              <div class="terms-list-item">
+                <span class="terms-list-bullet"></span>
+                <span>The performance or uptime of the Platform;</span>
+              </div>
+              <div class="terms-list-item">
+                <span class="terms-list-bullet"></span>
+                <span>The absence of errors or vulnerabilities.</span>
+              </div>
+            </div>
+            <p class="terms-section-text" style="margin-top: var(--space-16);">
+              Use of the Platform is entirely at your own risk.
+            </p>
+          </div>
+
+          <!-- Section 10: Limitation of Liability -->
+          <div class="terms-section" id="section-10">
+            <h2 class="terms-section-title">10. Limitation of Liability</h2>
+            <p class="terms-section-text">
+              To the fullest extent permitted by law, Nua and its team members shall not be liable for any indirect, incidental, consequential, or punitive damages arising out of your use of the Platform. In any case, Nua's total aggregate liability shall not exceed USD $100 or the total amount you paid to Nua in the previous 12 months, whichever is greater.
+            </p>
+          </div>
+
+          <!-- Section 11: Termination -->
+          <div class="terms-section" id="section-11">
+            <h2 class="terms-section-title">11. Termination</h2>
+            <p class="terms-section-text">
+              Nua may suspend or terminate your access at any time if we believe you have violated these Terms or compromised the security of our Platform. You may close your account at any time by contacting support. Upon termination, your right to use the Platform ends immediately, but sections on Intellectual Property, Liability, and Governing Law will continue to apply.
+            </p>
+          </div>
+
+          <!-- Section 12: Governing Law & Dispute Resolution -->
+          <div class="terms-section" id="section-12">
+            <h2 class="terms-section-title">12. Governing Law & Dispute Resolution</h2>
+            <p class="terms-section-text">
+              These Terms are governed by the laws of the Kingdom of Saudi Arabia. Any disputes will be handled exclusively by the competent courts of Riyadh, Saudi Arabia.
+            </p>
+          </div>
+
+          <!-- Section 13: Updates to These Terms -->
+          <div class="terms-section" id="section-13">
+            <h2 class="terms-section-title">13. Updates to These Terms</h2>
+            <p class="terms-section-text">
+              We may update or modify these Terms from time to time. When we do, we'll update the effective date above and notify users via in-app message or email. Continued use after an update means you accept the revised Terms.
+            </p>
+          </div>
+
+          <!-- Section 14: Contact Us -->
+          <div class="terms-section" id="section-14">
+            <h2 class="terms-section-title">14. Contact Us</h2>
+            <p class="terms-section-text">
+              If you have questions or concerns about these Terms, reach out to us at:
+            </p>
+            <p class="terms-section-text" style="margin-top: var(--space-12);">
+              Email: legal@nuasecurity.com
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <div id="nua-site-footer"></div>
+
+  <!-- ===== LENIS SMOOTH SCROLL ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script>
+    const lenis = new Lenis({
+      duration: 1.8,
+      easing: function(t) { return 1 - Math.pow(1 - t, 5); },
+      smoothWheel: true, wheelMultiplier: 0.8, touchMultiplier: 1.5, infinite: false,
+    });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+  </script>
+
+  <!-- ===== SCROLL REVEAL ===== -->
+  <script>
+    (function() {
+      var reveals = document.querySelectorAll('.reveal');
+      if (!reveals.length) return;
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+      reveals.forEach(function(el) { observer.observe(el); });
+    })();
+  </script>
+
+  <!-- ===== TABLE OF CONTENTS SCROLL SYNC ===== -->
+  <script>
+    (function() {
+      var tocItems = document.querySelectorAll('.terms-toc-item');
+      var sections = document.querySelectorAll('.terms-section');
+
+      if (!tocItems.length || !sections.length) return;
+
+      function updateActiveTocItem() {
+        var scrollY = window.scrollY + 150;
+        var activeSection = null;
+
+        sections.forEach(function(section) {
+          if (section.offsetTop <= scrollY) {
+            activeSection = section;
+          }
+        });
+
+        tocItems.forEach(function(item) {
+          item.classList.remove('active');
+        });
+
+        if (activeSection && activeSection.id) {
+          var activeLink = document.querySelector('.terms-toc-item a[href="#' + activeSection.id + '"]');
+          if (activeLink) {
+            activeLink.parentElement.classList.add('active');
+          }
+        }
+      }
+
+      window.addEventListener('scroll', updateActiveTocItem, { passive: true });
+      updateActiveTocItem();
+    })();
+  </script>
+
+  <!-- ===== NAVBAR THEME SWITCHING ===== -->
+  <script>
+    (function() {
+      var navbar = document.querySelector('.svc-navbar-section');
+      if (!navbar) return;
+      var ctaSection = document.querySelector('#nua-site-footer');
+      function updateNavbar() {
+        var scrollY = window.scrollY || window.pageYOffset;
+        if (ctaSection) {
+          var ctaTop = ctaSection.getBoundingClientRect().top + scrollY;
+          if (scrollY + 80 >= ctaTop) {
+            navbar.classList.remove('navbar-light');
+            navbar.classList.add('navbar-dark');
+            return;
+          }
+        }
+        navbar.classList.remove('navbar-dark');
+        navbar.classList.add('navbar-light');
+      }
+      window.addEventListener('scroll', updateNavbar, { passive: true });
+      updateNavbar();
+    })();
+  </script>
+
+  <!-- ===== MOBILE NAV ===== -->
+  <script>
+    function toggleMobileNav() {
+      var overlay = document.getElementById('mobileNav');
+      var btn = document.getElementById('navHamburger');
+      var isOpen = overlay.classList.contains('is-open');
+      if (isOpen) { overlay.classList.remove('is-open'); btn.classList.remove('is-open'); document.body.style.overflow = ''; }
+      else { overlay.classList.add('is-open'); btn.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
+    }
+    function closeMobileNav() {
+      document.getElementById('mobileNav').classList.remove('is-open');
+      document.getElementById('navHamburger').classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+  </script>
+
+  <script src="../Design system/Components/Footer/footer.js"></script>
+</body>
+</html>

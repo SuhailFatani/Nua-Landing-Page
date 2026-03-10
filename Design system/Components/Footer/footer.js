@@ -106,6 +106,7 @@
     '                <a href="services.html" class="nua-footer__nav-link">Services</a>',
     '                <a href="pricing.html" class="nua-footer__nav-link">Pricing</a>',
     '                <a href="#" class="nua-footer__nav-link">Career</a>',
+    '                <a href="terms.html" class="nua-footer__nav-link">Terms &amp; Conditions</a>',
     '              </div>',
     '              <div class="nua-footer__nav-col">',
     '                <span class="nua-footer__nav-label">Resources</span>',
